@@ -1,0 +1,14 @@
+"""
+Preprocessor
+============
+
+This package contains code that can process input wordlists and generate input word list combinations for the jazzy-fish library,
+which can be inspected to help users infer the best choice depending on use-case.
+
+Modules:
+    clean_wordlist - Given an input wordlist directory, cleans every list of words by removing invalid, non ASCII, non alpha words,
+                     as well as inappropriate words as defined by the `ignored.txt` list.
+    generate_words - Generates combinations of words, prefix lengths, and word sequences to help the user choose the best configuration
+                     for their use-case.
+    helpers - Various helper functions and preprocessor configurations.
+"""

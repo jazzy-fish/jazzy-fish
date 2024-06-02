@@ -1,0 +1,12 @@
+"""
+Encoder
+=======
+
+This package contains the code required by clients who wish to generate jazzy-fish word sequences.
+
+Modules:
+    encoder - Contains the WordEncoder class that can encode integers to [word sequences]
+              and decode [word sequences] to integers.
+    generator - Contains the Generator and ThreadSafeGenerator classes which can generate unique integer identifiers
+                that respect the configured settings and can be later converted to [word sequences] with a WordEncoder.
+"""

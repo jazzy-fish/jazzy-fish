@@ -1,0 +1,5 @@
+check-manifest >= 0.49
+pre-commit >=3.7.1
+pytest >=8.2
+twine >= 5.1.0
+wheel >= 0.43
