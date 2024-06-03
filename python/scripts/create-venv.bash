@@ -13,5 +13,6 @@ python -m venv "$VENV"
 # shellcheck disable=SC1091
 source "$VENV"/bin/activate
 
+pip install --upgrade pip
 pip install -r requirements.txt
 pip install -e .

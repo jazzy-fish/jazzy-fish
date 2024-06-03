@@ -1,0 +1,59 @@
+name: Python Checks
+
+on:
+  # Trigger on PRs
+  pull_request:
+    branches:
+      - main
+  # And on pushes to main
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          cd python
+          make recreate-venv
+          eval "$(make venv)"
+          make install
+
+      - name: Run linters
+        run: |
+          pre-commit run --all-files
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          cd python
+          make recreate-venv
+          eval "$(make venv)"
+          make install
+
+      - name: Run tests and linters
+        working-directory: python
+        run: |
+          pytest tests
