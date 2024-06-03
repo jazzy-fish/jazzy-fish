@@ -1,0 +1,43 @@
+name: Upload Python Package
+
+on: [push]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        working-directory: python
+        run: |
+          make recreate-venv
+          eval "$(make venv)"
+          make install
+
+      - name: Build
+        working-directory: python
+        run: |
+          eval "$(make venv)"
+          make build
+
+      - name: Publish package to test repository
+        env:
+          TESTPYPI_PASSWORD: ${{ secrets.TESTPYPI_PASSWORD }}
+        run: |
+          eval "$(make venv)"
+          make publish-test
+
+      # - name: Publish package
+      #   env:
+      #     PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      #   run: |
+      #     eval "$(make venv)"
+      #     make publish
+      #     make publish-verify
