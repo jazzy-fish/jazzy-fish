@@ -83,32 +83,20 @@ Unless you are interested in contributing to this code (or are curious about thi
 
 ### Publishing
 
-Install twine and create a wheel:
+First, publish to the test repo and inspect the package:
 
 ```shell
-pip install twine
-python setup.py sdist bdist_wheel
+make publish-test
 ```
 
-Test the upload:
-
-> NOTE: Do not forget to define your PyPi upload token: `export PYPI_PASSWORD=...`
+If correct, distribute the wheel to the PyPI index:
 
 ```shell
-twine upload --repository-url https://test.pypi.org/legacy/ dist/\*
-```
-
-Distribute the wheel:
-
-```shell
-twine upload dist/\*
+make publish
 ```
 
 Verify the distributed code
 
 ```shell
-venvdir=$(mktemp -d)
-python -m venv "$venvdir"
-source venvdir/bin/activate
-pip install jazzy_fish
+make publish-verify
 ```

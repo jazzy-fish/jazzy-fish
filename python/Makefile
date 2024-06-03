@@ -32,6 +32,21 @@ build:
 	@python setup.py sdist bdist_wheel
 	@check-manifest --ignore "wordlists/*/*,scripts/create-venv.bash"
 
+.PHONY: publish-test
+publish-test:
+	@echo "Publishing to test repo..."
+	@TWINE_PASSWORD=$(TESTPYPI_PASSWORD) twine upload --repository-url https://test.pypi.org/legacy/ dist/\*
+
+.PHONY: publish
+publish:
+	@echo "Publishing to PyPI..."
+	@TWINE_PASSWORD=$(PYPI_PASSWORD) twine upload dist/\*
+
+.PHONY: publish-verify
+publish-verify:
+	@echo "Verifying PyPI package..."
+	@scripts/verify-publish.bash
+
 show-stats:
 	@echo
 	@echo "1/millisecond:"

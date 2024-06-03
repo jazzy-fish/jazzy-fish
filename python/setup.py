@@ -8,9 +8,13 @@ with open("requirements.txt") as f:
 with open("requirements-dev.txt") as f:
     dev_requirements = f.read().splitlines()
 
+# Read version
+with open("../VERSION") as f:
+    version = f.read()
+
 setup(
     name="jazzy_fish",
-    version="0.1.1",
+    version=version,
     # Packages reside in src/
     package_dir={"": "src"},
     packages=find_packages(where="src"),
