@@ -30,7 +30,7 @@ install:
 build:
 	@pip install '.[dev]'
 	@python setup.py sdist bdist_wheel
-	@check-manifest --ignore "wordlists/*/*,scripts/create-venv.bash"
+	@check-manifest --ignore "wordlists/*/*,scripts/*,.pypirc"
 
 .PHONY: publish-test
 publish-test: build

@@ -2,6 +2,7 @@ graft src/encoder
 graft src/preprocessor
 recursive-include tests *.py
 
+include VERSION
 include Makefile
 include requirements-dev.txt
 include requirements.txt

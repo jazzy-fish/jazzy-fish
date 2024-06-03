@@ -1,3 +1,4 @@
+import os
 from setuptools import find_packages, setup
 
 # Read requirements from requirements.txt
@@ -9,7 +10,7 @@ with open("requirements-dev.txt") as f:
     dev_requirements = f.read().splitlines()
 
 # Read version
-with open("../VERSION") as f:
+with open("VERSION") as f:
     version = f.read()
 
 setup(
