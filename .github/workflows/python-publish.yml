@@ -44,11 +44,16 @@ jobs:
           eval "$(make venv)"
           make publish-test
 
-      # - name: Publish package
-      #   env:
-      #     PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      #   working-directory: python
-      #   run: |
-      #     eval "$(make venv)"
-      #     make publish
-      #     make publish-verify
+      - name: Publish package
+        env:
+          PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        working-directory: python
+        run: |
+          eval "$(make venv)"
+          make publish
+
+      - name: Verify package install from PyPI
+        working-directory: python
+        run: |
+          eval "$(make venv)"
+          make publish-verify
