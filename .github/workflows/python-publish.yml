@@ -39,6 +39,7 @@ jobs:
       - name: Publish package to test repository
         env:
           TESTPYPI_PASSWORD: ${{ secrets.TESTPYPI_PASSWORD }}
+        working-directory: python
         run: |
           eval "$(make venv)"
           make publish-test
@@ -46,6 +47,7 @@ jobs:
       # - name: Publish package
       #   env:
       #     PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      #   working-directory: python
       #   run: |
       #     eval "$(make venv)"
       #     make publish
