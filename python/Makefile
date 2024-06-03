@@ -33,12 +33,12 @@ build:
 	@check-manifest --ignore "wordlists/*/*,scripts/create-venv.bash"
 
 .PHONY: publish-test
-publish-test:
+publish-test: build
 	@echo "Publishing to test repo..."
 	@TWINE_PASSWORD=$(TESTPYPI_PASSWORD) twine upload --repository-url https://test.pypi.org/legacy/ dist/\*
 
 .PHONY: publish
-publish:
+publish: build
 	@echo "Publishing to PyPI..."
 	@TWINE_PASSWORD=$(PYPI_PASSWORD) twine upload dist/\*
 
