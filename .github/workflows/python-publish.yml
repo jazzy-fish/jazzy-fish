@@ -1,0 +1,59 @@
+name: Upload Python Package
+
+on:
+  # Trigger only on v0.1 tag pushes
+  push:
+    tags:
+      - "v0.*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        working-directory: python
+        run: |
+          make recreate-venv
+          eval "$(make venv)"
+          make install
+
+      - name: Set the correct (tag) version
+        working-directory: python
+        run: |
+          scripts/detect-and-set-tag-version.bash
+
+      - name: Build
+        working-directory: python
+        run: |
+          eval "$(make venv)"
+          make build
+
+      - name: Publish package to test repository
+        env:
+          TESTPYPI_PASSWORD: ${{ secrets.TESTPYPI_PASSWORD }}
+        working-directory: python
+        run: |
+          eval "$(make venv)"
+          make publish-test
+
+      - name: Publish package
+        env:
+          PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        working-directory: python
+        run: |
+          eval "$(make venv)"
+          make publish
+
+      - name: Verify package install from PyPI
+        working-directory: python
+        run: |
+          eval "$(make venv)"
+          make publish-verify

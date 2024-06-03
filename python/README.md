@@ -1,7 +1,7 @@
 # Jazzy Fish - Sufficiently-large, unique, human-friendly identifiers - Python implementation
 
-> ⚠️ **Warning:** This library is **in development** and not yet ready for production.  Its API is not yet stable
-> and might (and probably *will*) still change.  Follow repository [issues](https://github.com/jazzy-fish/jazzy-fish/issues) for more information.
+> ⚠️ **Warning:** This library is **in development** and not yet ready for production. Its API is not yet stable
+> and might (and probably _will_) still change. Follow repository [issues](https://github.com/jazzy-fish/jazzy-fish/issues) for more information.
 
 Jazzy Fish is a library that helps you generate a sufficient number of identifiers, with a human-friendly kick.
 
@@ -82,6 +82,27 @@ After running this command, you can examine all outputs in the `out/processed` d
 Unless you are interested in contributing to this code (or are curious about this library's development processes), you can stop reading here.
 
 ### Publishing
+
+#### GitHub-based version publishing
+
+The simplest way to publish a new version (if you have committer rights) is to tag a commit and push it to the repo:
+
+```shell
+# At a certain commit, ideally after merging a PR to main
+git tag v0.1.x
+git push origin v0.1.x
+```
+
+A [GitHub Action](https://github.com/jazzy-fish/jazzy-fish/actions) will run, build the library and publish it to the PyPI repositories.
+
+#### Manual
+
+These steps can also be performed locally. For these commands to work, you will need to export two environment variables:
+
+```shell
+export TESTPYPI_PASSWORD=... # token for https://test.pypi.org/legacy/
+export PYPI_PASSWORD=... # token for https://upload.pypi.org/legacy/
+```
 
 First, publish to the test repo and inspect the package:
 
