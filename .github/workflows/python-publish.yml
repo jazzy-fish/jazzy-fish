@@ -1,6 +1,10 @@
 name: Upload Python Package
 
-on: [push]
+on:
+  # Trigger only on v0.1 tag pushes
+  push:
+    tags:
+      - "v0.*"
 
 jobs:
   publish:
@@ -20,6 +24,11 @@ jobs:
           make recreate-venv
           eval "$(make venv)"
           make install
+
+      - name: Set the correct (tag) version
+        working-directory: python
+        run: |
+          scripts/detect-and-set-tag-version.bash
 
       - name: Build
         working-directory: python
