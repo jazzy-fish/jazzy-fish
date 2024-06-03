@@ -24,13 +24,14 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
+        working-directory: python
         run: |
-          cd python
           make recreate-venv
           eval "$(make venv)"
           make install
 
       - name: Run linters
+        working-directory: python
         run: |
           eval "$(make venv)"
           pre-commit run --all-files
@@ -48,8 +49,8 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
+        working-directory: python
         run: |
-          cd python
           make recreate-venv
           eval "$(make venv)"
           make install
