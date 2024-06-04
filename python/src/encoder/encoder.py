@@ -12,6 +12,11 @@ Classes:
 
 from typing import List, Optional
 
+import pkg_resources
+
+# Specifies a default order for constructed sentences.
+DEFAULT_WORD_ORDER: List[str] = ["adverb", "verb", "adjective", "noun"]
+
 
 class EncoderException(Exception):
     """
@@ -157,3 +162,38 @@ class WordEncoder:
             if self._max_values[i] > number:
                 break
         return words_needed
+
+
+def load_wordlist(
+    from_path: str,
+    package_name: Optional[str] = None,
+    word_order: List[str] = DEFAULT_WORD_ORDER,
+) -> List[List[str]]:
+    """
+    Given a path, load the word lists in the specified order.
+
+    Parameters:
+        from_path (str): Specifies a directory that contains a wordlist.
+        package_name (Optional[str]): If specified, the path will be loaded from a package.
+        word_lists (List[str]): Specifies the order in which the words will be loaded.
+                                Defaults to DEFAULT_WORD_ORDER.
+
+    Returns:
+        List[List[str]]: A list of lists of words that can be used to generate sequences
+    """
+
+    return [_read_words(f"{from_path}/{word}.txt", package_name) for word in word_order]
+
+
+def _read_words(from_path: str, package_name: Optional[str] = None) -> List[str]:
+    """Reads words from a file that is either on disk, or part of the specified package."""
+
+    # Determine input file
+    data_path = from_path
+    if package_name is not None:
+        data_path = pkg_resources.resource_filename(package_name, from_path)
+
+    # Read all words from file
+    with open(data_path, "r") as file:
+        data = file.readlines()
+    return data
