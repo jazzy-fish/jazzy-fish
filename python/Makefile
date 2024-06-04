@@ -29,7 +29,7 @@ install:
 .PHONY: build
 build:
 	@pip install '.[dev]'
-	@python setup.py sdist bdist_wheel
+	@python -m build
 	@check-manifest --ignore "wordlists/*/*,scripts/*,.pypirc"
 
 .PHONY: test
