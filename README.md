@@ -1,5 +1,10 @@
 # Jazzy Fish - Sufficiently-large, unique, human-friendly identifiers
 
+![Build Status](https://github.com/jazzy-fish/jazzy-fish/actions/workflows/python-checks.yml/badge.svg)
+[![PyPI version](https://badge.fury.io/py/jazzy-fish.svg)](https://badge.fury.io/py/jazzy-fish)
+[![Python Versions](https://img.shields.io/pypi/pyversions/jazzy-fish.svg)](https://pypi.org/project/jazzy-fish/)
+[![License](https://img.shields.io/github/license/jazzy-fish/jazzy-fish.svg)](LICENSE)
+
 Jazzy Fish is a library that helps you generate a sufficient number of identifiers, with a human-friendly kick.
 
 This is not a new idea and similar implementation can be seen in various places (i.e., GitHub new repository name [suggestions](https://github.com/new).

@@ -1,4 +1,4 @@
-name: Upload Python Package
+name: Published to PyPI
 
 on:
   # Trigger only on v0.1 tag pushes
@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: "3.11"
 
@@ -55,5 +55,7 @@ jobs:
       - name: Verify package install from PyPI
         working-directory: python
         run: |
+          echo "Waiting 10 seconds for the PyPI index to be updated..."
+          sleep 10
           eval "$(make venv)"
           make publish-verify
