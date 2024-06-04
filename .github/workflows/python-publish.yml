@@ -61,7 +61,7 @@ jobs:
       - name: Verify package install from PyPI
         working-directory: python
         run: |
-          echo "Waiting 10 seconds for the PyPI index to be updated..."
-          sleep 10
+          echo "Waiting 30 seconds for the PyPI index to be updated..."
+          sleep 30
           eval "$(make venv)"
           make publish-verify
