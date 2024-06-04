@@ -10,7 +10,12 @@ sys.path.insert(
     0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
 )
 
-from encoder.generator import Generator, GeneratorException, ThreadSafeGenerator
+from encoder.generator import (
+    Generator,
+    GeneratorException,
+    Resolution,
+    ThreadSafeGenerator,
+)
 
 
 class TestGenerator(unittest.TestCase):
@@ -22,7 +27,7 @@ class TestGenerator(unittest.TestCase):
             machine_ids=[1],
             machine_id_bits=3,
             sequence_bits=1,
-            resolution=0.001,  # millis
+            resolution=Resolution.MILLISECOND,
         )
 
         self.assertGreater(generator.next_id(), 3295599666)
@@ -36,7 +41,7 @@ class TestGenerator(unittest.TestCase):
             machine_ids=[1],
             machine_id_bits=3,
             sequence_bits=1,
-            resolution=0.001,  # millis
+            resolution=Resolution.MILLISECOND,
         )
 
         results = list()
@@ -71,11 +76,11 @@ class TestGenerator(unittest.TestCase):
     def test_guarded_machine_id(self):
         with self.assertRaises(GeneratorException):
             ThreadSafeGenerator(
-                epoch=datetime.now(tz=timezone.utc),
+                epoch=datetime.now(tz=timezone.utc).timestamp(),
                 machine_ids=[2],  # Invalid, since 2^1-1 = 1; 2>1
                 machine_id_bits=1,
                 sequence_bits=1,
-                resolution=1,
+                resolution=Resolution.SECOND,
             )
 
     def test_single_machine_id(self):
@@ -110,7 +115,7 @@ def parameterized_generator(
     machine_ids=[0],
     machine_id_bits=1,
     sequence_bits=1,
-    resolution=0.001,
+    resolution=Resolution.MILLISECOND,
 ) -> List[int]:
     epoch = time.time()
 

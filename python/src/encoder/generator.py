@@ -6,8 +6,9 @@ Contains the Generator and ThreadSafeGenerator classes which can generate unique
 that respect the configured settings and can be later converted to [word sequences] with a WordEncoder.
 
 Classes:
-    Generator - Generates unique integer identifiers with configurable properties.
+    Generator - Generates unique integer identifiers with configurable properties. It is formed by three parts (time unit, machine id, sequence).
     GeneratorException - Raised when a Generator is misconfigured.
+    Resolution - Used to specify the time unit of the generated identifiers.
     ThreadSafeGenerator - Wraps the Generator class, making it thread safe (wrapping `next_id()` with a lock).
 """
 
@@ -15,6 +16,20 @@ from collections import defaultdict
 import threading
 import time
 from typing import Callable, Dict, List
+from enum import Enum
+
+
+class Resolution(Enum):
+    """
+    The time resolution used by the generator determines how many IDs can be generated per the configured time unit.
+    A higher resolution (i.e., milliseconds) results in a higher generation throughput but a faster exhaustion of the solution space.
+    A lower resolution (i.e., minutes) results in IDs being able to be generated for a longer period, at the expense of rare generation options.
+    Generally, do not use minutes unless certain that the generator will be seldomly called, or if specifying sufficient sequence_bits.
+    """
+
+    MINUTE: int = 60000
+    SECOND: int = 1000
+    MILLISECOND: int = 1
 
 
 class Generator:
@@ -23,9 +38,9 @@ class Generator:
 
     Attributes:
         epoch (float): The epoch that the time component will be relative to; set to 0.0 for UNIX time.
-        resolution (float): The time unit resolution, to which the other parameters will be tied to.
-                            For example, if configured to 1, IDs will be generated relative to seconds,
-                            and if configured to 0.001, IDs will be relative to milliseconds.
+        resolution (Resolution): The time unit resolution, to which the other parameters will be relative to.
+                                 For example, if specified as SECOND, IDs will be generated relative to seconds,
+                                 and if specified as MILLISECOND, IDs will be relative to milliseconds.
         machine_ids (List[int]): A list of machine identifiers owned by the current instance;
                                  at least one value must be provided; duplicates will be ignored.
         machine_id_bits (int): How many bits are allocated for the machine ID;
@@ -38,7 +53,7 @@ class Generator:
     def __init__(
         self,
         epoch: float,
-        resolution: float,
+        resolution: Resolution,
         machine_ids: List[int],
         machine_id_bits: int,
         sequence_bits: int,
@@ -48,9 +63,9 @@ class Generator:
 
         Parameters:
             epoch (float): The epoch that the time component will be relative to; set to 0.0 for UNIX time.
-            resolution (float): The time unit resolution, to which the other parameters will be tied to.
-                                For example, if configured to 1, IDs will be generated relative to seconds,
-                                and if configured to 0.001, IDs will be relative to milliseconds.
+            resolution (Resolution): The time unit resolution, to which the other parameters will be relative to.
+                                     For example, if specified as SECOND, IDs will be generated relative to seconds,
+                                     and if specified as MILLISECOND, IDs will be relative to milliseconds.
             machine_ids (List[int]): A list of machine identifiers owned by the current instance;
                                     at least one value must be provided; duplicates will be ignored.
             machine_id_bits (int): How many bits are allocated for the machine ID;
@@ -60,7 +75,7 @@ class Generator:
                                 If set to 0, only one identifier can be generated per machine in each time unit
         """
 
-        self.epoch = epoch
+        self.epoch_millis = int(epoch * 1000)
         # Allows replacing the time in tests
         self.current_time: Callable[[], float] = lambda: time.time()
         self.resolution = resolution
@@ -130,7 +145,9 @@ class Generator:
         return id
 
     def _current_time(self) -> int:
-        return int((self.current_time() - self.epoch) / self.resolution)
+        return (
+            int(self.current_time() * 1000) - self.epoch_millis
+        ) // self.resolution.value
 
     def _wait_for_next_time(self, current_time: int, last_time: int) -> int:
         # busy wait until the required time-unit passes
@@ -167,7 +184,7 @@ class ThreadSafeGenerator(Generator):
     def __init__(
         self,
         epoch: float,
-        resolution: float,
+        resolution: Resolution,
         machine_ids: List[int],
         machine_id_bits: int,
         sequence_bits: int,
