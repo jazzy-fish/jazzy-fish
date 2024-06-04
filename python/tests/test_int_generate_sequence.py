@@ -1,12 +1,9 @@
 from datetime import datetime, timezone
 import os
 import sys
-from typing import List
 import unittest
 
-import pkg_resources
-
-from encoder.encoder import WordEncoder
+from encoder.encoder import WordEncoder, load_wordlist
 from encoder.generator import Generator, Resolution
 
 sys.path.insert(
@@ -29,11 +26,7 @@ class TestIntegrationGenerateSequence(unittest.TestCase):
         )
 
         # Read words
-        word_list = "resources/012_a4b591d"
-        words = [
-            read_from_resource(f"{word_list}/{word}.txt")
-            for word in ["adverb", "verb", "adjective", "noun"]
-        ]
+        words = load_wordlist("resources/012_a4b591d", package_name="encoder.encoder")
 
         # Configure the encoder
         encoder = WordEncoder(words, 4)
@@ -47,14 +40,6 @@ class TestIntegrationGenerateSequence(unittest.TestCase):
 
         got = encoder.decode(sequence)
         self.assertEqual(got, id)
-
-
-def read_from_resource(name: str) -> List[str]:
-    """Reads data from a resource file within a package, split by lines."""
-    data_path = pkg_resources.resource_filename("encoder.encoder", name)
-    with open(data_path, "r") as file:
-        data = file.readlines()
-    return data
 
 
 if __name__ == "__main__":
