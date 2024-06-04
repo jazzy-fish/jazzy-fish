@@ -1,7 +1,7 @@
-name: Published to PyPI
+name: Publish to PyPI
 
 on:
-  # Trigger only on v0.1 tag pushes
+  # Trigger only on v0.* tag pushes
   push:
     tags:
       - "v0.*"
