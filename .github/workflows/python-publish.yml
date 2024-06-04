@@ -25,6 +25,12 @@ jobs:
           eval "$(make venv)"
           make install
 
+      - name: Run tests
+        working-directory: python
+        run: |
+          eval "$(make venv)"
+          pytest tests
+
       - name: Set the correct (tag) version
         working-directory: python
         run: |
