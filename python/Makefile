@@ -32,6 +32,16 @@ build:
 	@python setup.py sdist bdist_wheel
 	@check-manifest --ignore "wordlists/*/*,scripts/*,.pypirc"
 
+.PHONY: test
+test:
+	@echo "Running tests..."
+	@pytest tests
+
+.PHONY: pre-commit
+pre-commit:
+	@echo "Running pre-commit hooks..."
+	@pre-commit run --all-files
+
 .PHONY: publish-test
 publish-test: build
 	@echo "Publishing to test repo..."

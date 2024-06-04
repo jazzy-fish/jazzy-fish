@@ -7,7 +7,7 @@ import unittest
 import pkg_resources
 
 from encoder.encoder import WordEncoder
-from encoder.generator import Generator
+from encoder.generator import Generator, Resolution
 
 sys.path.insert(
     0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
@@ -25,7 +25,7 @@ class TestIntegrationGenerateSequence(unittest.TestCase):
             machine_ids=[0],
             machine_id_bits=0,
             sequence_bits=0,
-            resolution=0.001,  # millis
+            resolution=Resolution.MILLISECOND,
         )
 
         # Read words
