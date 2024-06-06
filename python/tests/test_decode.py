@@ -17,9 +17,12 @@ class TestDecode(unittest.TestCase):
         adjectives = ["able", "blond", "chubby"]
         nouns = ["apple", "bird", "cat", "dog"]
         self.words = [adverbs, verbs, adjectives, nouns]
+        self.id_chars = [0]
 
     def test_should_fail(self):
-        encoder = WordEncoder(self.words, 1)
+        encoder = WordEncoder(
+            self.words, id_char_positions=self.id_chars, min_sequence_size=1
+        )
         with self.assertRaises(EncoderException):
             more_than_available = encoder.get_max() + 1
             encoder.encode(more_than_available)
@@ -34,12 +37,19 @@ class TestDecode(unittest.TestCase):
         ]
 
         for expected, min_seq, words in test_cases:
-            got = WordEncoder(self.words, min_seq).decode(words.split(" "))
+            got = WordEncoder(
+                self.words, id_char_positions=self.id_chars, min_sequence_size=min_seq
+            ).decode(words.split(" "))
             msg = f"Error {words:30} (min_words={min_seq:1}); expected: '{expected:3}', got: '{got:3}'"
             self.assertEqual(got, expected, msg=msg)
 
     def test_can_encode_and_decode_all_values(self):
-        solution_space = range(0, WordEncoder(self.words, 1).get_max())
+        solution_space = range(
+            0,
+            WordEncoder(
+                self.words, id_char_positions=self.id_chars, min_sequence_size=1
+            ).get_max(),
+        )
         test_cases = (
             [(i, 1) for i in solution_space]
             + [(i, 2) for i in solution_space]
@@ -48,12 +58,14 @@ class TestDecode(unittest.TestCase):
         )
 
         for expected, min_words in test_cases:
-            encoder = WordEncoder(self.words, min_words)
+            encoder = WordEncoder(
+                self.words, id_char_positions=self.id_chars, min_sequence_size=min_words
+            )
             encoded = encoder.encode(expected)
-            encoded_str = " ".join(encoded)
+            encoded_str = " ".join(encoded.sequence)
             self.assertIsNotNone(encoded)
 
-            got = encoder.decode(encoded)
+            got = encoder.decode(encoded.sequence)
 
             msg = f"Encoded '{expected:3}' (min_words={min_words:1}), got: '{encoded_str:30}', then decoded back to '{got:3}'"
             self.assertEqual(got, expected, msg)

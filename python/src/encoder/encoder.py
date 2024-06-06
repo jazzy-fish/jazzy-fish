@@ -7,15 +7,25 @@ and decode [word sequences] to integers.
 
 Classes:
     EncoderException - Raised when a WordEncoder is misconfigured.
+    Sequence - Represents an encoded word sequence, along with its prefix short form, and original integer value.
     WordEncoder - Encodes and decodes integers and [word sequences].
+
 """
 
-from typing import List, Optional
+from typing import List, Optional, NamedTuple
 
 import pkg_resources
 
 # Specifies a default order for constructed sentences.
 DEFAULT_WORD_ORDER: List[str] = ["adverb", "verb", "adjective", "noun"]
+
+
+class Sequence(NamedTuple):
+    """Represents an encoded word sequence, along with its prefix short form, and original integer value."""
+
+    id: str
+    sequence: List[str]
+    value: int
 
 
 class EncoderException(Exception):
@@ -38,7 +48,10 @@ class WordEncoder:
     """
 
     def __init__(
-        self, word_lists: List[List[str]], min_sequence_size: Optional[int] = None
+        self,
+        word_lists: List[List[str]],
+        id_char_positions: List[int],
+        min_sequence_size: Optional[int] = None,
     ):
         """
         Constructs a new instance of WordEncoder.
@@ -50,6 +63,25 @@ class WordEncoder:
                                     word lists provided.
         """
         self._word_lists = [[word.strip() for word in lst] for lst in word_lists]
+        self._word_positions = [
+            {word.strip(): idx for idx, word in enumerate(lst)} for lst in word_lists
+        ]
+
+        if not len(id_char_positions):
+            raise EncoderException(
+                f"id_position must contain at least one character position: {id_char_positions}"
+            )
+        self.id_char_positions = id_char_positions
+
+        # Given the specified char positions, return the relevant identifying string
+        def prefix(word: str) -> str:
+            return "".join([word[i] for i in id_char_positions])
+
+        self._word_prefixes = [
+            {prefix(word.strip()): idx for idx, word in enumerate(lst)}
+            for lst in word_lists
+        ]
+
         self._max_sequence = len(word_lists)
 
         # If the min_sequence is not provided, default to the maximum available
@@ -67,7 +99,7 @@ class WordEncoder:
         self._max_values = self._compute_max_values()
         self._abs_max = self._max_values[-1]
 
-    def encode(self, number: int) -> List[str]:
+    def encode(self, number: int) -> Sequence:
         """
         Encodes an integer to a [word sequence].
 
@@ -86,6 +118,7 @@ class WordEncoder:
 
         # Determine the number of words needed
         words_needed = self._determine_sequence_size(number)
+        original_val = number
 
         # Initialize indexes with -1, to protect against bugs (zeroes would be valid values and could not be distinguished)
         indexes = [-1] * self._max_sequence
@@ -103,7 +136,9 @@ class WordEncoder:
         # Calculate the resulting word sequence
         input = list(zip(self._word_lists[-words_needed:], indexes[-words_needed:]))
         sequence = [lst[i] for lst, i in input]
-        return sequence
+
+        # TODO(#16): include the correct identifier
+        return Sequence(id="", sequence=sequence, value=original_val)
 
     def decode(self, words: List[str]) -> int:
         """
@@ -125,6 +160,32 @@ class WordEncoder:
         # Calculate the indices of each specified word
         relevant_words = self._word_lists[-seq_length:]
         indices = [relevant_words[idx].index(word) for idx, word in enumerate(words)]
+
+        # Transform indexes into integers
+        result = 0
+        relevant_radices = self._radices[-seq_length:]
+        for i, index in enumerate(indices):
+            list_size = relevant_radices[i]
+            result = result * list_size + index
+
+        return result
+
+    def decode_id(self, id: str, split_char: str = "-"):
+        if not split_char:
+            raise EncoderException(
+                f"You must provide a character to split the id: '{split_char}' is not valid"
+            )
+
+        word_ids = id.split(split_char)
+        if not len(word_ids):
+            raise EncoderException(
+                f"The id ({id}) could not be split into words using the provided split character ({split_char})"
+            )
+        seq_length = len(word_ids)
+
+        # Calculate the indices of each specified word
+        relevant_prefixes = self._word_prefixes[-seq_length:]
+        indices = [relevant_prefixes[i][prefix] for i, prefix in enumerate(word_ids)]
 
         # Transform indexes into integers
         result = 0

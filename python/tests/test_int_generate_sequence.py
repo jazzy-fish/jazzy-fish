@@ -29,16 +29,16 @@ class TestIntegrationGenerateSequence(unittest.TestCase):
         words = load_wordlist("resources/012_a4b591d", package_name="encoder.encoder")
 
         # Configure the encoder
-        encoder = WordEncoder(words, 4)
+        encoder = WordEncoder(words, id_char_positions=[0, 1, 2], min_sequence_size=4)
 
         # ACT
         id = generator.next_id()
-        sequence = encoder.encode(id)
+        encoded = encoder.encode(id)
 
         # ASSERT
-        self.assertEqual(len(sequence), 4)
+        self.assertEqual(len(encoded.sequence), 4)
 
-        got = encoder.decode(sequence)
+        got = encoder.decode(encoded.sequence)
         self.assertEqual(got, id)
 
 
