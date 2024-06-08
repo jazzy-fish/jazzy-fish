@@ -1,9 +1,9 @@
 """
-Clean Wordlist
+Clean Dictionary
 ==============
 
-Given an input wordlist directory, cleans every list of words by removing invalid, non ASCII, non alpha words,
-as well as inappropriate words as defined by the `ignored.txt` list.
+Given a dictionary as an input directory, clean every list of word parts by removing invalid, non ASCII, non alpha words,
+and inappropriate words (as defined by the `ignored.txt` list).
 
 """
 
@@ -40,15 +40,15 @@ def _clean(file: Path, ignored: Set[str] = set()) -> List[str]:
     return lines
 
 
-def clean_wordlist(wordlist_dir: str, backup_original: bool = False) -> None:
-    """Process all wordlists found in the specified directory"""
+def clean_dictionary(dictionary_dir: str, backup_original: bool = False) -> None:
+    """Process all word parts found in the specified dictionary"""
 
     # Load ignores
     ignored: Set[str] = set()
     ignored.update(load_ignored_words())
 
-    # Find all files (individual wordlists) in the directory
-    directory = Path(wordlist_dir)
+    # Find all files containing list of words, in the directory
+    directory = Path(dictionary_dir)
     files = [f for f in directory.iterdir() if f.is_file()]
 
     # Process all files
@@ -66,17 +66,17 @@ def clean_wordlist(wordlist_dir: str, backup_original: bool = False) -> None:
         # update the original file
         with open(file, "w") as f:
             f.writelines(lines)
-            print(f"Cleaned wordlist {file}")
+            print(f"Cleaned list in dictionary: {file}")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Clean all files found in a directory that represents a wordlist"
+        description="Clean all lists of words found in a dictionary"
     )
-    parser.add_argument("dir", help="Path to the directory.")
+    parser.add_argument("dir", help="Path to the dictionary dir.")
     args = parser.parse_args()
 
-    clean_wordlist(args.dir)
+    clean_dictionary(args.dir)
 
 
 if __name__ == "__main__":

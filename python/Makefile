@@ -4,9 +4,9 @@ SHELL := /bin/bash
 clean:
 	@echo Cleaning up builds and caches...
 	@rm -rf {out,dist,build}
-	@find . -type d -path ./venv -prune -o -name ".pytest_cache" -print -exec rm -rf {} \;
-	@find . -type d -path ./venv -prune -o -name "__pycache__" -print -exec rm -rf {} \;
-	@find . -type d -path ./venv -prune -o -name "*.egg-info" -print -exec rm -rf {} \;
+	@find . -type d -path ./venv -prune -o -name ".pytest_cache" -exec rm -rf {} \;
+	@find . -type d -path ./venv -prune -o -name "__pycache__" -exec rm -rf {} \;
+	@find . -type d -path ./venv -prune -o -name "*.egg-info" -exec rm -rf {} \;
 
 
 .PHONY: clean-venv

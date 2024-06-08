@@ -1,8 +1,8 @@
 """
-Generate Words
-==============
+Generate Wordlists
+==================
 
-Generates combinations of words, prefix lengths, and word sequences to help the user choose the best configuration
+Generates combinations of word parts of varied prefix lengths to help the user choose the best configuration
 for their use-case.
 
 """
@@ -35,7 +35,7 @@ ONLY_SEQ_PREFIXES = False
 # Defines the prefix length variations to consider when generating combinations
 PREFIX_LENGTHS: Tuple[int, ...] = (2, 3, 4, 5, 6)
 
-# The allowed word parts that must match file names in a wordlist directory
+# The allowed word parts that must match file names in a dictionary directory
 ALLOWED_WORD_PARTS: Tuple[str, ...] = ("adverb", "adjective", "verb", "noun")
 
 
@@ -57,7 +57,7 @@ def initialize_database() -> duckdb.DuckDBPyConnection:
 
 def categorize_words(
     conn: duckdb.DuckDBPyConnection,
-    wordlist: Path,
+    dictionary_dir: Path,
     char_positions: Tuple[int, ...],
     is_prefix: bool,
     seen_words: Set[str],
@@ -66,13 +66,13 @@ def categorize_words(
 
     results = list()
 
-    # Read all words in word list
-    with open(wordlist, "r") as file:
+    # Read all word parts in the dictionary
+    with open(dictionary_dir, "r") as file:
         # Ensure the file is named correctly
-        word_part = Path(wordlist).stem
+        word_part = Path(dictionary_dir).stem
         if word_part not in ALLOWED_WORD_PARTS:
             raise ValueError(
-                f"All files in a wordlist dir must match one of the ALLOWED_WORD_PARTS; {word_part} is invalid"
+                f"All files in a dictionary dir must match one of the ALLOWED_WORD_PARTS; {word_part} is invalid"
             )
 
         # Read all words in file
@@ -126,11 +126,9 @@ def categorize_words(
 
 
 def main() -> None:
-    # Define the input wordlist
-    parser = argparse.ArgumentParser(
-        description="Specify the directory that holds the relevant input wordlists"
-    )
-    parser.add_argument("dir", help="Path to the directory.")
+    # Define the input dictionary
+    parser = argparse.ArgumentParser(description="Specify the dictionary directory")
+    parser.add_argument("dir", help="Path to the dictionary directory.")
     args = parser.parse_args()
 
     # Clean any previous results
@@ -158,7 +156,7 @@ def main() -> None:
             seen_words: Set[str] = set()
             seen_words.update(load_ignored_words())
 
-            # Find all files (individual wordlists) in the directory
+            # Find all files (individual lists of words) in the directory
             directory = Path(args.dir)
             files = [f for f in directory.iterdir() if f.is_file()]
             for file in files:
@@ -185,11 +183,11 @@ def main() -> None:
 
             position_in_word = "".join([str(c) for c in char_positions])
 
-            # Generate an output location for the current wordlist and ensure it exists
+            # Generate an output location for the wordlist, ensuring it exists
             wordlist_out_dir = f"{OUTPUT_PATH}/processed/{position_in_word}"
             reset_location(Path(wordlist_out_dir), remove_dir=False)
 
-            wordlists: List[str] = list()
+            wordlist_files: List[str] = list()
             stats: List[Tuple[str, int]] = list()
 
             # Note: this code assumes that the four word parts are always specified and will only process these, not other names
@@ -220,7 +218,7 @@ def main() -> None:
                 print(f"Saved '{outfile}'\n")
 
                 # Store the wordlists and stats
-                wordlists.append(outfile)
+                wordlist_files.append(outfile)
                 stats.append((word_part, len(result)))
 
             # Generate stats, choosing the top 2/3/4 word parts by total choices
@@ -228,21 +226,18 @@ def main() -> None:
             ordered = sorted(stats, key=lambda x: x[1])
 
             two_words = [f[0] for f in ordered[-2:]]
-            _save_stats(conn, position_in_word, is_prefix, two_words, wordlists)
+            _save_stats(conn, position_in_word, is_prefix, two_words, wordlist_files)
 
             three_words = [f[0] for f in ordered[-3:]]
-            _save_stats(conn, position_in_word, is_prefix, three_words, wordlists)
+            _save_stats(conn, position_in_word, is_prefix, three_words, wordlist_files)
 
             four_words = [f[0] for f in ordered]
-            _save_stats(conn, position_in_word, is_prefix, four_words, wordlists)
+            _save_stats(conn, position_in_word, is_prefix, four_words, wordlist_files)
 
             # Generate checksums
             checksums = list()
-            for word in wordlists:
-                name = Path(word).name
-                checksum = sha1(word)
-                # Store checksum
-                checksums.append(f"{checksum}  {name}")
+            for f in wordlist_files:
+                checksums.append(f"{sha1(f)}  {Path(f).name}")
             checksums.sort()
 
             # The first checksum will represent the aggregate checksum for all wordlists
@@ -253,7 +248,7 @@ def main() -> None:
                 for checksum in checksums:
                     out.write(f"{checksum}\n")
 
-            # Rename the output wordlist to include part of the aggregated checksum
+            # Rename the output wordlist dir to include the abbreviated aggregated checksum
             renamed = f"{OUTPUT_PATH}/processed/{position_in_word}_{agg_checksum[:7]}"
             Path(wordlist_out_dir).rename(renamed)
 
@@ -266,7 +261,7 @@ def _save_stats(
     position_in_word: str,
     is_prefix: bool,
     word_parts: List[str],
-    wordlists: List[str],
+    wordlist_files: List[str],
 ):
     """Store statistics about the selected words"""
 
@@ -332,7 +327,7 @@ def _save_stats(
         out.write("Sample words:\n")
 
         words = _generate_sample_words(
-            wordlists=wordlists,
+            wordlist_files=wordlist_files,
             position_in_word=position_in_word,
             min_sequence_size=len(word_parts),
         )
@@ -340,7 +335,7 @@ def _save_stats(
 
 
 def _generate_sample_words(
-    wordlists: List[str],
+    wordlist_files: List[str],
     position_in_word: str,
     min_sequence_size: int,
     how_many: int = 50,
@@ -349,9 +344,9 @@ def _generate_sample_words(
     """Generate sample words to give the user an idea of what to expect"""
     # Read all the words
     words = dict()
-    for wordlist in wordlists:
-        word_part = Path(wordlist).stem
-        with open(wordlist, "r") as file:
+    for f in wordlist_files:
+        word_part = Path(f).stem
+        with open(f, "r") as file:
             words[word_part] = file.readlines()
 
     # Initialize the encoder with the designated template
