@@ -204,6 +204,7 @@ def main() -> None:
                     f"Generating {position_in_word}, word type '{word_part}', word length {word_size}..."
                 )
 
+                # choose the first word for each available prefix
                 sql = f"""SELECT selected_words[1] AS word
                           FROM words_by_prefix
                           WHERE position = '{position_in_word}'
@@ -222,7 +223,7 @@ def main() -> None:
                 wordlists.append(outfile)
                 stats.append((word_part, len(result)))
 
-            # Generate stats
+            # Generate stats, choosing the top 2/3/4 word parts by total choices
             print(f"Storing stats for 2/3/4 words for {position_in_word}...\n")
             ordered = sorted(stats, key=lambda x: x[1])
 
@@ -240,12 +241,8 @@ def main() -> None:
             for word in wordlists:
                 name = Path(word).name
                 checksum = sha1(word)
-                line = f"{checksum}  {name}"
-
-                # Store checksum and also generate separate checksum file
-                checksums.append(line)
-                with open(f"{Path(word)}.sha1", "w") as f:
-                    f.write(line)
+                # Store checksum
+                checksums.append(f"{checksum}  {name}")
             checksums.sort()
 
             # The first checksum will represent the aggregate checksum for all wordlists
