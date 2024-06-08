@@ -12,6 +12,7 @@ Classes:
 
 """
 
+import hashlib
 from typing import List, Optional, NamedTuple
 
 import pkg_resources
@@ -270,3 +271,25 @@ def _read_words(from_path: str, package_name: Optional[str] = None) -> List[str]
     with open(data_path, "r") as file:
         data = file.readlines()
     return data
+
+
+def sha1(words: List[str]) -> str:
+    """Calculate SHA-1 checksum of a file."""
+
+    sha1 = hashlib.sha1()
+    bytes = "\n".join(words).encode("utf-8")
+    for i in range(0, len(bytes), 8192):
+        chunk = bytes[i : i + 8192]
+        sha1.update(chunk)
+
+    return sha1.hexdigest()
+
+
+def agg_sha1(checksums: List[str]) -> str:
+    """Calculate an aggregate checksum from a list of checksums."""
+    sha1 = hashlib.sha1()
+    # Sort to ensure consistent order
+    for checksum in sorted(checksums):
+        sha1.update(checksum.encode("utf-8"))
+
+    return sha1.hexdigest()

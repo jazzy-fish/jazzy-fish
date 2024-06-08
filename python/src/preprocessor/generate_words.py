@@ -9,13 +9,13 @@ for their use-case.
 
 import argparse
 from functools import reduce
-from preprocessor.helpers import sha1, agg_sha1
+from helpers import sha1, agg_sha1
 from pathlib import Path
 import random
 from encoder.encoder import WordEncoder
 import time
 from typing import List, Set, Tuple
-from preprocessor.helpers import (
+from helpers import (
     DATABASE,
     MAX_LENGTH,
     MIN_LENGTH,
@@ -30,7 +30,7 @@ import duckdb
 from duckdb.typing import VARCHAR, INTEGER
 
 # Set to true to only analyze real prefixes (01, 012, 0123, etc.)
-ONLY_SEQ_PREFIXES = True
+ONLY_SEQ_PREFIXES = False
 
 # Defines the prefix length variations to consider when generating combinations
 PREFIX_LENGTHS: Tuple[int, ...] = (2, 3, 4, 5, 6)
@@ -167,11 +167,11 @@ def main() -> None:
         end_time = time.time()
         print(f"Processed word lists in: {end_time - start_time:.2f} seconds\n")
 
-        # Process the words table and extract words for each prefix
-        print("Extracting unique words, grouped by prefix...")
-        sql = read_resource("resources/process/process_words.sql")
-        conn.execute(sql)
-        print("Unique words extracted. (TABLE `words_by_prefix`)")
+    # Process the words table and extract words for each prefix
+    print("Extracting unique words, grouped by prefix...")
+    sql = read_resource("resources/process/process_words.sql")
+    conn.execute(sql)
+    print("Unique words extracted. (TABLE `words_by_prefix`)")
 
     print("Generating final word lists...")
     reset_location(Path(f"{OUTPUT_PATH}/processed"))
@@ -250,7 +250,7 @@ def main() -> None:
 
             # The first checksum will represent the aggregate checksum for all wordlists
             outfile = f"{wordlist_out_dir}/checksums.sha1"
-            agg_checksum = agg_sha1(checksums)
+            agg_checksum = agg_sha1([position_in_word] + checksums)
             with open(outfile, "w") as out:
                 out.write(f"{agg_checksum}\n")
                 for checksum in checksums:
@@ -359,7 +359,11 @@ def _generate_sample_words(
 
     # Initialize the encoder with the designated template
     ordered = [words[part] for part in template.split(" ")]
-    encoder = WordEncoder(word_lists=ordered, min_sequence_size=min_sequence_size)
+    encoder = WordEncoder(
+        word_lists=ordered,
+        id_char_positions=[int(c) for c in position_in_word],
+        min_sequence_size=min_sequence_size,
+    )
 
     # Generate words
     word_size = f"[{MIN_LENGTH}, {MAX_LENGTH}]"
@@ -378,7 +382,7 @@ def _generate_sample_words(
     results: List[str] = list()
     for _ in range(0, how_many):
         val = random.randint(min_for_desired_word_size, max_for_desired_word_size)
-        chosen = " ".join(encoder.encode(val))
+        chosen = " ".join(encoder.encode(val).sequence)
         results.append(f"- {chosen}\n")
 
     return results
