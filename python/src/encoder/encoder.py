@@ -43,9 +43,12 @@ class WordEncoder:
 
     Attributes:
         word_lists (List[List[str]]): Word lists used to map integers to words.
+        id_char_positions (List[int]): Specifies the positions of the identifying characters in each word
         min_sequence_size (int): What is the minimum sequence that should be returned.
-                                 If not provided, it will default to the number
-                                 word lists provided.
+                                If not provided, it will default to the number
+                                word lists provided.
+        sequence_separator (str): The separator character used to delimit sequence parts
+        verify_checksum (bool): If true, will verify that the name and checksum of the provided wordlist matches its contents
     """
 
     def __init__(
@@ -53,16 +56,20 @@ class WordEncoder:
         word_lists: List[List[str]],
         id_char_positions: List[int],
         min_sequence_size: Optional[int] = None,
-        split_char: str = "-",
+        sequence_separator: str = "-",
+        verify_checksum: bool = True,
     ):
         """
         Constructs a new instance of WordEncoder.
 
         Parameters:
             word_lists (List[List[str]]): Word lists used to map integers to words.
+            id_char_positions (List[int]): Specifies the positions of the identifying characters in each word
             min_sequence_size (int): What is the minimum sequence that should be returned.
                                     If not provided, it will default to the number
                                     word lists provided.
+            sequence_separator (str): The separator character used to delimit sequence parts
+            verify_checksum (bool): If true, will verify that the name and checksum of the provided wordlist matches its contents
         """
         # store words and positions in the word lists
         self._word_lists = [[word.strip() for word in lst] for lst in word_lists]
@@ -103,11 +110,17 @@ class WordEncoder:
         self._min_sequence = min_sequence_size
 
         # ensure that any provided split characters are valid
-        if not split_char or len(split_char) > 1:
+        if not sequence_separator or len(sequence_separator) > 1:
             raise EncoderException(
-                f"You must provide a single character that separates parts of the short identifier: '{split_char}' is not valid"
+                f"You must provide a single character that separates parts of the short identifier: '{sequence_separator}' is not valid"
             )
-        self.split_char = split_char
+        self.sequence_separator = sequence_separator
+
+        # Check that the provided wordlist is correct
+        if verify_checksum:
+            checksums = [_sha1(words) for words in self._word_lists]
+            _ = _agg_sha1([] + checksums)
+            # TODO: complete
 
         # cache other needed values
         self._radices = [len(lst) for lst in self._word_lists]
@@ -154,7 +167,7 @@ class WordEncoder:
 
         # Calculate the short identifier
         short_sequence = [self.to_prefix(word) for word in sequence]
-        short_id = self.split_char.join(short_sequence)
+        short_id = self.sequence_separator.join(short_sequence)
 
         return Sequence(id=short_id, sequence=sequence, value=original_val)
 
@@ -189,10 +202,10 @@ class WordEncoder:
         return result
 
     def decode_id(self, id: str):
-        word_ids = id.split(self.split_char)
+        word_ids = id.split(self.sequence_separator)
         if not len(word_ids):
             raise EncoderException(
-                f"The id ({id}) could not be split into words using the provided split character ({self.split_char})"
+                f"The id ({id}) could not be split into words using the provided split character ({self.sequence_separator})"
             )
         seq_length = len(word_ids)
 
@@ -273,7 +286,7 @@ def _read_words(from_path: str, package_name: Optional[str] = None) -> List[str]
     return data
 
 
-def sha1(words: List[str]) -> str:
+def _sha1(words: List[str]) -> str:
     """Calculate SHA-1 checksum of a file."""
 
     sha1 = hashlib.sha1()
@@ -285,7 +298,7 @@ def sha1(words: List[str]) -> str:
     return sha1.hexdigest()
 
 
-def agg_sha1(checksums: List[str]) -> str:
+def _agg_sha1(checksums: List[str]) -> str:
     """Calculate an aggregate checksum from a list of checksums."""
     sha1 = hashlib.sha1()
     # Sort to ensure consistent order
