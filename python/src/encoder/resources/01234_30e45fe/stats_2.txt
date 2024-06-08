@@ -1,0 +1,61 @@
+Result: [           1 years at 1/s ] [            19,120,546] ('adjective', 'noun'                       ) for prefix: '01234 ' [SEQ]
+
+Result: [           0 years at 1/ms] [            19,120,546] ('adjective', 'noun'                       ) for prefix: '01234 ' [SEQ]
+
+01234      adjective    3,398
+01234      noun         5,627
+Total                   19,120,546
+Years at 1/s            0.61
+Years at 1/ms           0.001
+
+Sample words:
+- laudable playmate (lauda-playm)
+- serried mandrake (serri-mandr)
+- scaly flapjack (scaly-flapj)
+- medical overbite (medic-overb)
+- plated impiety (plate-impie)
+- cosmetic humpback (cosme-humpb)
+- verdant sedge (verda-sedge)
+- decorous hornet (decor-horne)
+- vehement doorway (vehem-doorw)
+- rococo rooster (rococ-roost)
+- dilatory celerity (dilat-celer)
+- lounging gazelle (loung-gazel)
+- baronial marjoram (baron-marjo)
+- witching franc (witch-franc)
+- unable rhino (unabl-rhino)
+- mandible pothole (mandi-potho)
+- losing nerving (losin-nervi)
+- quilted flotsam (quilt-flots)
+- madcap sarape (madca-sarap)
+- westward polonium (westw-polon)
+- bawdier disaster (bawdi-disas)
+- outbound oxford (outbo-oxfor)
+- pathetic halberd (pathe-halbe)
+- polyglot geometer (polyg-geome)
+- nonzero tinfoil (nonze-tinfo)
+- flawless tapestry (flawl-tapes)
+- triter genocide (trite-genoc)
+- painless mastiff (painl-masti)
+- manifest deputy (manif-deput)
+- drowsier geese (drows-geese)
+- ignorant metaphor (ignor-metap)
+- baronial oddness (baron-oddne)
+- burly nuthatch (burly-nutha)
+- leafy infusion (leafy-infus)
+- undated relief (undat-relie)
+- kooky laxness (kooky-laxne)
+- several romaine (sever-romai)
+- grislier turncoat (grisl-turnc)
+- tarot bongo (tarot-bongo)
+- petty gouger (petty-gouge)
+- scaly reproof (scaly-repro)
+- dryer junction (dryer-junct)
+- honeyed dormouse (honey-dormo)
+- wingless fancier (wingl-fanci)
+- haughty bobby (haugh-bobby)
+- accosted graffito (accos-graff)
+- wackier specter (wacki-spect)
+- elite fiord (elite-fiord)
+- bandy cowgirl (bandy-cowgi)
+- gamier seducer (gamie-seduc)

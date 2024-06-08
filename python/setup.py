@@ -48,7 +48,7 @@ setup(
     entry_points={
         "console_scripts": [
             "clean_dictionary=preprocessor.clean_dictionary:main",
-            "generate_wordlists.py=preprocessor.generate_wordlists.py:main",
+            "generate_wordlists=preprocessor.generate_wordlists:main",
         ],
     },
     # Defines the minimum version requirement of Python

@@ -1,0 +1,62 @@
+Result: [       1,947 years at 1/s ] [        61,415,193,752] ('verb', 'adjective', 'noun'               ) for prefix: '01234 ' [SEQ]
+
+Result: [           2 years at 1/ms] [        61,415,193,752] ('verb', 'adjective', 'noun'               ) for prefix: '01234 ' [SEQ]
+
+01234      verb         3,212
+01234      adjective    3,398
+01234      noun         5,627
+Total                   61,415,193,752
+Years at 1/s            1,947.46
+Years at 1/ms           1.947
+
+Sample words:
+- emanated tidal juror (emana-tidal-juror)
+- deluged bubblier dicing (delug-bubbl-dicin)
+- cooled waxier bonus (coole-waxie-bonus)
+- tabooed binomial widgeon (taboo-binom-widge)
+- shrugged reddish granary (shrug-reddi-grana)
+- farmed feminine subset (farme-femin-subse)
+- termed musky antelope (terme-musky-antel)
+- meant amused migraine (meant-amuse-migra)
+- snagged andante hickory (snagg-andan-hicko)
+- scanted castaway identity (scant-casta-ident)
+- imbedded portable rosewood (imbed-porta-rosew)
+- ratted dying dragon (ratte-dying-drago)
+- caught lumbar quinine (caugh-lumba-quini)
+- chinked indecent sniffles (chink-indec-sniff)
+- grasped mobile method (grasp-mobil-metho)
+- gamboled spotless blinker (gambo-spotl-blink)
+- gypped ornery abbey (gyppe-orner-abbey)
+- tasked capable faction (taske-capab-facti)
+- rebelled droopier watchdog (rebel-droop-watch)
+- feared decimal pilgrim (feare-decim-pilgr)
+- pulled mutable scherzo (pulle-mutab-scher)
+- pinioned spinal analogue (pinio-spina-analo)
+- harried rainy casting (harri-rainy-casti)
+- dolloped lenient zwieback (dollo-lenie-zwieb)
+- lagged nervous dishpan (lagge-nervo-dishp)
+- unloaded runny element (unloa-runny-eleme)
+- crewed spinal showboat (crewe-spina-showb)
+- festered guided tripod (feste-guide-tripo)
+- stood tangent foreleg (stood-tange-forel)
+- dunked adipose pekoe (dunke-adipo-pekoe)
+- tallied corneal llano (talli-corne-llano)
+- forbade obvious overkill (forba-obvio-overk)
+- hustled unquoted sourness (hustl-unquo-sourn)
+- phished cursory bathos (phish-curso-batho)
+- rewired loamy colleen (rewir-loamy-colle)
+- plucked private gospel (pluck-priva-gospe)
+- imploded madcap tuxedo (implo-madca-tuxed)
+- agitated sulkier selenium (agita-sulki-selen)
+- filtered helpful cashmere (filte-helpf-cashm)
+- mediated stubbly opener (media-stubb-opene)
+- gelled faithful language (gelle-faith-langu)
+- shrilled hunted modeling (shril-hunte-model)
+- heckled kinetic linguist (heckl-kinet-lingu)
+- pinged obdurate folly (pinge-obdur-folly)
+- moussed raring holder (mouss-rarin-holde)
+- censured obdurate waitress (censu-obdur-waitr)
+- argued hapless jurist (argue-haple-juris)
+- enriched licit sitar (enric-licit-sitar)
+- enured hermetic calorie (enure-herme-calor)
+- boosted shyer birdseed (boost-shyer-birds)

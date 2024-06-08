@@ -26,7 +26,7 @@ class TestIntegrationGenerateSequence(unittest.TestCase):
         )
 
         # Read words
-        words = load_wordlist("resources/012_a4b591d", package_name="encoder.encoder")
+        words = load_wordlist("resources/012_d188dfc", package_name="encoder.encoder")
 
         # Configure the encoder
         encoder = WordEncoder(words, id_char_positions=[0, 1, 2], min_sequence_size=4)
@@ -36,9 +36,9 @@ class TestIntegrationGenerateSequence(unittest.TestCase):
         encoded = encoder.encode(id)
 
         # ASSERT
-        self.assertEqual(len(encoded.sequence), 4)
+        self.assertEqual(len(encoded.key_phrase), 4)
 
-        got = encoder.decode(encoded.sequence)
+        got = encoder.decode(encoded.key_phrase)
         self.assertEqual(got, id)
 
 

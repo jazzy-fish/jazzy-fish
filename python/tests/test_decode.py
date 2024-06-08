@@ -48,8 +48,8 @@ class TestDecode(unittest.TestCase):
 
             # short ID sequences can be decoded to their corresponding value
             encoded = encoder.encode(expected)
-            got2 = encoder.decode_id(encoded.id)
-            msg2 = f"Error {encoded.id:30} (min_words={min_seq:1}); expected: '{expected:3}', got: '{got2:3}'"
+            got2 = encoder.decode_id(encoded.abbr)
+            msg2 = f"Error {encoded.abbr:30} (min_words={min_seq:1}); expected: '{expected:3}', got: '{got2:3}'"
             self.assertEqual(got2, expected, msg2)
 
     def test_can_encode_and_decode_all_values(self):
@@ -71,15 +71,15 @@ class TestDecode(unittest.TestCase):
                 self.words, id_char_positions=self.id_chars, min_sequence_size=min_words
             )
             encoded = encoder.encode(expected)
-            encoded_str = " ".join(encoded.sequence)
+            encoded_str = " ".join(encoded.key_phrase)
             self.assertIsNotNone(encoded)
 
-            got = encoder.decode(encoded.sequence)
+            got = encoder.decode(encoded.key_phrase)
             msg = f"Encoded '{expected:3}' (min_words={min_words:1}), got: '{encoded_str:30}', then decoded back to '{got:3}'"
             self.assertEqual(got, expected, msg)
 
-            got2 = encoder.decode_id(encoded.id)
-            msg2 = f"Encoded '{expected:3}' (min_words={min_words:1}), got: '{encoded.id:30}', then decoded back to '{got2:3}'"
+            got2 = encoder.decode_id(encoded.abbr)
+            msg2 = f"Encoded '{expected:3}' (min_words={min_words:1}), got: '{encoded.abbr:30}', then decoded back to '{got2:3}'"
             self.assertEqual(got2, expected, msg2)
 
 

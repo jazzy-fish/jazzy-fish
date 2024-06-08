@@ -1,0 +1,63 @@
+Result: [      38,238 years at 1/s ] [     1,205,876,531,200] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '012   ' [SEQ]
+
+Result: [          38 years at 1/ms] [     1,205,876,531,200] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '012   ' [SEQ]
+
+012        verb         1,258
+012        adverb       440
+012        noun         1,702
+012        adjective    1,280
+Total                   1,205,876,531,200
+Years at 1/s            38,238.09
+Years at 1/ms           38.238
+
+Sample words:
+- fervidly caked erudite oxen (fer-cak-eru-oxe)
+- grimly collared errant pampas (gri-col-err-pam)
+- glumly sighed affable mimicry (glu-sig-aff-mim)
+- irately phased bucked dwarfism (ira-pha-buc-dwa)
+- jerkily serrated hacking iceberg (jer-ser-hac-ice)
+- queasily rogered tameable sewage (que-rog-tam-sew)
+- choppily stubbed laggard floater (cho-stu-lag-flo)
+- doubly upraised mightier errand (dou-upr-mig-err)
+- craftily kerbed inedible weirdo (cra-ker-ine-wei)
+- firmly nutted alive chickpea (fir-nut-ali-chi)
+- vividly relapsed tropical enigma (viv-rel-tro-eni)
+- rudely sided hurried inkblot (rud-sid-hur-ink)
+- gingerly heeded stockier mugger (gin-hee-sto-mug)
+- slackly roamed piano rocker (sla-roa-pia-roc)
+- gawkily volleyed beholden acerbity (gaw-vol-beh-ace)
+- validly sapped aromatic mudguard (val-sap-aro-mud)
+- meagerly doweled mammary thug (mea-dow-mam-thu)
+- broadly outed lockable oblation (bro-out-loc-obl)
+- jaggedly sailed faecal urbanity (jag-sai-fae-urb)
+- baldly doted nuptial vesicle (bal-dot-nup-ves)
+- oddly opined lacerate ceramics (odd-opi-lac-cer)
+- dreamily dumped golden easel (dre-dum-gol-eas)
+- guiltily marauded powdery buyer (gui-mar-pow-buy)
+- chiefly conceded vitiated sidebar (chi-con-vit-sid)
+- grandly vaped aware altar (gra-vap-awa-alt)
+- mostly behaved violable citadel (mos-beh-vio-cit)
+- irately rated luckier opossum (ira-rat-luc-opo)
+- orally kayaked rockier vexation (ora-kay-roc-vex)
+- feasibly wiped adherent glibness (fea-wip-adh-gli)
+- curtly vied poetic seraglio (cur-vie-poe-ser)
+- stonily solaced porcine tiara (sto-sol-por-tia)
+- purely furled dandy receiver (pur-fur-dan-rec)
+- directly hissed laden hurdler (dir-his-lad-hur)
+- eerily rowed attached epaulet (eer-row-att-epa)
+- gawkily dabbed maidenly unease (gaw-dab-mai-une)
+- variably hummed upbeat falconer (var-hum-upb-fal)
+- heartily garaged cooking tequila (hea-gar-coo-teq)
+- aptly dubbed modal loner (apt-dub-mod-lon)
+- moistly infected deism buddy (moi-inf-dei-bud)
+- narrowly keynoted toothed basalt (nar-key-too-bas)
+- credibly exhaled lumbar repartee (cre-exh-lum-rep)
+- vitally essayed diocesan alimony (vit-ess-dio-ali)
+- warily pawed diocesan whaler (war-paw-dio-wha)
+- tipsily awaited legalism john (tip-awa-leg-joh)
+- dismally obtained abased inmate (dis-obt-aba-inm)
+- early lucked erectile tokenism (ear-luc-ere-tok)
+- vacantly puzzled honeyed borax (vac-puz-hon-bor)
+- clumsily juiced oblate hatchery (clu-jui-obl-hat)
+- eagerly dimpled titanic icicle (eag-dim-tit-ici)
+- glibly biassed epidemic logbook (gli-bia-epi-log)

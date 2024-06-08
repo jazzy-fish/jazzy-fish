@@ -41,8 +41,8 @@ class TestEncode(unittest.TestCase):
             result = WordEncoder(
                 self.words, id_char_positions=self.id_chars, min_sequence_size=min_seq
             ).encode(num)
-            got = " ".join(result.sequence)
-            prefix = "".join([s[0] for s in result.sequence])
+            got = " ".join(result.key_phrase)
+            prefix = "".join([s[0] for s in result.key_phrase])
             msg = f"Error {num:3} (min_words={min_seq:1}); expected: '{expected:30}', got: '{got:30}', prefix: '{prefix:>4}'"
             self.assertEqual(got, expected, msg=msg)
 
@@ -66,8 +66,8 @@ class TestEncode(unittest.TestCase):
             ).encode(num)
             self.assertIsNotNone(encoded)
 
-            got = " ".join(encoded.sequence)
-            prefix = "".join([s[0] for s in encoded.sequence])
+            got = " ".join(encoded.key_phrase)
+            prefix = "".join([s[0] for s in encoded.key_phrase])
             msg = f"Encoded '{num:3}' (min_words={min_seq:1}), got: '{got:30}', prefix: '{prefix:>4}'"
             print(msg)
 

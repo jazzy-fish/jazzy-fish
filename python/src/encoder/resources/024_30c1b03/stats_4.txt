@@ -1,0 +1,63 @@
+Result: [     197,212 years at 1/s ] [     6,219,288,324,900] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '024   ' [RND]
+
+Result: [         197 years at 1/ms] [     6,219,288,324,900] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '024   ' [RND]
+
+024        verb         1,788
+024        adverb       493
+024        noun         3,171
+024        adjective    2,225
+Total                   6,219,288,324,900
+Years at 1/s            197,212.34
+Years at 1/ms           197.212
+
+Sample words:
+- baldly flossed friable draughts (bll-fos-fib-dag)
+- pithily selected selfless dulcimer (pti-slc-sll-dli)
+- tersely esteemed gooey seaboard (tre-ete-goy-sao)
+- legibly clowned comelier cookout (lgb-con-cml-coo)
+- tangibly tricked winsome bruiser (tni-tik-wno-bus)
+- lordly piqued aqueous painter (lrl-pqe-auo-pit)
+- foully cheeped taming cadger (ful-cep-tmn-cde)
+- properly grieved kooky caveat (poe-giv-koy-cva)
+- bleakly enclosed impious offal (bek-eco-ipo-ofl)
+- lustily grafted filthier creed (lsi-gat-flh-ced)
+- floridly faxed immersed sequoia (foi-fxd-imr-sqo)
+- cosily revealed unsalted whopper (csl-rva-usl-wop)
+- terribly mooed zonal mainsail (tri-mod-znl-mis)
+- amiably aliased reasoned escapade (aib-ais-rao-ecp)
+- blithely shied scratchy vigour (bih-sid-srt-vgu)
+- tersely thwacked kinkier floater (tre-twc-kni-fot)
+- ineptly weighed ulcerous nonesuch (iet-wih-ucr-nns)
+- doggedly blushed regional yachting (dge-buh-rgo-yct)
+- legally pinched undress finery (lgl-pnh-ude-fnr)
+- fluidly raged mediocre inquirer (fud-rgd-mdo-iqi)
+- deadly assigned emotive fauna (dal-asg-eoi-fua)
+- shrewdly jarred vixenish weakfish (srw-jre-vxn-waf)
+- divinely flounced freewill scorpion (dvn-fon-few-sop)
+- happily daunted hapless pastrami (hpi-dut-hpe-psr)
+- ineptly complied favored busywork (iet-cml-fvr-bsw)
+- poorly shushed adhesive caraway (pol-suh-ahs-crw)
+- formerly huddled uptight setup (fre-hdl-utg-stp)
+- shyly imbedded fearsome pollywog (syy-ibd-fas-ply)
+- gawkily plugged bygone mumbler (gwi-pug-bgn-mml)
+- tangibly drenched dusky niceness (tni-dec-dsy-ncn)
+- damnably pepped hardback tartness (dma-ppe-hrb-trn)
+- agilely splurged raring pawpaw (aie-slr-rrn-pwa)
+- humanely endured cagier dumbbell (hmn-edr-cge-dmb)
+- severely unzipped petty tales (svr-uzp-pty-tls)
+- frostily liaised rearward peony (fot-las-raw-poy)
+- soberly unnerved rarer figurine (sbr-unr-rrr-fgr)
+- erectly refunded occult memento (eet-rfn-ocl-mmn)
+- slackly lectured addicted sawhorse (sak-lcu-adc-swo)
+- dryly teenaged miffed epicure (dyy-tea-mfe-eiu)
+- quickly evinced rubicund phlox (qik-eic-rbc-plx)
+- jolly arrived roomier talker (jly-arv-roi-tle)
+- boyishly larded magical bowman (bys-lre-mgc-bwa)
+- venally hiccuped tarot reverie (vnl-hcu-trt-rvr)
+- amply demurred snazzier tanager (apy-dmr-saz-tng)
+- briskly deluded deserted glumness (bik-dld-dsr-gun)
+- tangibly chugged mangy dealing (tni-cug-mny-dai)
+- daringly pancaked unleaded batik (drn-pna-ula-btk)
+- ripely bandied feigned fireball (rpl-bni-fin-frb)
+- beastly diddled happy courser (bat-ddl-hpy-cus)
+- acutely yearned bareback mallow (aue-yan-brb-mlo)

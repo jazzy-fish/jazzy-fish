@@ -374,8 +374,10 @@ def _generate_sample_words(
     results: List[str] = list()
     for _ in range(0, how_many):
         val = random.randint(min_for_desired_word_size, max_for_desired_word_size)
-        chosen = " ".join(encoder.encode(val).sequence)
-        results.append(f"- {chosen}\n")
+        encoded = encoder.encode(val)
+        key_phrase = " ".join(encoder.encode(val).key_phrase)
+        word = f"{key_phrase} ({encoded.abbr})"
+        results.append(f"- {word}\n")
 
     return results
 

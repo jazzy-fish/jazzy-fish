@@ -1,0 +1,63 @@
+Result: [   1,098,369 years at 1/s ] [    34,638,169,276,128] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '01234 ' [SEQ]
+
+Result: [       1,098 years at 1/ms] [    34,638,169,276,128] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '01234 ' [SEQ]
+
+01234      verb         3,212
+01234      noun         5,627
+01234      adjective    3,398
+01234      adverb       564
+Total                   34,638,169,276,128
+Years at 1/s            1,098,369.14
+Years at 1/ms           1,098.369
+
+Sample words:
+- sombrely gazetted pinnate penology (sombr-gazet-pinna-penol)
+- piously bubbled extremer slighter (pious-bubbl-extre-sligh)
+- frugally socked filthier asperity (fruga-socke-filth-asper)
+- drily surtaxed ocular minuend (drily-surta-ocula-minue)
+- gently shinned glorious torques (gentl-shinn-glori-torqu)
+- ineptly enlisted crinkly therapy (inept-enlis-crink-thera)
+- raggedly greyed playful lapwing (ragge-greye-playf-lapwi)
+- dizzily stumped unopened grader (dizzi-stump-unope-grade)
+- overtly biopsied biennial flyby (overt-biops-bienn-flyby)
+- serenely policed missing damson (seren-polic-missi-damso)
+- slyly ruptured cognate demotion (slyly-ruptu-cogna-demot)
+- jocosely enslaved lumbar bestowal (jocos-ensla-lumba-besto)
+- hotly breasted barer grammar (hotly-breas-barer-gramm)
+- angrily banked showy teaspoon (angri-banke-showy-teasp)
+- credibly rimmed sinewy purview (credi-rimme-sinew-purvi)
+- gawkily bleeped uneasy subtlety (gawki-bleep-uneas-subtl)
+- bitingly tared bionic trolley (bitin-tared-bioni-troll)
+- actually defused fungal gunny (actua-defus-funga-gunny)
+- fiscally hissed outward rookie (fisca-hisse-outwa-rooki)
+- simply deported wooded surplice (simpl-depor-woode-surpl)
+- baldly unzipped euphoric toddler (baldl-unzip-eupho-toddl)
+- briskly dissed fancy wiper (brisk-disse-fancy-wiper)
+- shoddily exhaled reticent mucilage (shodd-exhal-retic-mucil)
+- bitterly fizzled lousier homonym (bitte-fizzl-lousi-homon)
+- broadly poured personal pushover (broad-poure-perso-pusho)
+- severely soldered tempting titbit (sever-solde-tempt-titbi)
+- gloomily chorused drier midday (gloom-choru-drier-midda)
+- staidly clopped portlier revolver (staid-clopp-portl-revol)
+- grandly upsurged vaguer killdeer (grand-upsur-vague-killd)
+- crassly coughed unmoral barbell (crass-cough-unmor-barbe)
+- dismally zinged wittier refinery (disma-zinge-witti-refin)
+- sturdily endured nodular tonne (sturd-endur-nodul-tonne)
+- genially jarred unnamed thymus (genia-jarre-unnam-thymu)
+- woodenly grudged aberrant alcohol (woode-grudg-aberr-alcoh)
+- exactly candled gracious proxy (exact-candl-graci-proxy)
+- rarely lurked fluttery parlance (rarel-lurke-flutt-parla)
+- possibly spayed nonfatal liniment (possi-spaye-nonfa-linim)
+- drowsily addled servile hernia (drows-addle-servi-herni)
+- crisply migrated lactic weekday (crisp-migra-lacti-weekd)
+- fitly raffled diuretic telegram (fitly-raffl-diure-teleg)
+- icily inhered peddling handrail (icily-inher-peddl-handr)
+- casually sheered jiggered tarragon (casua-sheer-jigge-tarra)
+- drizzly mangled rousing peephole (drizz-mangl-rousi-peeph)
+- equally revered lacking vibrancy (equal-rever-lacki-vibra)
+- sadly pomaded sugared audience (sadly-pomad-sugar-audie)
+- totally hijacked lofty tiara (total-hijac-lofty-tiara)
+- sleazily gimleted plastics husker (sleaz-gimle-plast-huske)
+- laudably nestled alkaline firth (lauda-nestl-alkal-firth)
+- artfully guessed whorled accolade (artfu-guess-whorl-accol)
+- speedily looted bonny bologna (speed-loote-bonny-bolog)

@@ -129,15 +129,15 @@ You can generate these by running the [preprocessor.generate_words](python/src/p
 For a more seldom generation frequency, use one of the following wordlists:
 
 ```text
-Result: [ 46 years at 1/s ] [ 1,457,033,600] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '01 ' [SEQ] - 8-byte ID, sequential prefix
-Result: [ 87 years at 1/s ] [ 2,740,628,480] ('verb', 'adjective', 'noun' ) for prefix: '012 ' [SEQ] - 9-byte ID, sequential prefix
-Result: [ 400 years at 1/s ] [ 12,615,189,300] ('verb', 'adjective', 'noun' ) for prefix: '024 ' [RND] - largest 9 byte ID
-Result: [ 852 years at 1/s ] [ 26,862,324,450] ('verb', 'adjective', 'noun' ) for prefix: '1234 ' [RND] - 12-byte ID
-Result: [ 869 years at 1/s ] [ 27,399,835,008] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '02 ' [RND] - largest 8-byte ID
-Result: [ 38,238 years at 1/s ] [ 1,205,876,531,200] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '012 ' [SEQ] - 12-byte ID, sequential prefix
-Result: [ 197,212 years at 1/s ] [ 6,219,288,324,900] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '024 ' [RND] - largest 12-byte ID
-Result: [ 543,674 years at 1/s ] [ 17,145,317,425,600] ('adverb', 'adjective', 'verb', 'noun' ) for prefix: '0123 ' [SEQ] - 16-byte ID, sequential prefix
-Result: [ 1,098,369 years at 1/s ] [ 34,638,169,276,128] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '01234 ' [SEQ] - 20-byte ID, sequential prefix
+[        46 years at 1/s ] [      1,457,033,600] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '01    ' [SEQ] - 8-byte ID, sequential abbreviation
+[        87 years at 1/s ] [      2,740,628,480] ('verb', 'adjective', 'noun'           ) for prefix: '012   ' [SEQ] - 9-byte ID, sequential abbreviation
+[       400 years at 1/s ] [     12,615,189,300] ('verb', 'adjective', 'noun'           ) for prefix: '024   ' [RND] - largest 9 byte ID
+[       852 years at 1/s ] [     26,862,324,450] ('verb', 'adjective', 'noun'           ) for prefix: '1234  ' [RND] - 12-byte ID
+[       869 years at 1/s ] [     27,399,835,008] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '02    ' [RND] - largest 8-byte ID
+[    38,238 years at 1/s ] [  1,205,876,531,200] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '012   ' [SEQ] - 12-byte ID, sequential abbreviation
+[   197,212 years at 1/s ] [  6,219,288,324,900] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '024   ' [RND] - largest 12-byte ID
+[   543,674 years at 1/s ] [ 17,145,317,425,600] ('adverb', 'adjective', 'verb', 'noun' ) for prefix: '0123  ' [SEQ] - 16-byte ID, sequential abbreviation
+[ 1,098,369 years at 1/s ] [ 34,638,169,276,128] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '01234 ' [SEQ] - 20-byte ID, sequential abbreviation
 ```
 
 ### Millisecond-frequency
@@ -146,8 +146,8 @@ If you require a volume of identifiers that can sustain millisecond-frequency ge
 use one of the following wordlists:
 
 ```text
-Result: [ 197 years at 1/ms] [ 6,219,288,324,900] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '024 ' [RND] - largest 12-byte ID
-Result: [ 544 years at 1/ms] [ 17,145,317,425,600] ('adverb', 'adjective', 'verb', 'noun' ) for prefix: '0123 ' [SEQ] - 16-byte ID, sequential prefix
-Result: [ 762 years at 1/ms] [ 24,016,903,475,712] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '0234 ' [RND] - largest 16-byte ID
-Result: [ 1,098 years at 1/ms] [ 34,638,169,276,128] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '01234 ' [SEQ] - largest 20-byte ID
+[   197 years at 1/ms] [     6,219,288,324,900] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '024   ' [RND] - largest 12-byte ID
+[   544 years at 1/ms] [    17,145,317,425,600] ('adverb', 'adjective', 'verb', 'noun'     ) for prefix: '0123  ' [SEQ] - 16-byte ID, sequential abbreviation
+[   762 years at 1/ms] [    24,016,903,475,712] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '0234  ' [RND] - largest 16-byte ID
+[ 1,098 years at 1/ms] [    34,638,169,276,128] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '01234 ' [SEQ] - largest 20-byte ID, sequential abbreviation
 ```

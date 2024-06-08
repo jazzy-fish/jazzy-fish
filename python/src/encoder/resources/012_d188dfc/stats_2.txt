@@ -1,0 +1,61 @@
+Result: [           0 years at 1/s ] [             2,178,560] ('adjective', 'noun'                       ) for prefix: '012   ' [SEQ]
+
+Result: [           0 years at 1/ms] [             2,178,560] ('adjective', 'noun'                       ) for prefix: '012   ' [SEQ]
+
+012        adjective    1,280
+012        noun         1,702
+Total                   2,178,560
+Years at 1/s            0.07
+Years at 1/ms           0.000
+
+Sample words:
+- saucier honesty (sau-hon)
+- lemony eviction (lem-evi)
+- autistic safeness (aut-saf)
+- otiose umlaut (oti-uml)
+- heedful seizing (hee-sei)
+- uniform zenith (uni-zen)
+- buttery hogan (but-hog)
+- akin yearbook (aki-yea)
+- preachy piper (pre-pip)
+- rabid eviction (rab-evi)
+- totemic yachting (tot-yac)
+- hormonal rawhide (hor-raw)
+- aquatic uptake (aqu-upt)
+- rhythmic loofah (rhy-loo)
+- coital tackler (coi-tac)
+- wizened taster (wiz-tas)
+- lacerate syllabus (lac-syl)
+- soviet onion (sov-oni)
+- roan emotion (roa-emo)
+- uric burdock (uri-bur)
+- wiser wreckage (wis-wre)
+- trying satchel (try-sat)
+- scornful embalmer (sco-emb)
+- oaten phyla (oat-phy)
+- remedial bagel (rem-bag)
+- smacking nimbus (sma-nim)
+- umber inroad (umb-inr)
+- elderly bodega (eld-bod)
+- ruinous bonanza (rui-bon)
+- golden utility (gol-uti)
+- symbolic flack (sym-fla)
+- ecstatic fencer (ecs-fen)
+- asserted gist (ass-gis)
+- atypical dancer (aty-dan)
+- mizzen doyen (miz-doy)
+- feverish tobacco (fev-tob)
+- advanced dubbing (adv-dub)
+- easier smuggler (eas-smu)
+- bunted floater (bun-flo)
+- eligible apse (eli-aps)
+- aberrant karakul (abe-kar)
+- rawboned eternity (raw-ete)
+- logical sizer (log-siz)
+- womanish pianist (wom-pia)
+- endemic cymbal (end-cym)
+- optical folder (opt-fol)
+- filial coziness (fil-coz)
+- tempered dotage (tem-dot)
+- alto gonad (alt-gon)
+- wrapped eternity (wra-ete)

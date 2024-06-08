@@ -8,7 +8,9 @@ and decode [word sequences] to integers.
 Classes:
     EncoderException - Raised when a WordEncoder is misconfigured.
     Sequence - Represents an encoded word sequence, along with its prefix short form, and original integer value.
-    WordEncoder - Encodes and decodes integers and [word sequences].
+    WordEncoder - Encodes integer identifiers into key phrases and decodes key phrases and abbreviated phrases into integers.
+    Wordlist - Represents a wordlist used by a WordEncoder to generate key phrases.
+
 
 """
 
@@ -22,11 +24,11 @@ DEFAULT_WORD_ORDER: List[str] = ["adverb", "verb", "adjective", "noun"]
 
 
 class Sequence(NamedTuple):
-    """Represents an encoded word sequence, along with its prefix short form, and original integer value."""
+    """Represents an encoded identifier, along with its abbreviated form, and original integer value."""
 
-    id: str
-    sequence: List[str]
-    value: int
+    id: int
+    abbr: str
+    key_phrase: List[str]
 
 
 class EncoderException(Exception):
@@ -163,13 +165,13 @@ class WordEncoder:
 
         # Calculate the resulting word sequence
         input = list(zip(self._word_lists[-words_needed:], indexes[-words_needed:]))
-        sequence = [lst[i] for lst, i in input]
+        key_phrase = [lst[i] for lst, i in input]
 
         # Calculate the short identifier
-        short_sequence = [self.to_prefix(word) for word in sequence]
-        short_id = self.sequence_separator.join(short_sequence)
+        short_sequence = [self.to_prefix(word) for word in key_phrase]
+        abbr = self.sequence_separator.join(short_sequence)
 
-        return Sequence(id=short_id, sequence=sequence, value=original_val)
+        return Sequence(abbr=abbr, key_phrase=key_phrase, id=original_val)
 
     def decode(self, words: List[str]) -> int:
         """
@@ -306,3 +308,10 @@ def _agg_sha1(checksums: List[str]) -> str:
         sha1.update(checksum.encode("utf-8"))
 
     return sha1.hexdigest()
+
+
+class Wordlist:
+    """Represents a wordlist used by a WordEncoder to generate key phrases."""
+
+    def __init__(self, list_of_words_by_part: List[List[str]]):
+        pass
