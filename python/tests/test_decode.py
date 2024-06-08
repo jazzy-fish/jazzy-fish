@@ -37,11 +37,20 @@ class TestDecode(unittest.TestCase):
         ]
 
         for expected, min_seq, words in test_cases:
-            got = WordEncoder(
+            encoder = WordEncoder(
                 self.words, id_char_positions=self.id_chars, min_sequence_size=min_seq
-            ).decode(words.split(" "))
+            )
+
+            # words can be decoded to their corresponding value
+            got = encoder.decode(words.split(" "))
             msg = f"Error {words:30} (min_words={min_seq:1}); expected: '{expected:3}', got: '{got:3}'"
             self.assertEqual(got, expected, msg=msg)
+
+            # short ID sequences can be decoded to their corresponding value
+            encoded = encoder.encode(expected)
+            got2 = encoder.decode_id(encoded.id)
+            msg2 = f"Error {encoded.id:30} (min_words={min_seq:1}); expected: '{expected:3}', got: '{got2:3}'"
+            self.assertEqual(got2, expected, msg2)
 
     def test_can_encode_and_decode_all_values(self):
         solution_space = range(
@@ -66,9 +75,12 @@ class TestDecode(unittest.TestCase):
             self.assertIsNotNone(encoded)
 
             got = encoder.decode(encoded.sequence)
-
             msg = f"Encoded '{expected:3}' (min_words={min_words:1}), got: '{encoded_str:30}', then decoded back to '{got:3}'"
             self.assertEqual(got, expected, msg)
+
+            got2 = encoder.decode_id(encoded.id)
+            msg2 = f"Encoded '{expected:3}' (min_words={min_words:1}), got: '{encoded.id:30}', then decoded back to '{got2:3}'"
+            self.assertEqual(got2, expected, msg2)
 
 
 if __name__ == "__main__":

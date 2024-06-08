@@ -52,6 +52,7 @@ class WordEncoder:
         word_lists: List[List[str]],
         id_char_positions: List[int],
         min_sequence_size: Optional[int] = None,
+        split_char: str = "-",
     ):
         """
         Constructs a new instance of WordEncoder.
@@ -62,11 +63,13 @@ class WordEncoder:
                                     If not provided, it will default to the number
                                     word lists provided.
         """
+        # store words and positions in the word lists
         self._word_lists = [[word.strip() for word in lst] for lst in word_lists]
         self._word_positions = [
             {word.strip(): idx for idx, word in enumerate(lst)} for lst in word_lists
         ]
 
+        # note the identifying character positions in the wordlists
         if not len(id_char_positions):
             raise EncoderException(
                 f"id_position must contain at least one character position: {id_char_positions}"
@@ -74,11 +77,14 @@ class WordEncoder:
         self.id_char_positions = id_char_positions
 
         # Given the specified char positions, return the relevant identifying string
-        def prefix(word: str) -> str:
+        def to_prefix(word: str) -> str:
             return "".join([word[i] for i in id_char_positions])
 
+        self.to_prefix = to_prefix
+
+        # Create a map of identifying character prefixes to positions in the wordlists
         self._word_prefixes = [
-            {prefix(word.strip()): idx for idx, word in enumerate(lst)}
+            {to_prefix(word.strip()): idx for idx, word in enumerate(lst)}
             for lst in word_lists
         ]
 
@@ -95,6 +101,14 @@ class WordEncoder:
             )
         self._min_sequence = min_sequence_size
 
+        # ensure that any provided split characters are valid
+        if not split_char or len(split_char) > 1:
+            raise EncoderException(
+                f"You must provide a single character that separates parts of the short identifier: '{split_char}' is not valid"
+            )
+        self.split_char = split_char
+
+        # cache other needed values
         self._radices = [len(lst) for lst in self._word_lists]
         self._max_values = self._compute_max_values()
         self._abs_max = self._max_values[-1]
@@ -137,8 +151,11 @@ class WordEncoder:
         input = list(zip(self._word_lists[-words_needed:], indexes[-words_needed:]))
         sequence = [lst[i] for lst, i in input]
 
-        # TODO(#16): include the correct identifier
-        return Sequence(id="", sequence=sequence, value=original_val)
+        # Calculate the short identifier
+        short_sequence = [self.to_prefix(word) for word in sequence]
+        short_id = self.split_char.join(short_sequence)
+
+        return Sequence(id=short_id, sequence=sequence, value=original_val)
 
     def decode(self, words: List[str]) -> int:
         """
@@ -158,8 +175,8 @@ class WordEncoder:
             )
 
         # Calculate the indices of each specified word
-        relevant_words = self._word_lists[-seq_length:]
-        indices = [relevant_words[idx].index(word) for idx, word in enumerate(words)]
+        relevant_positions = self._word_positions[-seq_length:]
+        indices = [relevant_positions[i][word] for i, word in enumerate(words)]
 
         # Transform indexes into integers
         result = 0
@@ -170,16 +187,11 @@ class WordEncoder:
 
         return result
 
-    def decode_id(self, id: str, split_char: str = "-"):
-        if not split_char:
-            raise EncoderException(
-                f"You must provide a character to split the id: '{split_char}' is not valid"
-            )
-
-        word_ids = id.split(split_char)
+    def decode_id(self, id: str):
+        word_ids = id.split(self.split_char)
         if not len(word_ids):
             raise EncoderException(
-                f"The id ({id}) could not be split into words using the provided split character ({split_char})"
+                f"The id ({id}) could not be split into words using the provided split character ({self.split_char})"
             )
         seq_length = len(word_ids)
 
