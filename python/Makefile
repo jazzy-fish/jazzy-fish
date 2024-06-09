@@ -8,13 +8,12 @@ clean:
 	@find . -type d -path ./venv -prune -o -name "__pycache__" -exec rm -rf {} \;
 	@find . -type d -path ./venv -prune -o -name "*.egg-info" -exec rm -rf {} \;
 
-
 .PHONY: clean-venv
 clean-venv:
 	scripts/delete-venv.bash
 
-.PHONY: recreate-venv
-recreate-venv:
+.PHONY: create-venv
+create-venv:
 	@scripts/create-venv.bash
 
 .PHONY: venv
@@ -23,6 +22,7 @@ venv:
 
 .PHONY: install
 install:
+	@pip install '.[cli]'
 	@pip install '.[dev]'
 	@pip install -e .
 
