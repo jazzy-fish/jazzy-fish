@@ -49,10 +49,12 @@ echo "Attempting to install version ($VERSION) in virtualenv ($VENV)..."
 while [[ "$#" -gt 0 ]]; do
     case $1 in
     --test)
+        echo "Installing requirements-cli from main index, since not all packages are available in test.pypi..."
+        pip install -r "$DIR"/../requirements-cli.txt
         retry pip install --index-url https://test.pypi.org/simple/ "jazzy_fish==$VERSION"
         ;;
     --prod)
-        retry pip install "jazzy_fish==$VERSION"
+        retry pip install "jazzy_fish[cli]==$VERSION"
         ;;
     --*= | -*)
         echo "Error: Unsupported flag $1" >&2

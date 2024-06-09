@@ -28,7 +28,7 @@ def main() -> None:
 
     assert encoded is not None, f"Encoding ({id}) should have succeeded, missing value"
     assert (
-        len(encoded.keyphrase) == 4
+        len(encoded.keyphrase.split("-")) == 4
     ), f"Expected 4 words, got {len(encoded.keyphrase)}"
     assert (
         encoded.abbr is not None
