@@ -12,7 +12,7 @@ from pathlib import Path
 import shutil
 import time
 from typing import List, Set
-from helpers import (
+from jazzy_fish_tools.helpers import (
     is_letter,
     load_ignored_words,
 )

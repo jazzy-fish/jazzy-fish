@@ -1,11 +1,8 @@
 """
-Encoder
-=======
+Jazzy Fish
+==========
 
-This package contains the code required by clients who wish to generate jazzy-fish word sequences.
-
-Functions:
-    load_wordlist - Helper function that can be used to load a wordlist from a specified path.
+This package contains the code required by clients who wish to generate jazzy-fish keyphrases.
 
 Modules:
     encoder - Contains the WordEncoder class that can encode integers to [word sequences]

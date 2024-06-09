@@ -65,7 +65,7 @@ publish-test: build
 .PHONY: publish-test-verify
 publish-test-verify:
 	@echo "Verifying test.PyPI package..."
-	@scripts/verify-test-publish.bash
+	@scripts/verify-publish.bash --test
 
 .PHONY: publish
 publish: build
@@ -75,7 +75,7 @@ publish: build
 .PHONY: publish-verify
 publish-verify:
 	@echo "Verifying PyPI package..."
-	@scripts/verify-publish.bash
+	@scripts/verify-publish.bash --prod
 
 show-stats:
 	@echo "Showing statistics for generated wordlists (out/processed)..."
