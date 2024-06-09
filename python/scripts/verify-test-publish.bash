@@ -11,4 +11,4 @@ echo "Attempting to install version ($VERSION) in virtualenv ($VENV)..."
 python -m venv "$VENV"
 # shellcheck disable=SC1091
 source "$VENV/bin/activate"
-pip install --index-url https://test.pypi.org/project "jazzy_fish==$VERSION"
+pip install --index-url https://test.pypi.org/simple/ "jazzy_fish==$VERSION"

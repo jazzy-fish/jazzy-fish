@@ -31,6 +31,8 @@ install:
 
 .PHONY: build
 build:
+	@echo Cleaning up previous builds...
+	@rm -rf dist/
 	@echo "Building..."
 	@pip install '.[dev]'
 	@python -m build

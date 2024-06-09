@@ -33,7 +33,7 @@ Install it via:
 pip install jazzy-fish
 
 # or alternatively, directly from git
-pip install git+https://github.com/jazzy-fish/jazzy-fish#subdirectory=python
+pip install "git+https://github.com/jazzy-fish/jazzy-fish@main#subdirectory=python"
 ```
 
 The implementation roughly works as follows:
@@ -101,7 +101,7 @@ The included input wordlists were compiled from various free sources, which can 
 - <https://www.desiquintans.com/nounlist>
 - <https://people.sc.fsu.edu/~jburkardt/datasets/words/anagram_dictionary.txt>
 
-Great care was taken to exclude offensive words (and an exclude list can be found in the [python/src/preprocessor](./python/src/preprocessor) package).
+Great care was taken to exclude offensive words (and an exclude list can be found in the [jazzy_fish_tools](./python/src/jazzy_fish_tools) package).
 However, as humans have varied cultures and cultural differences, these lists may still contain such words.
 If you spot any such words, please **open an issue in this repository**, flagging the relevant word.
 The code and provided wordlists are provided on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, as detailed
@@ -167,7 +167,7 @@ use one of the following wordlists:
 
 ## Generate wordlists
 
-The [preprocessor](python/src/preprocessor) package contains code that can process dictionaries and generate all combinations of wordlists, abbreviations of a given length, and character positions chosen for the abbreviation. These can help users infer the best choice depending on their use-case.
+The [jazzy_fish_tools](python/src/jazzy_fish_tools) package contains code that can process dictionaries and generate all combinations of wordlists, abbreviations of a given length, and character positions chosen for the abbreviation. These can help users infer the best choice depending on their use-case.
 
 First, install CLI dependencies:
 
@@ -175,8 +175,8 @@ First, install CLI dependencies:
 pip install jazzy-fish[cli]
 ```
 
-Then, call [generate-wordlists PATH_TO_DICTIONARY_DIR](python/src/preprocessor/generate_wordlists.py) to generate all possible combinations.
+Then, call [generate-wordlists PATH_TO_DICTIONARY_DIR](python/src/jazzy_fish_tools/generate_wordlists.py) to generate all possible combinations.
 The resulting wordlists will be stored in `out/processed`.
 
-If you want to generate wordlists using a dictionary of your choosing, use the [clean-dictionary PATH_TO_DICTIONARY_DIR](python/src/preprocessor/clean_dictionary.py)
+If you want to generate wordlists using a dictionary of your choosing, use the [clean-dictionary PATH_TO_DICTIONARY_DIR](python/src/jazzy_fish_tools/clean_dictionary.py)
 script to sanitize the inputs (in-place). Consult one of the included dictionaries ([dictionary/](dictionary/)) to determine the required file structure.

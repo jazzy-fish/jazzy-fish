@@ -1,4 +1,4 @@
-# Jazzy Fish - Sufficiently-large, unique, human-friendly identifiers - Python implementation
+# Jazzy Fish - Sufficiently-large, unique, human-friendly identifiers
 
 > ⚠️ **Warning:** This library is **in development** and not yet ready for production. Its API is not yet stable
 > and might (and probably _will_) still change. Follow repository [issues](https://github.com/jazzy-fish/jazzy-fish/issues) for more information.
@@ -38,7 +38,7 @@ Install it via:
 pip install jazzy-fish
 
 # or alternatively, directly from git
-pip install git+https://github.com/jazzy-fish/jazzy-fish#subdirectory=python
+pip install "git+https://github.com/jazzy-fish/jazzy-fish@main#subdirectory=python"
 ```
 
 The implementation roughly works as follows:
@@ -86,15 +86,20 @@ If the default wordlists are unsuitable, they can be changed. Consult the [Gener
 
 This directory contains the following resources:
 
-- [src/encoder](./src/encoder): Python code that generates unique identifiers and can encode/decode them to keyphrases;
-  this is the main package a client implementation needs to generate jazzy-fish keyphrases
-- [src/preprocessor](./src/preprocessor): Utility that works with wordlists, cleaning up input words (removing invalid or inappropriate words) and generating various combinations that allow a user to create new input wordlists with different capabilities
+- [src/jazzy_fish](./src/jazzy_fish): Python code that generates unique identifiers and can encode/decode them to keyphrases;
+  this is the main package a client implementation needs to generate jazzy-fish keyphrases.
+- [src/jazzy_fish_tools](./src/jazzy_fish_tools): Utility that works with wordlists, cleaning up input words (removing invalid or inappropriate words) and generating various combinations that allow a user to create new input wordlists with different capabilities.
 
-## Preprocessor
+## Jazzy Fish Tools
 
-Once you install the library you can generate all word combinations given an input wordlist by executing the following command:
+The library also provides tooling that can generate all combinations of wordlists, abbreviations of a given length,
+and character positions chosen for the abbreviation.
 
-`generate_words $PATH_TO_REPO/wordlists/5`
+```shell
+generate-wordlists $PATH_TO_REPO/dictionary/5
+```
+
+These can help users infer the best choice depending on their use-case.
 
 You may replace the wordlist, with a directory of your choosing, as long as it contains the same file structure - four files named after the relevant four parts in the English language:
 
@@ -152,7 +157,7 @@ make publish-verify
 
 ### Generate wordlists
 
-The [preprocessor](python/src/preprocessor) package contains code that can process dictionaries and generate all combinations of wordlists, abbreviations of a given length, and character positions chosen for the abbreviation. These can help users infer the best choice depending on their use-case.
+The [jazzy_fish_tools](src/jazzy_fish_tools) package contains code that can process dictionaries and generate all combinations of wordlists, abbreviations of a given length, and character positions chosen for the abbreviation. These can help users infer the best choice depending on their use-case.
 
 First, install CLI dependencies:
 
@@ -160,8 +165,8 @@ First, install CLI dependencies:
 pip install jazzy-fish[cli]
 ```
 
-Then, call [generate-wordlists PATH_TO_DICTIONARY_DIR](python/src/preprocessor/generate_wordlists.py) to generate all possible combinations.
+Then, call [generate-wordlists PATH_TO_DICTIONARY_DIR](python/src/jazzy_fish_tools/generate_wordlists.py) to generate all possible combinations.
 The resulting wordlists will be stored in `out/processed`.
 
-If you want to generate wordlists using a dictionary of your choosing, use the [clean-dictionary PATH_TO_DICTIONARY_DIR](python/src/preprocessor/clean_dictionary.py)
+If you want to generate wordlists using a dictionary of your choosing, use the [clean-dictionary PATH_TO_DICTIONARY_DIR](python/src/jazzy_fish_tools/clean_dictionary.py)
 script to sanitize the inputs (in-place). Consult one of the included dictionaries ([dictionary/](dictionary/)) to determine the required file structure.

@@ -19,6 +19,7 @@ requires-python = ">=3.11"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
+    "Natural Language :: English",
     "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
@@ -27,11 +28,11 @@ classifiers = [
 [project.urls]
 "Bug reports" = "https://github.com/jazzy-fish/jazzy-fish/issues/new"
 "Documentation" = "https://github.com/jazzy-fish/jazzy-fish/blob/main/python/README.md"
-"Source code" = "https://github.com/jazzy-fish/jazzy-fish"
+"Source" = "https://github.com/jazzy-fish/jazzy-fish"
 
 [project.scripts]
-clean-dictionary = "preprocessor.clean_dictionary:main"
-generate-wordlists = "preprocessor.generate_wordlists:main"
+clean-dictionary = "jazzy_fish_tools.clean_dictionary:main"
+generate-wordlists = "jazzy_fish_tools.generate_wordlists:main"
 
 [build-system]
 requires = ["hatchling", "hatch-requirements-txt"]

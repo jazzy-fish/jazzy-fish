@@ -1,14 +1,8 @@
 from datetime import datetime, timezone
-import os
-import sys
 import unittest
 
-from encoder.encoder import WordEncoder, Wordlist
-from encoder.generator import Generator, Resolution
-
-sys.path.insert(
-    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
-)
+from jazzy_fish.encoder import WordEncoder, Wordlist
+from jazzy_fish.generator import Generator, Resolution
 
 
 class TestIntegrationGenerateSequence(unittest.TestCase):
@@ -26,7 +20,7 @@ class TestIntegrationGenerateSequence(unittest.TestCase):
         )
 
         # Configure the encoder
-        wordlist = Wordlist.load("resources/012_8562fb9", "encoder.encoder")
+        wordlist = Wordlist.load("resources/012_8562fb9", "jazzy_fish.encoder")
         encoder = WordEncoder(wordlist, min_phrase_size=4)
 
         # ACT
