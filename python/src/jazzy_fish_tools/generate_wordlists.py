@@ -386,7 +386,7 @@ def _generate_sample_words(
     for _ in range(0, how_many):
         val = random.randint(min_for_desired_word_size, max_for_desired_word_size)
         encoded = e.encode(val)
-        key_phrase = " ".join(e.encode(val).key_phrase)
+        key_phrase = " ".join(e.encode(val).keyphrase)
         word = f"{key_phrase} ({encoded.abbr})"
         results.append(f"- {word}\n")
 

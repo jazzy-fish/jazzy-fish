@@ -28,17 +28,17 @@ def main() -> None:
 
     assert encoded is not None, f"Encoding ({id}) should have succeeded, missing value"
     assert (
-        len(encoded.key_phrase) == 4
-    ), f"Expected 4 words, got {len(encoded.key_phrase)}"
+        len(encoded.keyphrase) == 4
+    ), f"Expected 4 words, got {len(encoded.keyphrase)}"
     assert (
         encoded.abbr is not None
     ), f"Expected abbreviated phrase, got ({encoded.abbr})"
 
     # Decode a keyphrase
-    got = encoder.decode(encoded.key_phrase)
+    got = encoder.decode(encoded.keyphrase)
     assert (
         got == id
-    ), f"Decoded phrase ({encoded.key_phrase}) should match the original id ({id})"
+    ), f"Decoded phrase ({encoded.keyphrase}) should match the original id ({id})"
 
     # Decode an abbreviation
     got2 = encoder.decode_abbr(encoded.abbr)

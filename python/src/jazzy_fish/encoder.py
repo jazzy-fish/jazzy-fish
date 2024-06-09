@@ -142,7 +142,7 @@ class KeyPhrase(NamedTuple):
 
     id: int
     abbr: str
-    key_phrase: str
+    keyphrase: str
 
 
 class EncoderException(Exception):
@@ -245,15 +245,14 @@ class WordEncoder:
         input = list(
             zip(self._wordlist._words[-words_needed:], indexes[-words_needed:])
         )
-        key_phrase = [lst[i] for lst, i in input]
+        selected_words = [lst[i] for lst, i in input]
 
         # Calculate the short identifier
-        short_sequence = [self._wordlist.to_prefix(word) for word in key_phrase]
+        short_sequence = [self._wordlist.to_prefix(word) for word in selected_words]
         abbr = self.separator.join(short_sequence)
+        keyphrase = self.separator.join(selected_words)
 
-        return KeyPhrase(
-            abbr=abbr, key_phrase=self.separator.join(key_phrase), id=original_val
-        )
+        return KeyPhrase(abbr=abbr, keyphrase=keyphrase, id=original_val)
 
     def decode(self, keyphrase: str) -> int:
         """
