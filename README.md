@@ -7,25 +7,41 @@
 
 Jazzy Fish is a library that helps you generate a sufficient number of identifiers, with a human-friendly kick.
 
-This is not a new idea and similar implementation can be seen in various places (i.e., GitHub new repository name [suggestions](https://github.com/new).
+This is not a new idea and similar implementation can be found in various places
+(i.e., GitHub new repository name [suggestions](https://github.com/new)).
 
-Jazzy Fish is able to generate word sequences that can be mapped to unique integer values, which can be used as identifiers.
-
-The implementation roughly works as follows:
-
-- configure a `Generator`, more information below
-- call `generator.next_id()`, which returns a unique integer
-- call `Encoder.encode(id)`, which returns a `[word sequence]`
-- optionally, if a word sequence needs to be decoded into an integer, call `Encoder.decode([word sequence])`
+Jazzy Fish is able to map a large integer solution space to unique keyphrases that can be used as human-friendly identifiers.
+Each keyphrase also has a fixed-length (character-based) abbreviated form that can be used as a short-form identifier.
 
 ## Terminology
 
 - `word part`: parts of speech used in the English language that can be used to form sentences/phrases: adverbs, verbs, adjectives, and nouns
 - `dictionary`: a list of English words categorized by _word part_, which is used to generate _wordlists_
 - `wordlist`: a list of *word part*s that can be combined to generate a large number of *key phrase*s
-- `key phrase`: a uniquely ordered sequence of words, each of a certain _word part_, which can be mapped to a unique integer identifier
-- `identifier`: a numerical (integer) value that can be used to represent unique entities
-- `word prefixes`: TBD, rename
+- `keyphrase`: a uniquely ordered sequence of words, each of a certain _word part_, which can be mapped to a unique integer identifier
+  (e.g., `niftier engine`)
+- `(keyphrase) abbreviations`: a fixed-length (ASCII character) representation of the keyphrase, which can be used
+  as a non-numerical identifier (e.g., `nif-eng`)
+- `identifier`: a numerical (integer) value that can be used to represent unique entities (e.g., `12040320103821`)
+
+## Quickstart
+
+The project is published to <https://pypi.org/project/jazzy-fish/>.
+Install it via:
+
+```shell
+pip install jazzy-fish
+
+# or alternatively, directly from git
+pip install git+https://github.com/jazzy-fish/jazzy-fish#subdirectory=python
+```
+
+The implementation roughly works as follows:
+
+- configure a `Generator` (details below)
+- call `generator.next_id()`, which returns a unique, ever-increasing integer value
+- call `Encoder.encode(id)`, which returns a `keyphrase`
+- decode a _Keyphrase_ into its integer from by calling `Encoder.decode(keyphrase)`
 
 ## Configuring a Generator
 
@@ -59,18 +75,16 @@ It can map the following solution domains:
 
 Two-word sequences may be impractical for sustained identifier generation, however, three word and four word sequences can sustain 87 and 38,238 years respectively at a rate of 1 identifier generated per second, using a single machine.
 
-However, the default implementation can be changed to using longer prefixes and you can also bring your own wordlists, if desired.
-
-The [preprocessor](python/src/preprocessor) package contains code that can process input wordlists and generate input word list combinations,
-which can be inspected to help users infer the best choice depending on use-case.
+If the default wordlists are unsuitable, they can be changed. Consult the [Generate wordlists](#generate-wordlists) section for details.
 
 ## Contents
 
 This directory contains the following resources:
 
 - [python](./python): Python implementation of the Jazzy Fish ID generator
-- [wordlists](./wordlists): Several input wordlist versions that extensively cover the English language (for provenance, see below)
-  the default wordlist was generated using words from [wordlist 5](./wordlists/5).
+- [dictionary](./dictionary): Several input dictionaries that extensively cover the English language (for provenance, see below)
+
+NOTE: the default wordlists included in the _encoder_ package was generated using [dictionary/5](./dictionary/5).
 
 ### Wordlist origin
 
@@ -95,13 +109,6 @@ in the Apache 2.0 license. **Please take great care to vet the code and wordlist
 You are solely responsible for determining the appropriateness of using or redistributing the Work and assume any risks associated with
 Your exercise of permissions under this License.
 
-## Quickstart
-
-### Python
-
-You can install the library directly from git:
-`pip install git+https://github.com/jazzy-fish/jazzy-fish#subdirectory=python`
-
 ## Developers
 
 This repository uses `pre-commit` to manage git hooks. It is installed by default in the python library, and you can also
@@ -116,13 +123,13 @@ pre-commit install
 You can manually run the hooks against all files with `pre-commit run --all-files` or
 read the documentation at <https://pre-commit.com/>.
 
-## Choosing a word list
+## Advanced topics
 
-The values below are computed based on the [wordlists/5](./wordlists/5) dictionary, which aims to include
+### Choosing a word list
+
+The values below are computed based on [dictionary/5](./dictionary/5), which aims to include
 words more commonly used in the English language. You should verify that the resulting wordlist contains
 appropriate values for your use-case.
-
-You can generate these by running the [preprocessor.generate_words](python/src/preprocessor/generate_words.py) script.
 
 By default, jazzy-fish ships with the following wordlists:
 
@@ -130,7 +137,7 @@ By default, jazzy-fish ships with the following wordlists:
 - [024_84f184f](python/src/encoder/resources/024_84f184f)
 - [01234_f233650](python/src/encoder/resources/01234_f233650)
 
-### Second-frequency
+#### N-per-second generation
 
 For a more seldom generation frequency, use one of the following wordlists:
 
@@ -146,7 +153,7 @@ For a more seldom generation frequency, use one of the following wordlists:
 [ 1,098,369 years at 1/s ] [ 34,638,169,276,128] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '01234 ' [SEQ] - 20-byte ID, sequential abbreviation
 ```
 
-### Millisecond-frequency
+#### N-per-millisecond generation
 
 If you require a volume of identifiers that can sustain millisecond-frequency generation,
 use one of the following wordlists:
@@ -157,3 +164,19 @@ use one of the following wordlists:
 [   762 years at 1/ms] [    24,016,903,475,712] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '0234  ' [RND] - largest 16-byte ID
 [ 1,098 years at 1/ms] [    34,638,169,276,128] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '01234 ' [SEQ] - largest 20-byte ID, sequential abbreviation
 ```
+
+## Generate wordlists
+
+The [preprocessor](python/src/preprocessor) package contains code that can process dictionaries and generate all combinations of wordlists, abbreviations of a given length, and character positions chosen for the abbreviation. These can help users infer the best choice depending on their use-case.
+
+First, install CLI dependencies:
+
+```shell
+pip install jazzy-fish[cli]
+```
+
+Then, call [generate-wordlists PATH_TO_DICTIONARY_DIR](python/src/preprocessor/generate_wordlists.py) to generate all possible combinations.
+The resulting wordlists will be stored in `out/processed`.
+
+If you want to generate wordlists using a dictionary of your choosing, use the [clean-dictionary PATH_TO_DICTIONARY_DIR](python/src/preprocessor/clean_dictionary.py)
+script to sanitize the inputs (in-place). Consult one of the included dictionaries ([dictionary/](dictionary/)) to determine the required file structure.

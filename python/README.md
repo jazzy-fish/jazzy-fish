@@ -5,16 +5,48 @@
 
 Jazzy Fish is a library that helps you generate a sufficient number of identifiers, with a human-friendly kick.
 
-This is not a new idea and similar implementation can be seen in various places (i.e., GitHub new repository name [suggestions](https://github.com/new).
+This is not a new idea and similar implementation can be found in various places
+(i.e., GitHub new repository name [suggestions](https://github.com/new)).
 
-Jazzy Fish is able to generate word sequences that can be mapped to unique integer values, which can be used as identifiers.
+Jazzy Fish is able to map a large integer solution space to unique keyphrases that can be used as human-friendly identifiers.
+Each keyphrase also has a fixed-length (character-based) abbreviated form that can be used as a short-form identifier.
 
 The implementation roughly works as follows:
 
-- configure a `Generator`, more information below
-- call `generator.next_id()`, which returns a unique integer
-- call `Encoder.encode(id)`, which returns a `[word sequence]`
-- optionally, if a word sequence needs to be decoded into an integer, call `Encoder.decode([word sequence])`
+- configure a `Generator` (details below)
+- call `generator.next_id()`, which returns a unique, ever-increasing integer value
+- call `Encoder.encode(id)`, which returns a `keyphrase`
+- decode a _Keyphrase_ into its integer from by calling `Encoder.decode(keyphrase)`
+
+## Terminology
+
+- `word part`: parts of speech used in the English language that can be used to form sentences/phrases: adverbs, verbs, adjectives, and nouns
+- `dictionary`: a list of English words categorized by _word part_, which is used to generate _wordlists_
+- `wordlist`: a list of *word part*s that can be combined to generate a large number of *key phrase*s
+- `keyphrase`: a uniquely ordered sequence of words, each of a certain _word part_, which can be mapped to a unique integer identifier
+  (e.g., `niftier engine`)
+- `(keyphrase) abbreviations`: a fixed-length (ASCII character) representation of the keyphrase, which can be used
+  as a non-numerical identifier (e.g., `nif-eng`)
+- `identifier`: a numerical (integer) value that can be used to represent unique entities (e.g., `12040320103821`)
+
+## Quickstart
+
+The project is published to <https://pypi.org/project/jazzy-fish/>.
+Install it via:
+
+```shell
+pip install jazzy-fish
+
+# or alternatively, directly from git
+pip install git+https://github.com/jazzy-fish/jazzy-fish#subdirectory=python
+```
+
+The implementation roughly works as follows:
+
+- configure a `Generator` (details below)
+- call `generator.next_id()`, which returns a unique, ever-increasing integer value
+- call `Encoder.encode(id)`, which returns a `keyphrase`
+- decode a _Keyphrase_ into its integer from by calling `Encoder.decode(keyphrase)`
 
 ## Configuring a Generator
 
@@ -48,19 +80,15 @@ It can map the following solution domains:
 
 Two-word sequences may be impractical for sustained identifier generation, however, three word and four word sequences can sustain 87 and 38,238 years respectively at a rate of 1 identifier generated per second, using a single machine.
 
-However, the default implementation can be changed to using longer prefixes and you can also bring your own wordlists, if desired.
-
-The [preprocessor](python/src/preprocessor) package contains code that can process input wordlists and generate input word list combinations,
-which can be inspected to help users infer the best choice depending on use-case.
+If the default wordlists are unsuitable, they can be changed. Consult the [Generate wordlists](#generate-wordlists) section for details.
 
 ## Contents
 
 This directory contains the following resources:
 
-- [src/encoder](./src/encoder): Python code that generates unique identifiers and can encode/decode them to word sequences;
-  this is the main package a client implementation needs to generate jazzy-fish word sequences
-- [src/preprocessor](./src/preprocessor): Utility that works with wordlists, cleaning up input words (removing invalid or inappropriate words) and generating various combinations
-  that allows a user to create new input wordlists with different criteria than the default one.
+- [src/encoder](./src/encoder): Python code that generates unique identifiers and can encode/decode them to keyphrases;
+  this is the main package a client implementation needs to generate jazzy-fish keyphrases
+- [src/preprocessor](./src/preprocessor): Utility that works with wordlists, cleaning up input words (removing invalid or inappropriate words) and generating various combinations that allow a user to create new input wordlists with different capabilities
 
 ## Preprocessor
 
@@ -121,3 +149,19 @@ Verify the distributed code
 ```shell
 make publish-verify
 ```
+
+### Generate wordlists
+
+The [preprocessor](python/src/preprocessor) package contains code that can process dictionaries and generate all combinations of wordlists, abbreviations of a given length, and character positions chosen for the abbreviation. These can help users infer the best choice depending on their use-case.
+
+First, install CLI dependencies:
+
+```shell
+pip install jazzy-fish[cli]
+```
+
+Then, call [generate-wordlists PATH_TO_DICTIONARY_DIR](python/src/preprocessor/generate_wordlists.py) to generate all possible combinations.
+The resulting wordlists will be stored in `out/processed`.
+
+If you want to generate wordlists using a dictionary of your choosing, use the [clean-dictionary PATH_TO_DICTIONARY_DIR](python/src/preprocessor/clean_dictionary.py)
+script to sanitize the inputs (in-place). Consult one of the included dictionaries ([dictionary/](dictionary/)) to determine the required file structure.

@@ -1,0 +1,52 @@
+[project]
+name = 'jazzy_fish'
+license = "Apache-2.0"
+description = "Generate sufficiently-large, unique, human-friendly identifiers, represented as English-language phrases."
+keywords = [
+    "jazzyfish",
+    "unique",
+    "human-friendly",
+    "identifiers",
+    "encoder",
+    "decoder",
+]
+readme = { "file" = "README.md", "content-type" = "text/markdown" }
+authors = [
+    { name = "Mihai Bojin", email = "557584+MihaiBojin@users.noreply.github.com" },
+]
+dynamic = ["dependencies", "version"]
+requires-python = ">=3.11"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+] # https://pypi.org/classifiers/
+
+[project.urls]
+"Bug reports" = "https://github.com/jazzy-fish/jazzy-fish/issues/new"
+"Documentation" = "https://github.com/jazzy-fish/jazzy-fish/blob/main/python/README.md"
+"Source code" = "https://github.com/jazzy-fish/jazzy-fish"
+
+[project.scripts]
+clean-dictionary = "preprocessor.clean_dictionary:main"
+generate-wordlists = "preprocessor.generate_wordlists:main"
+
+[build-system]
+requires = ["hatchling", "hatch-requirements-txt"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/encoder", "src/preprocessor"]
+
+[tool.hatch.metadata.hooks.requirements_txt]
+files = ["requirements.txt"]
+
+[tool.hatch.metadata.hooks.requirements_txt.optional-dependencies]
+cli = ["requirements-cli.txt"]
+dev = ["requirements-dev.txt"]
+
+[tool.hatch.version]
+path = "./VERSION"
+pattern = "(?P<version>.+)"
