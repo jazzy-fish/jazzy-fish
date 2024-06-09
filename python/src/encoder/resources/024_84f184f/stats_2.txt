@@ -1,0 +1,61 @@
+Result: [           0 years at 1/s ] [             7,055,475] ('adjective', 'noun'                       ) for prefix: '024   ' [RND]
+
+Result: [           0 years at 1/ms] [             7,055,475] ('adjective', 'noun'                       ) for prefix: '024   ' [RND]
+
+024        adjective    2,225
+024        noun         3,171
+Total                   7,055,475
+Years at 1/s            0.22
+Years at 1/ms           0.000
+
+Sample words:
+- inserted tizzy (isr-tzy)
+- medal junkyard (mdl-jny)
+- tipsy cocaine (tpy-cci)
+- glorious resale (goi-rsl)
+- jauntier muffler (jut-mfl)
+- esthetic dodger (ete-dde)
+- varied linesman (vre-lns)
+- magical sheeting (mgc-set)
+- unwashed embassy (uws-ebs)
+- jugular couching (jgl-cuh)
+- weather bulimia (wah-blm)
+- groggier soberer (gog-sbr)
+- bossy urology (bsy-uoo)
+- gawky dawdler (gwy-dwl)
+- hometown doing (hmt-dig)
+- bloated elves (bot-evs)
+- corded evildoer (cre-eid)
+- leggy response (lgy-rso)
+- blowzier weeder (boz-wee)
+- galactic sailfish (glc-sif)
+- tired pizzeria (trd-pze)
+- jauntier vigour (jut-vgu)
+- majestic reefer (mjs-ree)
+- giddy utility (gdy-uii)
+- basest javelin (bss-jvl)
+- bounded ebony (bud-eoy)
+- succinct waxwing (sci-wxi)
+- marginal fibula (mri-fbl)
+- indebted haircut (idb-hic)
+- unsaid inmate (usi-imt)
+- doughier campus (duh-cmu)
+- bared bulldog (brd-bld)
+- leaden vespers (lae-vse)
+- ulterior beginner (utr-bgn)
+- striking headland (srk-hal)
+- inherent mammon (ihr-mmo)
+- overdue macadam (oed-mcd)
+- phonier radar (poi-rdr)
+- grumpier albino (gup-abn)
+- sprucer sunspot (src-snp)
+- hideous gazebo (hdo-gzb)
+- fleshier anxiety (feh-axe)
+- eastward icebox (esw-ieo)
+- pathetic pipit (pte-ppt)
+- caloric quickie (clr-qik)
+- walleyed sundown (wle-sno)
+- rainier mechanic (rii-mca)
+- sighted flagship (sgt-fas)
+- boozy linesman (boy-lns)
+- elated taffy (eae-tfy)

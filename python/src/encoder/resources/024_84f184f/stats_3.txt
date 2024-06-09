@@ -1,0 +1,62 @@
+Result: [         400 years at 1/s ] [        12,615,189,300] ('verb', 'adjective', 'noun'               ) for prefix: '024   ' [RND]
+
+Result: [           0 years at 1/ms] [        12,615,189,300] ('verb', 'adjective', 'noun'               ) for prefix: '024   ' [RND]
+
+024        verb         1,788
+024        adjective    2,225
+024        noun         3,171
+Total                   12,615,189,300
+Years at 1/s            400.03
+Years at 1/ms           0.400
+
+Sample words:
+- scorned dative quality (son-dtv-qai)
+- descried gloomier software (dsr-gom-sfw)
+- ranched warded pugilism (rnh-wre-pgl)
+- sifted intrepid bigotry (sfe-ite-bgt)
+- pleased totemic weakness (pes-ttm-wan)
+- serviced exiguous liaison (sri-eiu-las)
+- dribbled happy loathing (dib-hpy-lah)
+- mocked godless guppy (mce-gde-gpy)
+- financed learned globule (fnn-lan-gou)
+- wimpled unwashed tiger (wml-uws-tgr)
+- pacified incised megalith (pcf-ics-mgl)
+- towed uncalled dwarfism (twd-ucl-daf)
+- ejected glacial railway (eet-gai-riw)
+- trudged tireless femur (tug-trl-fmr)
+- caviled squeaky invasion (cvl-sua-ivs)
+- espied fatty caginess (epe-fty-cgn)
+- chalked milkier hyaena (cak-mli-han)
+- chalked sodden gazebo (cak-sde-gzb)
+- wattled mammary flagging (wtl-mma-fag)
+- torched reformed granary (trh-rfr-gaa)
+- tricked weedy tiger (tik-wey-tgr)
+- smelled abiding ninepins (sel-aii-nnp)
+- tacked sandlot emissary (tce-snl-eis)
+- drifted cockeyed attacker (dit-cce-atc)
+- bandaged citric farina (bna-cti-frn)
+- deadened ocher flagon (dae-ohr-fao)
+- yakked haggard leukemia (yke-hga-lue)
+- gashed tabular menthol (gse-tbl-mnh)
+- elapsed octal entrant (eas-otl-eta)
+- injected chichi bighorn (ijc-cih-bgo)
+- answered northern flyover (ase-nrh-fyv)
+- cradled roomy haler (cal-roy-hlr)
+- blazoned acetic kiosk (bao-aei-kok)
+- acceded ultimate bathos (acd-utm-bto)
+- relished flippant medulla (rls-fip-mdl)
+- creased excited chewer (ces-ect-cee)
+- keeled unlawful farmyard (kee-ulw-fry)
+- quivered glacial malice (qie-gai-mlc)
+- rared julienne javelin (rrd-jle-jvl)
+- glutted glassier essayist (gut-gas-esy)
+- seasoned sardonic walrus (sao-sro-wlu)
+- befogged figured edginess (bfg-fgr-egn)
+- respired indirect sequoia (rsi-idr-sqo)
+- scalped readier parkway (sap-rai-prw)
+- sledded metrical wadding (sed-mti-wdi)
+- relapsed showier kaftan (rlp-soi-kfa)
+- occurred readying rotation (ocr-ray-rtt)
+- chained flukier capacity (can-fui-cpc)
+- launched rarer lizard (luc-rrr-lzr)
+- dwarfed clouded icing (daf-cod-iig)

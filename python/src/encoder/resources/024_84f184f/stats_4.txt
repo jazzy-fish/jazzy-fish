@@ -1,0 +1,63 @@
+Result: [     197,212 years at 1/s ] [     6,219,288,324,900] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '024   ' [RND]
+
+Result: [         197 years at 1/ms] [     6,219,288,324,900] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '024   ' [RND]
+
+024        verb         1,788
+024        adverb       493
+024        noun         3,171
+024        adjective    2,225
+Total                   6,219,288,324,900
+Years at 1/s            197,212.34
+Years at 1/ms           197.212
+
+Sample words:
+- freshly sledded iciest woofer (feh-sed-iis-woe)
+- doubly archived climatic lechery (dul-aci-cia-lce)
+- minutely creased parted gherkin (mnt-ces-pre-gek)
+- narrowly meowed reflex shucks (nro-moe-rfe-suk)
+- slickly berried bandy sameness (sik-bri-bny-smn)
+- jerkily trailed oceanic menthol (jri-tal-oen-mnh)
+- vastly hashed unafraid genetics (vsl-hse-uar-gnt)
+- dismally broiled garlicky wapiti (dsa-bol-gri-wpt)
+- gaudily cocooned snobbish hockshop (gui-cco-sob-hcs)
+- spirally relaxed gainful annuity (sia-rlx-gif-ani)
+- densely gashed columned gneiss (dne-gse-clm-ges)
+- blandly debunked sexiest headland (bad-dbn-sxe-hal)
+- sparsely aroused intact verity (sas-aos-itc-vrt)
+- baldly poached mizzen wright (bll-pah-mze-wih)
+- jointly cried farther ejection (jit-cid-frh-eet)
+- blankly praised organic vowel (bak-pas-ogn-vwl)
+- worldly moussed obvious salad (wrd-mus-ovo-sld)
+- commonly ingested noisome laser (cmo-igs-nio-lsr)
+- globally imaged muddier assize (goa-iae-mdi-asz)
+- lightly reddened glorious puberty (lgt-rde-goi-pbr)
+- slovenly accorded depraved footfall (soe-acr-dpa-fof)
+- acutely toned lacking citation (aue-tnd-lci-ctt)
+- brutally foraged ignoble apricot (bua-frg-inb-arc)
+- broadly keeled faraway blotter (bod-kee-frw-bot)
+- garishly retyped daffy vesicle (grs-rtp-dfy-vsc)
+- equably summoned killing canasta (eub-smo-kli-cns)
+- sparely levied shiny osier (sae-lve-siy-oir)
+- vastly annealed vassal conclave (vsl-ana-vsa-cnl)
+- ideally codified doggoned dictum (iel-cdf-dgo-dcu)
+- lovingly enthused earnest tippler (lvn-etu-ere-tpl)
+- crudely tackled immobile tenement (cue-tcl-imb-tnm)
+- blindly giggled nicest actinium (bid-ggl-ncs-atn)
+- coarsely likened clumsier onlooker (cas-lkn-cus-olo)
+- airily rowed tripping fountain (arl-rwd-tip-fut)
+- moistly clashed finest lameness (mit-cah-fns-lmn)
+- mutually gaoled gnarled umbrella (mta-goe-gal-ube)
+- formerly groomed rigorous paranoia (fre-gom-rgr-prn)
+- impurely abjured fearless gauze (ipr-ajr-fal-gue)
+- facially drowned fabled bearskin (fca-don-fbe-bas)
+- finally needed odorous tansy (fnl-nee-ooo-tny)
+- madly dawned yeasty towhead (mdy-dwe-yat-twe)
+- gawkily traipsed sardonic stirrup (gwi-tap-sro-sir)
+- shiftily oxidised assumed scrutiny (sit-oii-asm-srt)
+- faintly mewed timeworn armlet (fit-mwd-tmw-ame)
+- archly entered nastier sirocco (acl-etr-nsi-src)
+- recently crusaded astral ignominy (rcn-cua-ata-inm)
+- scantily floated diabolic elephant (sat-fot-dao-eeh)
+- cosily malted wobbling income (csl-mle-wbl-icm)
+- mildly splayed daffier gearbox (mll-sly-dfi-gab)
+- ideally manured ongoing onlooker (iel-mnr-ogi-olo)

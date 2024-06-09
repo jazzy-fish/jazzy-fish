@@ -5,7 +5,6 @@ Helpers
 Various helper functions and preprocessor configurations.
 """
 
-import hashlib
 import itertools
 import pkg_resources
 from pathlib import Path
@@ -125,29 +124,3 @@ def load_ignored_words() -> List[str]:
 def is_letter(word):
     """Returns true if the word contains only a-zA-Z letters"""
     return all(char.isascii() and char.isalpha() for char in word.strip())
-
-
-def sha1(file: str) -> str:
-    """Calculate SHA-1 checksum of a file."""
-
-    sha1 = hashlib.sha1()
-    try:
-        with open(file, "rb") as f:
-            while chunk := f.read(8192):
-                sha1.update(chunk)
-    except FileNotFoundError:
-        raise ValueError(f"File not found: {file}")
-    except Exception as e:
-        raise ValueError(f"An error occurred while reading the file: {e}")
-
-    return sha1.hexdigest()
-
-
-def agg_sha1(checksums: List[str]) -> str:
-    """Calculate an aggregate checksum from a list of checksums."""
-    sha1 = hashlib.sha1()
-    # Sort to ensure consistent order
-    for checksum in sorted(checksums):
-        sha1.update(checksum.encode("utf-8"))
-
-    return sha1.hexdigest()

@@ -6,7 +6,7 @@ sys.path.insert(
     0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
 )
 
-from encoder.encoder import WordEncoder, EncoderException
+from encoder.encoder import WordEncoder, EncoderException, Wordlist
 
 
 class TestDecode(unittest.TestCase):
@@ -16,13 +16,11 @@ class TestDecode(unittest.TestCase):
         verbs = ["abandoned", "bearded", "checked"]
         adjectives = ["able", "blond", "chubby"]
         nouns = ["apple", "bird", "cat", "dog"]
-        self.words = [adverbs, verbs, adjectives, nouns]
-        self.id_chars = [0]
+        words = [adverbs, verbs, adjectives, nouns]
+        self.wordlist = Wordlist("0_NOVERIFY", words, verify_checksum=False)
 
     def test_should_fail(self):
-        encoder = WordEncoder(
-            self.words, id_char_positions=self.id_chars, min_sequence_size=1
-        )
+        encoder = WordEncoder(self.wordlist, min_phrase_size=1)
         with self.assertRaises(EncoderException):
             more_than_available = encoder.get_max() + 1
             encoder.encode(more_than_available)
@@ -37,9 +35,7 @@ class TestDecode(unittest.TestCase):
         ]
 
         for expected, min_seq, words in test_cases:
-            encoder = WordEncoder(
-                self.words, id_char_positions=self.id_chars, min_sequence_size=min_seq
-            )
+            encoder = WordEncoder(self.wordlist, min_phrase_size=min_seq)
 
             # words can be decoded to their corresponding value
             got = encoder.decode(words.split(" "))
@@ -55,9 +51,7 @@ class TestDecode(unittest.TestCase):
     def test_can_encode_and_decode_all_values(self):
         solution_space = range(
             0,
-            WordEncoder(
-                self.words, id_char_positions=self.id_chars, min_sequence_size=1
-            ).get_max(),
+            WordEncoder(self.wordlist, min_phrase_size=1).get_max(),
         )
         test_cases = (
             [(i, 1) for i in solution_space]
@@ -67,9 +61,7 @@ class TestDecode(unittest.TestCase):
         )
 
         for expected, min_words in test_cases:
-            encoder = WordEncoder(
-                self.words, id_char_positions=self.id_chars, min_sequence_size=min_words
-            )
+            encoder = WordEncoder(self.wordlist, min_phrase_size=min_words)
             encoded = encoder.encode(expected)
             encoded_str = " ".join(encoded.key_phrase)
             self.assertIsNotNone(encoded)

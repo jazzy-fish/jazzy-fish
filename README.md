@@ -124,6 +124,12 @@ appropriate values for your use-case.
 
 You can generate these by running the [preprocessor.generate_words](python/src/preprocessor/generate_words.py) script.
 
+By default, jazzy-fish ships with the following wordlists:
+
+- [012_8562fb9](python/src/encoder/resources/012_8562fb9)
+- [024_84f184f](python/src/encoder/resources/024_84f184f)
+- [01234_f233650](python/src/encoder/resources/01234_f233650)
+
 ### Second-frequency
 
 For a more seldom generation frequency, use one of the following wordlists:

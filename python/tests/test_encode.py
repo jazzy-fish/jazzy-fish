@@ -6,7 +6,7 @@ sys.path.insert(
     0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
 )
 
-from encoder.encoder import WordEncoder, EncoderException
+from encoder.encoder import WordEncoder, EncoderException, Wordlist
 
 
 class TestEncode(unittest.TestCase):
@@ -16,13 +16,11 @@ class TestEncode(unittest.TestCase):
         verbs = ["abandoned", "bearded", "checked"]
         adjectives = ["able", "blond", "chubby"]
         nouns = ["apple", "bird", "cat", "dog"]
-        self.words = [adverbs, verbs, adjectives, nouns]
-        self.id_chars = [0]
+        words = [adverbs, verbs, adjectives, nouns]
+        self.wordlist = Wordlist("0_NOVERIFY", words, verify_checksum=False)
 
     def test_should_fail(self):
-        encoder = WordEncoder(
-            self.words, id_char_positions=self.id_chars, min_sequence_size=1
-        )
+        encoder = WordEncoder(self.wordlist, min_phrase_size=1)
 
         with self.assertRaises(EncoderException):
             more_than_available = encoder.get_max() + 1
@@ -38,9 +36,7 @@ class TestEncode(unittest.TestCase):
         ]
 
         for num, min_seq, expected in test_cases:
-            result = WordEncoder(
-                self.words, id_char_positions=self.id_chars, min_sequence_size=min_seq
-            ).encode(num)
+            result = WordEncoder(self.wordlist, min_phrase_size=min_seq).encode(num)
             got = " ".join(result.key_phrase)
             prefix = "".join([s[0] for s in result.key_phrase])
             msg = f"Error {num:3} (min_words={min_seq:1}); expected: '{expected:30}', got: '{got:30}', prefix: '{prefix:>4}'"
@@ -49,9 +45,7 @@ class TestEncode(unittest.TestCase):
     def test_can_encode_all_values(self):
         solution_space = range(
             0,
-            WordEncoder(
-                self.words, id_char_positions=self.id_chars, min_sequence_size=1
-            ).get_max(),
+            WordEncoder(self.wordlist, min_phrase_size=1).get_max(),
         )
         test_cases = (
             [(i, 1) for i in solution_space]
@@ -61,9 +55,7 @@ class TestEncode(unittest.TestCase):
         )
 
         for num, min_seq in test_cases:
-            encoded = WordEncoder(
-                self.words, id_char_positions=self.id_chars, min_sequence_size=min_seq
-            ).encode(num)
+            encoded = WordEncoder(self.wordlist, min_phrase_size=min_seq).encode(num)
             self.assertIsNotNone(encoded)
 
             got = " ".join(encoded.key_phrase)

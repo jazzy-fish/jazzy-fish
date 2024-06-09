@@ -9,13 +9,12 @@ for their use-case.
 
 import argparse
 from functools import reduce
-from helpers import sha1, agg_sha1
 from pathlib import Path
 import random
-from encoder.encoder import WordEncoder
+from encoder.encoder import WordEncoder, Wordlist, aggregate_checksums
 import time
 from typing import List, Set, Tuple
-from helpers import (
+from preprocessor.helpers import (
     DATABASE,
     MAX_LENGTH,
     MIN_LENGTH,
@@ -212,9 +211,11 @@ def main() -> None:
 
                 # Store the selected words
                 outfile = f"{wordlist_out_dir}/{word_part}.txt"
-                with open(outfile, "a") as out:
+                with open(outfile, "w") as out:
                     for row in result:
                         out.write(row[0] + "\n")
+                    # Remove the last newline
+                    out.truncate(out.tell() - 1)
                 print(f"Saved '{outfile}'\n")
 
                 # Store the wordlists and stats
@@ -236,16 +237,26 @@ def main() -> None:
 
             # Generate checksums
             checksums = list()
+            checksum_file = list()
             for f in wordlist_files:
-                checksums.append(f"{sha1(f)}  {Path(f).name}")
-            checksums.sort()
+                # Compute checksum by reading each wordfile
+                with open(f, "r") as wfile:
+                    words_in_file = [ln.strip() for ln in wfile]
+                checksum = Wordlist.checksum(words_in_file)
 
-            # The first checksum will represent the aggregate checksum for all wordlists
+                # Store checksums
+                checksums.append(checksum)
+                checksum_file.append(f"{checksum}  {Path(f).name}")
+
+            # Compute the aggregated checksum that accounts for the abbrevation position
+            agg_checksum = aggregate_checksums([position_in_word] + checksums)
+
+            # Generate the checksum file
             outfile = f"{wordlist_out_dir}/checksums.sha1"
-            agg_checksum = agg_sha1([position_in_word] + checksums)
             with open(outfile, "w") as out:
+                # The first checksum will represent the aggregate checksum for all wordlists
                 out.write(f"{agg_checksum}\n")
-                for checksum in checksums:
+                for checksum in sorted(checksum_file):
                     out.write(f"{checksum}\n")
 
             # Rename the output wordlist dir to include the abbreviated aggregated checksum
@@ -329,7 +340,7 @@ def _save_stats(
         words = _generate_sample_words(
             wordlist_files=wordlist_files,
             position_in_word=position_in_word,
-            min_sequence_size=len(word_parts),
+            min_phrase_size=len(word_parts),
         )
         out.writelines(words)
 
@@ -337,7 +348,7 @@ def _save_stats(
 def _generate_sample_words(
     wordlist_files: List[str],
     position_in_word: str,
-    min_sequence_size: int,
+    min_phrase_size: int,
     how_many: int = 50,
     template: str = "adverb verb adjective noun",
 ) -> List[str]:
@@ -351,24 +362,21 @@ def _generate_sample_words(
 
     # Initialize the encoder with the designated template
     ordered = [words[part] for part in template.split(" ")]
-    encoder = WordEncoder(
-        word_lists=ordered,
-        id_char_positions=[int(c) for c in position_in_word],
-        min_sequence_size=min_sequence_size,
-    )
+    wordlist = Wordlist(f"{position_in_word}_NOVERIFY", ordered, verify_checksum=False)
+    encoder = WordEncoder(wordlist=wordlist, min_phrase_size=min_phrase_size)
 
     # Generate words
     word_size = f"[{MIN_LENGTH}, {MAX_LENGTH}]"
     print(
-        f"Generating sample words for '{position_in_word}', {min_sequence_size} words, word size {word_size}..."
+        f"Generating sample words for '{position_in_word}', {min_phrase_size} words, word size {word_size}..."
     )
 
     # Determine the minimum value represented by the desired word size (i.e., W*W)
-    sizes = [len(o) for o in ordered[-min_sequence_size + 1 :]]
+    sizes = [len(o) for o in ordered[-min_phrase_size + 1 :]]
     min_for_desired_word_size = reduce(lambda x, y: x * y, sizes)
 
     # Determine the maximum value represented by the desired word size (i.e., W*W*W - 1)
-    sizes = [len(o) for o in ordered[-min_sequence_size:]]
+    sizes = [len(o) for o in ordered[-min_phrase_size:]]
     max_for_desired_word_size = reduce(lambda x, y: x * y, sizes) - 1
 
     results: List[str] = list()
