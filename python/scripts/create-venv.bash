@@ -1,7 +1,7 @@
 #!/bin/bash
 readonly VENV="venv"
 
-if [ ! -e "setup.py" ]; then
+if [ ! -e "pyproject.toml" ]; then
     echo "Current directory does not appear to be a python package..."
     echo
     exit 1
