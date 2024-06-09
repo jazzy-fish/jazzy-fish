@@ -11,10 +11,10 @@ import argparse
 from functools import reduce
 from pathlib import Path
 import random
-from encoder.encoder import WordEncoder, Wordlist, aggregate_checksums
+from jazzy_fish.encoder import WordEncoder, Wordlist, aggregate_checksums
 import time
 from typing import List, Set, Tuple
-from preprocessor.helpers import (
+from jazzy_fish_tools.helpers import (
     DATABASE,
     MAX_LENGTH,
     MIN_LENGTH,

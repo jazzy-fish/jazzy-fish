@@ -2,5 +2,5 @@
 Tests
 =====
 
-This package contains all the tests that verify the logic's correctness.
+This package verifies logic correctness.
 """

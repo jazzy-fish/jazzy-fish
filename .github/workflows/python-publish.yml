@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         working-directory: python
         run: |
-          make recreate-venv
+          make create-venv
           eval "$(make venv)"
           make install
 
@@ -58,10 +58,10 @@ jobs:
           eval "$(make venv)"
           make publish
 
+      - name: Waiting 30 seconds for the PyPI indexes to be updated
+        run: sleep 30
+
       - name: Verify package install from PyPI
         working-directory: python
         run: |
-          echo "Waiting 30 seconds for the PyPI index to be updated..."
-          sleep 30
-          eval "$(make venv)"
           make publish-verify

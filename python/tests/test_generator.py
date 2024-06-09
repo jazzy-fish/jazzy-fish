@@ -1,16 +1,10 @@
 from datetime import datetime, timezone
-import os
-import sys
 import time
 from typing import List
 import unittest
 import concurrent.futures
 
-sys.path.insert(
-    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
-)
-
-from encoder.generator import (
+from jazzy_fish.generator import (
     Generator,
     GeneratorException,
     Resolution,

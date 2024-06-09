@@ -1,11 +1,8 @@
 """
-Encoder
-=======
+Jazzy Fish
+==========
 
-This package contains the code required by clients who wish to generate jazzy-fish word sequences.
-
-Functions:
-    load_wordlist - Helper function that can be used to load a wordlist from a specified path.
+This package contains the code required by clients who wish to generate jazzy-fish keyphrases.
 
 Modules:
     encoder - Contains the WordEncoder class that can encode integers to [word sequences]
@@ -18,8 +15,8 @@ Usage:
     Import the package and use the provided classes:
 
     from datetime import datetime, timezone
-    from encoder.encoder import WordEncoder, load_wordlist
-    from encoder.generator import Generator, Resolution
+    from jazzy_fish.encoder import WordEncoder, load_wordlist
+    from jazzy_fish.generator import Generator, Resolution
 
     # Configure a starting epoch for the sequence
     # Alternatively, you can use the UNIX epoch (0), but that will exhaust some of the solution space
@@ -35,7 +32,7 @@ Usage:
     )
 
     # Load the default word list included in the jazzy-fish library
-    words = load_wordlist("resources/012_8562fb9", package_name="encoder.encoder")
+    words = load_wordlist("resources/012_8562fb9", package_name="jazzy_fish.encoder")
     # and initialize an encoder
     encoder = WordEncoder(words, 4)
 
@@ -44,3 +41,15 @@ Usage:
     sequence = encoder.encode(id)
 
 """
+
+from .encoder import KeyPhrase, WordEncoder, Wordlist
+from .generator import Generator, Resolution, ThreadSafeGenerator
+
+__all__ = [
+    "Generator",
+    "KeyPhrase",
+    "Resolution",
+    "ThreadSafeGenerator",
+    "WordEncoder",
+    "Wordlist",
+]

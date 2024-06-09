@@ -1,20 +1,21 @@
 SHELL := /bin/bash
 
 .PHONY: clean
-clean:
+clean: clean-venv
 	@echo Cleaning up builds and caches...
 	@rm -rf {out,dist,build}
 	@find . -type d -path ./venv -prune -o -name ".pytest_cache" -exec rm -rf {} \;
 	@find . -type d -path ./venv -prune -o -name "__pycache__" -exec rm -rf {} \;
 	@find . -type d -path ./venv -prune -o -name "*.egg-info" -exec rm -rf {} \;
 
-
 .PHONY: clean-venv
 clean-venv:
-	scripts/delete-venv.bash
+	@echo "Deleting virtualenv..."
+	@scripts/delete-venv.bash
 
-.PHONY: recreate-venv
-recreate-venv:
+.PHONY: create-venv
+create-venv:
+	@echo "Creating virtualenv..."
 	@scripts/create-venv.bash
 
 .PHONY: venv
@@ -23,14 +24,28 @@ venv:
 
 .PHONY: install
 install:
+	@echo "Installing all dependencies and editable package..."
+	@pip install '.[cli]'
 	@pip install '.[dev]'
 	@pip install -e .
 
 .PHONY: build
 build:
+	@echo Cleaning up previous builds...
+	@rm -rf dist/
+	@echo "Building..."
 	@pip install '.[dev]'
 	@python -m build
-	@check-manifest --ignore "wordlists/*/*,scripts/*,.pypirc"
+
+.PHONY: build-inspect
+build-inspect:
+	@echo
+	@echo "Inspecting wheel..."
+	@wheel2json dist/jazzy_fish-$(shell cat VERSION)-py3-none-any.whl
+
+	@echo
+	@echo "Inspecting archive..."
+	@tar -tf dist/jazzy_fish-$(shell cat VERSION).tar.gz
 
 .PHONY: test
 test:
@@ -47,6 +62,11 @@ publish-test: build
 	@echo "Publishing to test repo..."
 	@TWINE_PASSWORD=$(TESTPYPI_PASSWORD) twine upload --repository-url https://test.pypi.org/legacy/ dist/\*
 
+.PHONY: publish-test-verify
+publish-test-verify:
+	@echo "Verifying test.PyPI package..."
+	@scripts/verify-publish.bash --test
+
 .PHONY: publish
 publish: build
 	@echo "Publishing to PyPI..."
@@ -55,16 +75,8 @@ publish: build
 .PHONY: publish-verify
 publish-verify:
 	@echo "Verifying PyPI package..."
-	@scripts/verify-publish.bash
+	@scripts/verify-publish.bash --prod
 
 show-stats:
-	@echo
-	@echo "1/millisecond:"
-	find out/processed -name 'stats*' -exec grep 'Result: ' {} \; | grep '1/ms' | sort
-	@echo
-	@echo "1/second:"
-	find out/processed -name 'stats*' -exec grep 'Result: ' {} \; | grep '1/s' | sort
-
-store-stats:
-	scripts/output-wordlist.bash
-	$(MAKE) show-stats | tee -a ../docs/comparison.txt
+	@echo "Showing statistics for generated wordlists (out/processed)..."
+	@scripts/show-stats.bash

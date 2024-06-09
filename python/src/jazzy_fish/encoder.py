@@ -2,16 +2,13 @@
 Encoder
 =======
 
-Contains the WordEncoder class that can encode integers to [word sequences]
-and decode [word sequences] to integers.
+Contains the WordEncoder class that encodes integers to keyphrases and decodes keyphrases and keyphrase abbreviations to integers.
 
 Classes:
     EncoderException - Raised when a WordEncoder is misconfigured.
-    Sequence - Represents an encoded word sequence, along with its prefix short form, and original integer value.
+    Sequence - Represents an encoded keyphrase, along with its prefix short form, and original integer value.
     WordEncoder - Encodes integer identifiers into key phrases and decodes key phrases and abbreviated phrases into integers.
     Wordlist - Represents a wordlist used by a WordEncoder to generate key phrases.
-
-
 """
 
 import hashlib
@@ -138,8 +135,8 @@ class Wordlist:
         return sha1.hexdigest()
 
 
-class Sequence(NamedTuple):
-    """Represents an encoded identifier, along with its abbreviated form, and original integer value."""
+class KeyPhrase(NamedTuple):
+    """Represents a unique key phrase, along with its abbreviated form, and original integer value."""
 
     id: int
     abbr: str
@@ -156,7 +153,7 @@ class EncoderException(Exception):
 
 class WordEncoder:
     """
-    Encodes integers to [word sequences] and decodes [word sequences] to integers.
+    Encodes integers to keyphrases and decodes keyphrases and keyphrase abbreviations to integers.
 
     Attributes:
         wordlist (Wordlist): Word list used to map integers to words.
@@ -207,7 +204,7 @@ class WordEncoder:
         self._max_values = self._compute_max_values()
         self._abs_max = self._max_values[-1]
 
-    def encode(self, number: int) -> Sequence:
+    def encode(self, number: int) -> KeyPhrase:
         """
         Encodes an integer to a [word sequence].
 
@@ -251,7 +248,7 @@ class WordEncoder:
         short_sequence = [self._wordlist.to_prefix(word) for word in key_phrase]
         abbr = self.sequence_separator.join(short_sequence)
 
-        return Sequence(abbr=abbr, key_phrase=key_phrase, id=original_val)
+        return KeyPhrase(abbr=abbr, key_phrase=key_phrase, id=original_val)
 
     def decode(self, words: List[str]) -> int:
         """

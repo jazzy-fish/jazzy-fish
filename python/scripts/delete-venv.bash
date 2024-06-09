@@ -1,8 +1,14 @@
 #!/bin/bash
 readonly VENV="venv"
 
-if [ ! -e "setup.py" ]; then
+if [ ! -e "pyproject.toml" ]; then
     echo "Current directory does not appear to be a python package..."
+    echo
+    exit 1
+fi
+
+if [[ "$VIRTUAL_ENV" != "" ]]; then
+    echo "You're in a virtualenv, deactivate it first."
     echo
     exit 1
 fi
