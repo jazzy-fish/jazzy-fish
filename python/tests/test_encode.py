@@ -22,17 +22,17 @@ class TestEncode(unittest.TestCase):
 
     def test_expected_results(self):
         test_cases = [
-            (23, 1, "bearded chubby dog"),
-            (24, 1, "checked able apple"),
-            (107, 1, "capably checked chubby dog"),
-            (12, 1, "bearded able apple"),
-            (4, 1, "blond apple"),
+            (23, 1, "bearded-chubby-dog"),
+            (24, 1, "checked-able-apple"),
+            (107, 1, "capably-checked-chubby-dog"),
+            (12, 1, "bearded-able-apple"),
+            (4, 1, "blond-apple"),
         ]
 
         for num, min_seq, expected in test_cases:
             result = WordEncoder(self.wordlist, min_phrase_size=min_seq).encode(num)
-            got = " ".join(result.key_phrase)
-            prefix = "".join([s[0] for s in result.key_phrase])
+            got = result.keyphrase
+            prefix = "".join([s[0] for s in result.keyphrase])
             msg = f"Error {num:3} (min_words={min_seq:1}); expected: '{expected:30}', got: '{got:30}', prefix: '{prefix:>4}'"
             self.assertEqual(got, expected, msg=msg)
 
@@ -52,8 +52,8 @@ class TestEncode(unittest.TestCase):
             encoded = WordEncoder(self.wordlist, min_phrase_size=min_seq).encode(num)
             self.assertIsNotNone(encoded)
 
-            got = " ".join(encoded.key_phrase)
-            prefix = "".join([s[0] for s in encoded.key_phrase])
+            got = encoded.keyphrase
+            prefix = "".join([s[0] for s in encoded.keyphrase])
             msg = f"Encoded '{num:3}' (min_words={min_seq:1}), got: '{got:30}', prefix: '{prefix:>4}'"
             print(msg)
 

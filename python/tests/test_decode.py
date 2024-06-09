@@ -21,24 +21,24 @@ class TestDecode(unittest.TestCase):
 
     def test_expected_results(self):
         test_cases = [
-            (23, 1, "bearded chubby dog"),
-            (24, 1, "checked able apple"),
-            (107, 1, "capably checked chubby dog"),
-            (12, 1, "bearded able apple"),
-            (4, 1, "blond apple"),
+            (23, 1, "bearded-chubby-dog"),
+            (24, 1, "checked-able-apple"),
+            (107, 1, "capably-checked-chubby-dog"),
+            (12, 1, "bearded-able-apple"),
+            (4, 1, "blond-apple"),
         ]
 
         for expected, min_seq, words in test_cases:
             encoder = WordEncoder(self.wordlist, min_phrase_size=min_seq)
 
             # words can be decoded to their corresponding value
-            got = encoder.decode(words.split(" "))
+            got = encoder.decode(words)
             msg = f"Error {words:30} (min_words={min_seq:1}); expected: '{expected:3}', got: '{got:3}'"
             self.assertEqual(got, expected, msg=msg)
 
             # short ID sequences can be decoded to their corresponding value
             encoded = encoder.encode(expected)
-            got2 = encoder.decode_id(encoded.abbr)
+            got2 = encoder.decode_abbr(encoded.abbr)
             msg2 = f"Error {encoded.abbr:30} (min_words={min_seq:1}); expected: '{expected:3}', got: '{got2:3}'"
             self.assertEqual(got2, expected, msg2)
 
@@ -57,14 +57,14 @@ class TestDecode(unittest.TestCase):
         for expected, min_words in test_cases:
             encoder = WordEncoder(self.wordlist, min_phrase_size=min_words)
             encoded = encoder.encode(expected)
-            encoded_str = " ".join(encoded.key_phrase)
+            encoded_str = " ".join(encoded.keyphrase)
             self.assertIsNotNone(encoded)
 
-            got = encoder.decode(encoded.key_phrase)
+            got = encoder.decode(encoded.keyphrase)
             msg = f"Encoded '{expected:3}' (min_words={min_words:1}), got: '{encoded_str:30}', then decoded back to '{got:3}'"
             self.assertEqual(got, expected, msg)
 
-            got2 = encoder.decode_id(encoded.abbr)
+            got2 = encoder.decode_abbr(encoded.abbr)
             msg2 = f"Encoded '{expected:3}' (min_words={min_words:1}), got: '{encoded.abbr:30}', then decoded back to '{got2:3}'"
             self.assertEqual(got2, expected, msg2)
 

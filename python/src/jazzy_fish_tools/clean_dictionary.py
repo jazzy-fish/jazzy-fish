@@ -12,10 +12,7 @@ from pathlib import Path
 import shutil
 import time
 from typing import List, Set
-from jazzy_fish_tools.helpers import (
-    is_letter,
-    load_ignored_words,
-)
+from jazzy_fish_tools import helpers
 
 # If True, updates the same input word list
 # if False, creates a new file at the designated output location
@@ -29,7 +26,7 @@ def _clean(file: Path, ignored: Set[str] = set()) -> List[str]:
     with open(file, "r") as f:
         lines = f.readlines()
     # Remove words that contain non-alpha characters
-    lines = list(filter(is_letter, lines))
+    lines = list(filter(helpers.is_letter, lines))
     # Convert all words to lowercase
     lines = list(map(lambda w: w.lower(), lines))
     # Remove ignored words
@@ -45,7 +42,7 @@ def clean_dictionary(dictionary_dir: str, backup_original: bool = False) -> None
 
     # Load ignores
     ignored: Set[str] = set()
-    ignored.update(load_ignored_words())
+    ignored.update(helpers.load_ignored_words())
 
     # Find all files containing list of words, in the directory
     directory = Path(dictionary_dir)

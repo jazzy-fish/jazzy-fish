@@ -28,10 +28,13 @@ class TestIntegrationGenerateSequence(unittest.TestCase):
         encoded = encoder.encode(id)
 
         # ASSERT
-        self.assertEqual(len(encoded.key_phrase), 4)
+        self.assertEqual(len(encoded.keyphrase.split(encoder.separator)), 4)
 
-        got = encoder.decode(encoded.key_phrase)
+        got = encoder.decode(encoded.keyphrase)
         self.assertEqual(got, id)
+
+        got2 = encoder.decode_abbr(encoded.abbr)
+        self.assertEqual(got2, id)
 
 
 if __name__ == "__main__":

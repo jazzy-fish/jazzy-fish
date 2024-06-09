@@ -6,7 +6,7 @@ Contains the WordEncoder class that encodes integers to keyphrases and decodes k
 
 Classes:
     EncoderException - Raised when a WordEncoder is misconfigured.
-    Sequence - Represents an encoded keyphrase, along with its prefix short form, and original integer value.
+    KeyPhrase - Represents an encoded keyphrase, along with its prefix short form, and original integer value.
     WordEncoder - Encodes integer identifiers into key phrases and decodes key phrases and abbreviated phrases into integers.
     Wordlist - Represents a wordlist used by a WordEncoder to generate key phrases.
 """
@@ -26,6 +26,8 @@ class Wordlist:
     """Represents a wordlist used by a WordEncoder to generate key phrases.
 
     Parameters:
+        name (str): The name of the underlying dictionary.
+        dictionary_words (List[List[str]]): Words defined in the specified dictionary.
         verify_checksum (bool): If true, will verify that the name and checksum of the provided wordlist matches its contents
     """
 
@@ -140,7 +142,7 @@ class KeyPhrase(NamedTuple):
 
     id: int
     abbr: str
-    key_phrase: List[str]
+    keyphrase: str
 
 
 class EncoderException(Exception):
@@ -159,14 +161,15 @@ class WordEncoder:
         wordlist (Wordlist): Word list used to map integers to words.
         min_phrase_size (int): What is the minimum sequence that should be returned.
                                If not provided, it will default to the wordlist size.
-        sequence_separator (str): The separator character used to delimit sequence parts
+        separator (str): The separator character used to delimit keyphrase and abbreviation parts
+                         (e.g., "niftier-engine", or "nif-eng")
     """
 
     def __init__(
         self,
         wordlist: Wordlist,
         min_phrase_size: Optional[int] = None,
-        sequence_separator: str = "-",
+        separator: str = "-",
     ):
         """
         Constructs a new instance of WordEncoder.
@@ -176,7 +179,7 @@ class WordEncoder:
             min_sequence_size (int): What is the minimum sequence that should be returned.
                                     If not provided, it will default to the number
                                     word lists provided.
-            sequence_separator (str): The separator character used to delimit sequence parts
+            separator (str): The separator character used to delimit sequence parts
         """
         self._wordlist = wordlist
         self._max_phrase_size = self._wordlist._max_words_in_phrase
@@ -193,11 +196,11 @@ class WordEncoder:
         self._min_phrase_size = min_phrase_size
 
         # ensure that any provided split characters are valid
-        if not sequence_separator or len(sequence_separator) > 1:
+        if not separator or len(separator) > 1:
             raise EncoderException(
-                f"You must provide a single character that separates parts of the short identifier: '{sequence_separator}' is not valid"
+                f"You must provide a single character that separates parts of the short identifier: '{separator}' is not valid"
             )
-        self.sequence_separator = sequence_separator
+        self.separator = separator
 
         # cache other needed values
         self._radices = self._wordlist._radices
@@ -212,7 +215,7 @@ class WordEncoder:
             number (int): The integer to encode.
 
         Returns:
-            List[str]: The corresponding word sequence.
+            KeyPhrase: The resulting keyphrase.
         """
 
         # Validate the input
@@ -242,25 +245,27 @@ class WordEncoder:
         input = list(
             zip(self._wordlist._words[-words_needed:], indexes[-words_needed:])
         )
-        key_phrase = [lst[i] for lst, i in input]
+        selected_words = [lst[i] for lst, i in input]
 
         # Calculate the short identifier
-        short_sequence = [self._wordlist.to_prefix(word) for word in key_phrase]
-        abbr = self.sequence_separator.join(short_sequence)
+        short_sequence = [self._wordlist.to_prefix(word) for word in selected_words]
+        abbr = self.separator.join(short_sequence)
+        keyphrase = self.separator.join(selected_words)
 
-        return KeyPhrase(abbr=abbr, key_phrase=key_phrase, id=original_val)
+        return KeyPhrase(abbr=abbr, keyphrase=keyphrase, id=original_val)
 
-    def decode(self, words: List[str]) -> int:
+    def decode(self, keyphrase: str) -> int:
         """
-        Decodes a [word sequence] to an integer.
+        Decodes a keyphrase to an integer.
 
         Parameters:
-            List[str]: The word sequence to decode.
+            words (List[str]): The word sequence to decode.
 
         Returns:
             int: The corresponding integer.
         """
 
+        words = keyphrase.split(self.separator)
         seq_length = len(words)
         if seq_length > self._max_phrase_size:
             raise EncoderException(
@@ -280,17 +285,27 @@ class WordEncoder:
 
         return result
 
-    def decode_id(self, id: str):
-        word_ids = id.split(self.sequence_separator)
-        if not len(word_ids):
+    def decode_abbr(self, abbr: str) -> int:
+        """
+        Decodes an abbreviation to an integer.
+
+        Parameters:
+            abbr (str): The keyphrase abbreviation to decode.
+
+        Returns:
+            int: The corresponding integer.
+        """
+
+        word_abbrs = abbr.split(self.separator)
+        if not len(word_abbrs):
             raise EncoderException(
-                f"The id ({id}) could not be split into words using the provided split character ({self.sequence_separator})"
+                f"The id ({abbr}) could not be split into words using the provided split character ({self.separator})"
             )
-        seq_length = len(word_ids)
+        seq_length = len(word_abbrs)
 
         # Calculate the indices of each specified word
         relevant_prefixes = self._wordlist._abbr_to_pos[-seq_length:]
-        indices = [relevant_prefixes[i][prefix] for i, prefix in enumerate(word_ids)]
+        indices = [relevant_prefixes[i][prefix] for i, prefix in enumerate(word_abbrs)]
 
         # Transform indexes into integers
         result = 0
