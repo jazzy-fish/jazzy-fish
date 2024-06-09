@@ -36,7 +36,7 @@ fi
 
 echo "Creating a virtual env..."
 VENV="$(mktemp -d)"
-VERSION="$(cat "$DIR"/../../VERSION)"
+VERSION="$(cat "$DIR"/../VERSION)"
 python -m venv "$VENV"
 
 echo "Copying verification script..."

@@ -3,7 +3,7 @@ set -ueo pipefail
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 readonly DIR
-VERSION_FILE="$DIR/../../VERSION"
+VERSION_FILE="$DIR/../VERSION"
 
 # Fetch the latest tags
 git fetch --tags
