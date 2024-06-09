@@ -7,6 +7,11 @@ if [ ! -e "pyproject.toml" ]; then
     exit 1
 fi
 
+if [[ "$VIRTUAL_ENV" != "" ]]; then
+    echo "Deactivating current virtualenv..."
+    deactivate
+fi
+
 if [ -d "$VENV" ]; then
     rm -rf "$VENV"
 fi

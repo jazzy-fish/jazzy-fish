@@ -103,7 +103,7 @@ You may replace the wordlist, with a directory of your choosing, as long as it c
 - verb.txt
 - noun.txt
 
-After running this command, you can examine all outputs in the `out/processed` directory and you can see a high-level comparison by running `make show-stats`.
+After running this command, you can examine all outputs in the `out/processed` directory and you can see a high-level comparison by running `scripts/show-stats.bash`.
 
 ## Developers
 

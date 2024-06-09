@@ -37,6 +37,16 @@ generate-wordlists = "preprocessor.generate_wordlists:main"
 requires = ["hatchling", "hatch-requirements-txt"]
 build-backend = "hatchling.build"
 
+[tool.hatch.build]
+# https://git-scm.com/docs/gitignore#_pattern_format
+exclude = [
+    "Makefile",
+    ".pypirc",
+    "tests/**",
+    "scripts/**",
+    "!scripts/show-stats.bash",
+]
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/encoder", "src/preprocessor"]
 
@@ -46,6 +56,9 @@ files = ["requirements.txt"]
 [tool.hatch.metadata.hooks.requirements_txt.optional-dependencies]
 cli = ["requirements-cli.txt"]
 dev = ["requirements-dev.txt"]
+
+[tool.hatch.envs.venv]
+type = "virtual"
 
 [tool.hatch.version]
 path = "./VERSION"
