@@ -7,15 +7,143 @@ and decode [word sequences] to integers.
 
 Classes:
     EncoderException - Raised when a WordEncoder is misconfigured.
-    WordEncoder - Encodes and decodes integers and [word sequences].
+    Sequence - Represents an encoded word sequence, along with its prefix short form, and original integer value.
+    WordEncoder - Encodes integer identifiers into key phrases and decodes key phrases and abbreviated phrases into integers.
+    Wordlist - Represents a wordlist used by a WordEncoder to generate key phrases.
+
+
 """
 
-from typing import List, Optional
+import hashlib
+import io
+from pathlib import Path
+from typing import List, Optional, NamedTuple
 
 import pkg_resources
 
 # Specifies a default order for constructed sentences.
 DEFAULT_WORD_ORDER: List[str] = ["adverb", "verb", "adjective", "noun"]
+
+
+class Wordlist:
+    """Represents a wordlist used by a WordEncoder to generate key phrases.
+
+    Parameters:
+        verify_checksum (bool): If true, will verify that the name and checksum of the provided wordlist matches its contents
+    """
+
+    def __init__(
+        self, name: str, dictionary_words: List[List[str]], verify_checksum: bool = True
+    ):
+        """
+        Constructs a new instance of Wordlist.
+
+        Parameters:
+            name (str): The name of the underlying dictionary.
+            dictionary_words (List[List[str]]): Words defined in the specified dictionary.
+            verify_checksum (bool): If true, will verify that the name and checksum of the provided wordlist matches its contents.
+        """
+
+        # Determine the dictionary's name and checksum
+        name_parts = name.split("_")
+        if len(name_parts) != 2:
+            raise ValueError(
+                f"Dictionary name is invalid ({name}), should match '[prefix]_[checksum]'"
+            )
+        if not len(name_parts[0]) or not all(["0" <= c < "9" for c in name_parts[0]]):
+            raise ValueError(
+                f"Dictionary name must contain the identifying positions for word abbreviations, got: '{name_parts[0]}'"
+            )
+
+        self._abbr_positions = name_parts[0]
+        self._abbr_char_positions = [int(c) for c in name_parts[0]]
+        self._checksum = name_parts[1]
+
+        # Load and cache wordlists
+        self._words = [[word.strip() for word in lst] for lst in dictionary_words]
+        # Map words to dictionary position
+        self._word_positions = [
+            {word.strip(): i for i, word in enumerate(lst)} for lst in dictionary_words
+        ]
+        # Map of word abbreviations to dictionary positions
+        self._abbr_to_pos = [
+            {self.to_prefix(word.strip()): idx for idx, word in enumerate(lst)}
+            for lst in dictionary_words
+        ]
+
+        # Check that the provided words match the provided dictionary name
+        if verify_checksum:
+            checksum = Wordlist.compute_checksum(self._words, self._abbr_positions)
+            hash = checksum[:7]
+            if self._checksum != hash:
+                raise ValueError(
+                    f"Checksum validation has failed, expected '{self._checksum}', got '{hash}'"
+                )
+
+        # Stores the attributes needed by WordEncoder to fulfill encode/decode requests
+        self._radices = [len(lst) for lst in self._words]
+        self._max_words_in_phrase = len(self._words)
+
+    def to_prefix(self, word: str) -> str:
+        """Abbreviates a word, based on the configured positions"""
+        return "".join([word[i] for i in self._abbr_char_positions])
+
+    @staticmethod
+    def load(
+        from_path: str,
+        package_name: Optional[str] = None,
+        word_order: List[str] = DEFAULT_WORD_ORDER,
+    ):
+        """
+        Given a path, load all words in the wordlist in the specified order.
+
+        Parameters:
+            from_path (str): Specifies a directory that contains a wordlist.
+            package_name (Optional[str]): If specified, the path will be loaded from a package.
+            word_lists (List[str]): Specifies the order in which the words will be loaded.
+                                    Defaults to DEFAULT_WORD_ORDER.
+
+        Returns:
+            Wordlist: An initialized Wordlist class
+        """
+
+        dictionary_name = Path(from_path).name
+        words = [
+            _read_words(f"{from_path}/{word}.txt", package_name) for word in word_order
+        ]
+
+        return Wordlist(name=dictionary_name, dictionary_words=words)
+
+    @staticmethod
+    def compute_checksum(wordlists: List[List[str]], position_in_word: str) -> str:
+        """Computes a checksum for the specified wordlists and abbreviation position."""
+
+        checksums = [Wordlist.checksum(words) for words in wordlists]
+        checksums.sort()
+        return aggregate_checksums([position_in_word] + checksums)
+
+    @staticmethod
+    def checksum(words: List[str]) -> str:
+        """Calculates the SHA-1 checksum of a list of words."""
+
+        sha1 = hashlib.sha1()
+        bytes = "\n".join(words).encode("utf-8")
+        buffer = io.BytesIO(bytes)
+        try:
+            while chunk := buffer.read(8192):
+                sha1.update(chunk)
+        finally:
+            buffer.close()
+
+        return sha1.hexdigest()
+
+
+class Sequence(NamedTuple):
+    """Represents an encoded identifier, along with its abbreviated form, and original integer value."""
+
+    id: int
+    abbr: str
+    key_phrase: List[str]
 
 
 class EncoderException(Exception):
@@ -31,43 +159,55 @@ class WordEncoder:
     Encodes integers to [word sequences] and decodes [word sequences] to integers.
 
     Attributes:
-        word_lists (List[List[str]]): Word lists used to map integers to words.
-        min_sequence_size (int): What is the minimum sequence that should be returned.
-                                 If not provided, it will default to the number
-                                 word lists provided.
+        wordlist (Wordlist): Word list used to map integers to words.
+        min_phrase_size (int): What is the minimum sequence that should be returned.
+                               If not provided, it will default to the wordlist size.
+        sequence_separator (str): The separator character used to delimit sequence parts
     """
 
     def __init__(
-        self, word_lists: List[List[str]], min_sequence_size: Optional[int] = None
+        self,
+        wordlist: Wordlist,
+        min_phrase_size: Optional[int] = None,
+        sequence_separator: str = "-",
     ):
         """
         Constructs a new instance of WordEncoder.
 
         Parameters:
-            word_lists (List[List[str]]): Word lists used to map integers to words.
+            wordlist (Wordlist): Word list used to map integers to words.
             min_sequence_size (int): What is the minimum sequence that should be returned.
                                     If not provided, it will default to the number
                                     word lists provided.
+            sequence_separator (str): The separator character used to delimit sequence parts
         """
-        self._word_lists = [[word.strip() for word in lst] for lst in word_lists]
-        self._max_sequence = len(word_lists)
+        self._wordlist = wordlist
+        self._max_phrase_size = self._wordlist._max_words_in_phrase
 
         # If the min_sequence is not provided, default to the maximum available
-        if min_sequence_size is None:
-            min_sequence_size = self._max_sequence
+        if min_phrase_size is None:
+            min_phrase_size = self._max_phrase_size
 
         # Ensure min_sequence_size is valid
-        if not (1 <= min_sequence_size <= self._max_sequence):
+        if not (1 <= min_phrase_size <= self._max_phrase_size):
             raise EncoderException(
-                f"min_sequence_size must be between 1 and {self._max_sequence}"
+                f"min_sequence_size must be between 1 and {self._max_phrase_size}"
             )
-        self._min_sequence = min_sequence_size
+        self._min_phrase_size = min_phrase_size
 
-        self._radices = [len(lst) for lst in self._word_lists]
+        # ensure that any provided split characters are valid
+        if not sequence_separator or len(sequence_separator) > 1:
+            raise EncoderException(
+                f"You must provide a single character that separates parts of the short identifier: '{sequence_separator}' is not valid"
+            )
+        self.sequence_separator = sequence_separator
+
+        # cache other needed values
+        self._radices = self._wordlist._radices
         self._max_values = self._compute_max_values()
         self._abs_max = self._max_values[-1]
 
-    def encode(self, number: int) -> List[str]:
+    def encode(self, number: int) -> Sequence:
         """
         Encodes an integer to a [word sequence].
 
@@ -81,15 +221,16 @@ class WordEncoder:
         # Validate the input
         if number >= self._abs_max:
             raise EncoderException(
-                f"The number ({number}) is too large to be encoded with up to {self._max_sequence} words (max: {self._max_values[-1] - 1})"
+                f"The number ({number}) is too large to be encoded with up to {self._max_phrase_size} words (max: {self._max_values[-1] - 1})"
             )
 
         # Determine the number of words needed
         words_needed = self._determine_sequence_size(number)
+        original_val = number
 
         # Initialize indexes with -1, to protect against bugs (zeroes would be valid values and could not be distinguished)
-        indexes = [-1] * self._max_sequence
-        boundary = self._max_sequence - 1
+        indexes = [-1] * self._max_phrase_size
+        boundary = self._max_phrase_size - 1
 
         # Calculate the corresponding indexes for each word
         for i in range(boundary, boundary - words_needed, -1):
@@ -101,9 +242,16 @@ class WordEncoder:
             number //= list_size
 
         # Calculate the resulting word sequence
-        input = list(zip(self._word_lists[-words_needed:], indexes[-words_needed:]))
-        sequence = [lst[i] for lst, i in input]
-        return sequence
+        input = list(
+            zip(self._wordlist._words[-words_needed:], indexes[-words_needed:])
+        )
+        key_phrase = [lst[i] for lst, i in input]
+
+        # Calculate the short identifier
+        short_sequence = [self._wordlist.to_prefix(word) for word in key_phrase]
+        abbr = self.sequence_separator.join(short_sequence)
+
+        return Sequence(abbr=abbr, key_phrase=key_phrase, id=original_val)
 
     def decode(self, words: List[str]) -> int:
         """
@@ -117,14 +265,35 @@ class WordEncoder:
         """
 
         seq_length = len(words)
-        if seq_length > self._max_sequence:
+        if seq_length > self._max_phrase_size:
             raise EncoderException(
-                f"The sequence contains more words that can be decoded with up to {self._max_sequence} words"
+                f"The sequence contains more words that can be decoded with up to {self._max_phrase_size} words"
             )
 
         # Calculate the indices of each specified word
-        relevant_words = self._word_lists[-seq_length:]
-        indices = [relevant_words[idx].index(word) for idx, word in enumerate(words)]
+        relevant_positions = self._wordlist._word_positions[-seq_length:]
+        indices = [relevant_positions[i][word] for i, word in enumerate(words)]
+
+        # Transform indexes into integers
+        result = 0
+        relevant_radices = self._radices[-seq_length:]
+        for i, index in enumerate(indices):
+            list_size = relevant_radices[i]
+            result = result * list_size + index
+
+        return result
+
+    def decode_id(self, id: str):
+        word_ids = id.split(self.sequence_separator)
+        if not len(word_ids):
+            raise EncoderException(
+                f"The id ({id}) could not be split into words using the provided split character ({self.sequence_separator})"
+            )
+        seq_length = len(word_ids)
+
+        # Calculate the indices of each specified word
+        relevant_prefixes = self._wordlist._abbr_to_pos[-seq_length:]
+        indices = [relevant_prefixes[i][prefix] for i, prefix in enumerate(word_ids)]
 
         # Transform indexes into integers
         result = 0
@@ -147,42 +316,21 @@ class WordEncoder:
     def _compute_max_values(self) -> List[int]:
         # Compute the maximum encodable values
         # The resulting indices are reversed compared to the list of words (first element represents last word)
-        max_values = [1] * (self._max_sequence + 1)
-        for i in range(1, (self._max_sequence + 1)):
+        max_values = [1] * (self._max_phrase_size + 1)
+        for i in range(1, (self._max_phrase_size + 1)):
             # With each added word we can represent (W) x (W-1) integers
-            max_values[i] = max_values[i - 1] * self._radices[self._max_sequence - i]
+            max_values[i] = max_values[i - 1] * self._radices[self._max_phrase_size - i]
         return max_values
 
     def _determine_sequence_size(self, number: int) -> int:
         # Determine the number of words needed to encode the result
-        words_needed = self._min_sequence
-        boundary = self._max_sequence + 1
-        for i in range(self._min_sequence, boundary):
+        words_needed = self._min_phrase_size
+        boundary = self._max_phrase_size + 1
+        for i in range(self._min_phrase_size, boundary):
             words_needed = i
             if self._max_values[i] > number:
                 break
         return words_needed
-
-
-def load_wordlist(
-    from_path: str,
-    package_name: Optional[str] = None,
-    word_order: List[str] = DEFAULT_WORD_ORDER,
-) -> List[List[str]]:
-    """
-    Given a path, load the word lists in the specified order.
-
-    Parameters:
-        from_path (str): Specifies a directory that contains a wordlist.
-        package_name (Optional[str]): If specified, the path will be loaded from a package.
-        word_lists (List[str]): Specifies the order in which the words will be loaded.
-                                Defaults to DEFAULT_WORD_ORDER.
-
-    Returns:
-        List[List[str]]: A list of lists of words that can be used to generate sequences
-    """
-
-    return [_read_words(f"{from_path}/{word}.txt", package_name) for word in word_order]
 
 
 def _read_words(from_path: str, package_name: Optional[str] = None) -> List[str]:
@@ -195,5 +343,16 @@ def _read_words(from_path: str, package_name: Optional[str] = None) -> List[str]
 
     # Read all words from file
     with open(data_path, "r") as file:
-        data = file.readlines()
+        data = [ln.strip() for ln in file]
     return data
+
+
+def aggregate_checksums(checksums: List[str]) -> str:
+    """Calculate an aggregate checksum from a list of checksums."""
+
+    sha1 = hashlib.sha1()
+    # Sort to ensure consistent order
+    for checksum in sorted(checksums):
+        sha1.update(checksum.encode("utf-8"))
+
+    return sha1.hexdigest()

@@ -1,0 +1,63 @@
+Result: [   1,098,369 years at 1/s ] [    34,638,169,276,128] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '01234 ' [SEQ]
+
+Result: [       1,098 years at 1/ms] [    34,638,169,276,128] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '01234 ' [SEQ]
+
+01234      noun         5,627
+01234      adjective    3,398
+01234      adverb       564
+01234      verb         3,212
+Total                   34,638,169,276,128
+Years at 1/s            1,098,369.14
+Years at 1/ms           1,098.369
+
+Sample words:
+- baldly lolled barest silkworm (baldl-lolle-bares-silkw)
+- drably shafted uncouth oncology (drabl-shaft-uncou-oncol)
+- namely fooled twinned honeybee (namel-foole-twinn-honey)
+- loftily floured arboreal reunion (lofti-flour-arbor-reuni)
+- bawdily tucked baring mitten (bawdi-tucke-barin-mitte)
+- gingerly shaved freehand catsup (ginge-shave-freeh-catsu)
+- greedily voodooed movable trefoil (greed-voodo-movab-trefo)
+- loyally horded warty duchy (loyal-horde-warty-duchy)
+- dowdily devilled flawed gouger (dowdi-devil-flawe-gouge)
+- boldly yielded concrete poacher (boldl-yield-concr-poach)
+- sleepily whistled trickier gryphon (sleep-whist-trick-gryph)
+- insanely wagered seasonal banding (insan-wager-seaso-bandi)
+- placidly buffed droopier piazza (placi-buffe-droop-piazz)
+- overly nurtured throaty paperboy (overl-nurtu-throa-paper)
+- gently ladled inbound spitfire (gentl-ladle-inbou-spitf)
+- sedately upsurged taking buzzer (sedat-upsur-takin-buzze)
+- wearily summoned vexed fatness (weari-summo-vexed-fatne)
+- timely smooched seagoing lettuce (timel-smooc-seago-lettu)
+- manly sampled savoury roughage (manly-sampl-savou-rough)
+- normally vaped reborn quintet (norma-vaped-rebor-quint)
+- demurely spied starchy hawking (demur-spied-starc-hawki)
+- ardently revealed disposed bimbo (arden-revea-dispo-bimbo)
+- feebly created topless wormhole (feebl-creat-tople-wormh)
+- trimly thudded gummier wiliness (triml-thudd-gummi-wilin)
+- nasally incurred febrile replica (nasal-incur-febri-repli)
+- aptly peeped cocky catkin (aptly-peepe-cocky-catki)
+- juicily shuttled germane bombast (juici-shutt-germa-bomba)
+- luckily shuttled floating discus (lucki-shutt-float-discu)
+- intently vilified ridden dunno (inten-vilif-ridde-dunno)
+- frugally occupied outright rifling (fruga-occup-outri-rifli)
+- bitterly kneaded knightly pampas (bitte-knead-knigh-pampa)
+- cleverly debarked accurate caret (cleve-debar-accur-caret)
+- thirdly launched forte nautilus (third-launc-forte-nauti)
+- sorely shoed peewee infinity (sorel-shoed-peewe-infin)
+- unwisely impended stopped outing (unwis-impen-stopp-outin)
+- latterly rebated shaven setup (latte-rebat-shave-setup)
+- alertly sleeked voluble steerage (alert-sleek-volub-steer)
+- safely limped midway taffeta (safel-limpe-midwa-taffe)
+- drolly mauled paler rivulet (droll-maule-paler-rivul)
+- sanely geared visceral gluttony (sanel-geare-visce-glutt)
+- choppily defaced racing smallpox (chopp-defac-racin-small)
+- readily blotched flexible diary (readi-blotc-flexi-diary)
+- ignobly bribed holier velours (ignob-bribe-holie-velou)
+- grumpily nibbled unerring tobacco (grump-nibbl-unerr-tobac)
+- clumsily spruced wonted trefoil (clums-spruc-wonte-trefo)
+- scarcely glowed whitish alimony (scarc-glowe-whiti-alimo)
+- futilely belonged prosaic thistle (futil-belon-prosa-thist)
+- fitfully adjoined gutless piazza (fitfu-adjoi-gutle-piazz)
+- impishly baulked sandier melody (impis-baulk-sandi-melod)
+- capably misused flowered asphyxia (capab-misus-flowe-asphy)

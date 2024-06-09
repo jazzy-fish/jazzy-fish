@@ -1,18 +1,17 @@
 """
-Generate Words
-==============
+Generate Wordlists
+==================
 
-Generates combinations of words, prefix lengths, and word sequences to help the user choose the best configuration
+Generates combinations of word parts of varied prefix lengths to help the user choose the best configuration
 for their use-case.
 
 """
 
 import argparse
 from functools import reduce
-from preprocessor.helpers import sha1, agg_sha1
 from pathlib import Path
 import random
-from encoder.encoder import WordEncoder
+from encoder.encoder import WordEncoder, Wordlist, aggregate_checksums
 import time
 from typing import List, Set, Tuple
 from preprocessor.helpers import (
@@ -30,12 +29,12 @@ import duckdb
 from duckdb.typing import VARCHAR, INTEGER
 
 # Set to true to only analyze real prefixes (01, 012, 0123, etc.)
-ONLY_SEQ_PREFIXES = True
+ONLY_SEQ_PREFIXES = False
 
 # Defines the prefix length variations to consider when generating combinations
 PREFIX_LENGTHS: Tuple[int, ...] = (2, 3, 4, 5, 6)
 
-# The allowed word parts that must match file names in a wordlist directory
+# The allowed word parts that must match file names in a dictionary directory
 ALLOWED_WORD_PARTS: Tuple[str, ...] = ("adverb", "adjective", "verb", "noun")
 
 
@@ -57,7 +56,7 @@ def initialize_database() -> duckdb.DuckDBPyConnection:
 
 def categorize_words(
     conn: duckdb.DuckDBPyConnection,
-    wordlist: Path,
+    dictionary_dir: Path,
     char_positions: Tuple[int, ...],
     is_prefix: bool,
     seen_words: Set[str],
@@ -66,13 +65,13 @@ def categorize_words(
 
     results = list()
 
-    # Read all words in word list
-    with open(wordlist, "r") as file:
+    # Read all word parts in the dictionary
+    with open(dictionary_dir, "r") as file:
         # Ensure the file is named correctly
-        word_part = Path(wordlist).stem
+        word_part = Path(dictionary_dir).stem
         if word_part not in ALLOWED_WORD_PARTS:
             raise ValueError(
-                f"All files in a wordlist dir must match one of the ALLOWED_WORD_PARTS; {word_part} is invalid"
+                f"All files in a dictionary dir must match one of the ALLOWED_WORD_PARTS; {word_part} is invalid"
             )
 
         # Read all words in file
@@ -126,11 +125,9 @@ def categorize_words(
 
 
 def main() -> None:
-    # Define the input wordlist
-    parser = argparse.ArgumentParser(
-        description="Specify the directory that holds the relevant input wordlists"
-    )
-    parser.add_argument("dir", help="Path to the directory.")
+    # Define the input dictionary
+    parser = argparse.ArgumentParser(description="Specify the dictionary directory")
+    parser.add_argument("dir", help="Path to the dictionary directory.")
     args = parser.parse_args()
 
     # Clean any previous results
@@ -158,7 +155,7 @@ def main() -> None:
             seen_words: Set[str] = set()
             seen_words.update(load_ignored_words())
 
-            # Find all files (individual wordlists) in the directory
+            # Find all files (individual lists of words) in the directory
             directory = Path(args.dir)
             files = [f for f in directory.iterdir() if f.is_file()]
             for file in files:
@@ -167,11 +164,11 @@ def main() -> None:
         end_time = time.time()
         print(f"Processed word lists in: {end_time - start_time:.2f} seconds\n")
 
-        # Process the words table and extract words for each prefix
-        print("Extracting unique words, grouped by prefix...")
-        sql = read_resource("resources/process/process_words.sql")
-        conn.execute(sql)
-        print("Unique words extracted. (TABLE `words_by_prefix`)")
+    # Process the words table and extract words for each prefix
+    print("Extracting unique words, grouped by prefix...")
+    sql = read_resource("resources/process/process_words.sql")
+    conn.execute(sql)
+    print("Unique words extracted. (TABLE `words_by_prefix`)")
 
     print("Generating final word lists...")
     reset_location(Path(f"{OUTPUT_PATH}/processed"))
@@ -185,11 +182,11 @@ def main() -> None:
 
             position_in_word = "".join([str(c) for c in char_positions])
 
-            # Generate an output location for the current wordlist and ensure it exists
+            # Generate an output location for the wordlist, ensuring it exists
             wordlist_out_dir = f"{OUTPUT_PATH}/processed/{position_in_word}"
             reset_location(Path(wordlist_out_dir), remove_dir=False)
 
-            wordlists: List[str] = list()
+            wordlist_files: List[str] = list()
             stats: List[Tuple[str, int]] = list()
 
             # Note: this code assumes that the four word parts are always specified and will only process these, not other names
@@ -204,6 +201,7 @@ def main() -> None:
                     f"Generating {position_in_word}, word type '{word_part}', word length {word_size}..."
                 )
 
+                # choose the first word for each available prefix
                 sql = f"""SELECT selected_words[1] AS word
                           FROM words_by_prefix
                           WHERE position = '{position_in_word}'
@@ -213,50 +211,55 @@ def main() -> None:
 
                 # Store the selected words
                 outfile = f"{wordlist_out_dir}/{word_part}.txt"
-                with open(outfile, "a") as out:
+                with open(outfile, "w") as out:
                     for row in result:
                         out.write(row[0] + "\n")
+                    # Remove the last newline
+                    out.truncate(out.tell() - 1)
                 print(f"Saved '{outfile}'\n")
 
                 # Store the wordlists and stats
-                wordlists.append(outfile)
+                wordlist_files.append(outfile)
                 stats.append((word_part, len(result)))
 
-            # Generate stats
+            # Generate stats, choosing the top 2/3/4 word parts by total choices
             print(f"Storing stats for 2/3/4 words for {position_in_word}...\n")
             ordered = sorted(stats, key=lambda x: x[1])
 
             two_words = [f[0] for f in ordered[-2:]]
-            _save_stats(conn, position_in_word, is_prefix, two_words, wordlists)
+            _save_stats(conn, position_in_word, is_prefix, two_words, wordlist_files)
 
             three_words = [f[0] for f in ordered[-3:]]
-            _save_stats(conn, position_in_word, is_prefix, three_words, wordlists)
+            _save_stats(conn, position_in_word, is_prefix, three_words, wordlist_files)
 
             four_words = [f[0] for f in ordered]
-            _save_stats(conn, position_in_word, is_prefix, four_words, wordlists)
+            _save_stats(conn, position_in_word, is_prefix, four_words, wordlist_files)
 
             # Generate checksums
             checksums = list()
-            for word in wordlists:
-                name = Path(word).name
-                checksum = sha1(word)
-                line = f"{checksum}  {name}"
+            checksum_file = list()
+            for f in wordlist_files:
+                # Compute checksum by reading each wordfile
+                with open(f, "r") as wfile:
+                    words_in_file = [ln.strip() for ln in wfile]
+                checksum = Wordlist.checksum(words_in_file)
 
-                # Store checksum and also generate separate checksum file
-                checksums.append(line)
-                with open(f"{Path(word)}.sha1", "w") as f:
-                    f.write(line)
-            checksums.sort()
+                # Store checksums
+                checksums.append(checksum)
+                checksum_file.append(f"{checksum}  {Path(f).name}")
 
-            # The first checksum will represent the aggregate checksum for all wordlists
+            # Compute the aggregated checksum that accounts for the abbrevation position
+            agg_checksum = aggregate_checksums([position_in_word] + checksums)
+
+            # Generate the checksum file
             outfile = f"{wordlist_out_dir}/checksums.sha1"
-            agg_checksum = agg_sha1(checksums)
             with open(outfile, "w") as out:
+                # The first checksum will represent the aggregate checksum for all wordlists
                 out.write(f"{agg_checksum}\n")
-                for checksum in checksums:
+                for checksum in sorted(checksum_file):
                     out.write(f"{checksum}\n")
 
-            # Rename the output wordlist to include part of the aggregated checksum
+            # Rename the output wordlist dir to include the abbreviated aggregated checksum
             renamed = f"{OUTPUT_PATH}/processed/{position_in_word}_{agg_checksum[:7]}"
             Path(wordlist_out_dir).rename(renamed)
 
@@ -269,7 +272,7 @@ def _save_stats(
     position_in_word: str,
     is_prefix: bool,
     word_parts: List[str],
-    wordlists: List[str],
+    wordlist_files: List[str],
 ):
     """Store statistics about the selected words"""
 
@@ -335,51 +338,54 @@ def _save_stats(
         out.write("Sample words:\n")
 
         words = _generate_sample_words(
-            wordlists=wordlists,
+            wordlist_files=wordlist_files,
             position_in_word=position_in_word,
-            min_sequence_size=len(word_parts),
+            min_phrase_size=len(word_parts),
         )
         out.writelines(words)
 
 
 def _generate_sample_words(
-    wordlists: List[str],
+    wordlist_files: List[str],
     position_in_word: str,
-    min_sequence_size: int,
+    min_phrase_size: int,
     how_many: int = 50,
     template: str = "adverb verb adjective noun",
 ) -> List[str]:
     """Generate sample words to give the user an idea of what to expect"""
     # Read all the words
     words = dict()
-    for wordlist in wordlists:
-        word_part = Path(wordlist).stem
-        with open(wordlist, "r") as file:
+    for f in wordlist_files:
+        word_part = Path(f).stem
+        with open(f, "r") as file:
             words[word_part] = file.readlines()
 
     # Initialize the encoder with the designated template
     ordered = [words[part] for part in template.split(" ")]
-    encoder = WordEncoder(word_lists=ordered, min_sequence_size=min_sequence_size)
+    wordlist = Wordlist(f"{position_in_word}_NOVERIFY", ordered, verify_checksum=False)
+    encoder = WordEncoder(wordlist=wordlist, min_phrase_size=min_phrase_size)
 
     # Generate words
     word_size = f"[{MIN_LENGTH}, {MAX_LENGTH}]"
     print(
-        f"Generating sample words for '{position_in_word}', {min_sequence_size} words, word size {word_size}..."
+        f"Generating sample words for '{position_in_word}', {min_phrase_size} words, word size {word_size}..."
     )
 
     # Determine the minimum value represented by the desired word size (i.e., W*W)
-    sizes = [len(o) for o in ordered[-min_sequence_size + 1 :]]
+    sizes = [len(o) for o in ordered[-min_phrase_size + 1 :]]
     min_for_desired_word_size = reduce(lambda x, y: x * y, sizes)
 
     # Determine the maximum value represented by the desired word size (i.e., W*W*W - 1)
-    sizes = [len(o) for o in ordered[-min_sequence_size:]]
+    sizes = [len(o) for o in ordered[-min_phrase_size:]]
     max_for_desired_word_size = reduce(lambda x, y: x * y, sizes) - 1
 
     results: List[str] = list()
     for _ in range(0, how_many):
         val = random.randint(min_for_desired_word_size, max_for_desired_word_size)
-        chosen = " ".join(encoder.encode(val))
-        results.append(f"- {chosen}\n")
+        encoded = encoder.encode(val)
+        key_phrase = " ".join(encoder.encode(val).key_phrase)
+        word = f"{key_phrase} ({encoded.abbr})"
+        results.append(f"- {word}\n")
 
     return results
 

@@ -3,7 +3,7 @@ import os
 import sys
 import unittest
 
-from encoder.encoder import WordEncoder, load_wordlist
+from encoder.encoder import WordEncoder, Wordlist
 from encoder.generator import Generator, Resolution
 
 sys.path.insert(
@@ -25,20 +25,18 @@ class TestIntegrationGenerateSequence(unittest.TestCase):
             resolution=Resolution.MILLISECOND,
         )
 
-        # Read words
-        words = load_wordlist("resources/012_a4b591d", package_name="encoder.encoder")
-
         # Configure the encoder
-        encoder = WordEncoder(words, 4)
+        wordlist = Wordlist.load("resources/012_8562fb9", "encoder.encoder")
+        encoder = WordEncoder(wordlist, min_phrase_size=4)
 
         # ACT
         id = generator.next_id()
-        sequence = encoder.encode(id)
+        encoded = encoder.encode(id)
 
         # ASSERT
-        self.assertEqual(len(sequence), 4)
+        self.assertEqual(len(encoded.key_phrase), 4)
 
-        got = encoder.decode(sequence)
+        got = encoder.decode(encoded.key_phrase)
         self.assertEqual(got, id)
 
 

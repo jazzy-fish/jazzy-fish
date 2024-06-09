@@ -18,6 +18,15 @@ The implementation roughly works as follows:
 - call `Encoder.encode(id)`, which returns a `[word sequence]`
 - optionally, if a word sequence needs to be decoded into an integer, call `Encoder.decode([word sequence])`
 
+## Terminology
+
+- `word part`: parts of speech used in the English language that can be used to form sentences/phrases: adverbs, verbs, adjectives, and nouns
+- `dictionary`: a list of English words categorized by _word part_, which is used to generate _wordlists_
+- `wordlist`: a list of *word part*s that can be combined to generate a large number of *key phrase*s
+- `key phrase`: a uniquely ordered sequence of words, each of a certain _word part_, which can be mapped to a unique integer identifier
+- `identifier`: a numerical (integer) value that can be used to represent unique entities
+- `word prefixes`: TBD, rename
+
 ## Configuring a Generator
 
 Integer IDs are constructed by combining 3 parts:
@@ -106,3 +115,45 @@ pre-commit install
 
 You can manually run the hooks against all files with `pre-commit run --all-files` or
 read the documentation at <https://pre-commit.com/>.
+
+## Choosing a word list
+
+The values below are computed based on the [wordlists/5](./wordlists/5) dictionary, which aims to include
+words more commonly used in the English language. You should verify that the resulting wordlist contains
+appropriate values for your use-case.
+
+You can generate these by running the [preprocessor.generate_words](python/src/preprocessor/generate_words.py) script.
+
+By default, jazzy-fish ships with the following wordlists:
+
+- [012_8562fb9](python/src/encoder/resources/012_8562fb9)
+- [024_84f184f](python/src/encoder/resources/024_84f184f)
+- [01234_f233650](python/src/encoder/resources/01234_f233650)
+
+### Second-frequency
+
+For a more seldom generation frequency, use one of the following wordlists:
+
+```text
+[        46 years at 1/s ] [      1,457,033,600] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '01    ' [SEQ] - 8-byte ID, sequential abbreviation
+[        87 years at 1/s ] [      2,740,628,480] ('verb', 'adjective', 'noun'           ) for prefix: '012   ' [SEQ] - 9-byte ID, sequential abbreviation
+[       400 years at 1/s ] [     12,615,189,300] ('verb', 'adjective', 'noun'           ) for prefix: '024   ' [RND] - largest 9 byte ID
+[       852 years at 1/s ] [     26,862,324,450] ('verb', 'adjective', 'noun'           ) for prefix: '1234  ' [RND] - 12-byte ID
+[       869 years at 1/s ] [     27,399,835,008] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '02    ' [RND] - largest 8-byte ID
+[    38,238 years at 1/s ] [  1,205,876,531,200] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '012   ' [SEQ] - 12-byte ID, sequential abbreviation
+[   197,212 years at 1/s ] [  6,219,288,324,900] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '024   ' [RND] - largest 12-byte ID
+[   543,674 years at 1/s ] [ 17,145,317,425,600] ('adverb', 'adjective', 'verb', 'noun' ) for prefix: '0123  ' [SEQ] - 16-byte ID, sequential abbreviation
+[ 1,098,369 years at 1/s ] [ 34,638,169,276,128] ('adverb', 'verb', 'adjective', 'noun' ) for prefix: '01234 ' [SEQ] - 20-byte ID, sequential abbreviation
+```
+
+### Millisecond-frequency
+
+If you require a volume of identifiers that can sustain millisecond-frequency generation,
+use one of the following wordlists:
+
+```text
+[   197 years at 1/ms] [     6,219,288,324,900] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '024   ' [RND] - largest 12-byte ID
+[   544 years at 1/ms] [    17,145,317,425,600] ('adverb', 'adjective', 'verb', 'noun'     ) for prefix: '0123  ' [SEQ] - 16-byte ID, sequential abbreviation
+[   762 years at 1/ms] [    24,016,903,475,712] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '0234  ' [RND] - largest 16-byte ID
+[ 1,098 years at 1/ms] [    34,638,169,276,128] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '01234 ' [SEQ] - largest 20-byte ID, sequential abbreviation
+```

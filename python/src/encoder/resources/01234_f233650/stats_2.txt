@@ -1,0 +1,61 @@
+Result: [           1 years at 1/s ] [            19,120,546] ('adjective', 'noun'                       ) for prefix: '01234 ' [SEQ]
+
+Result: [           0 years at 1/ms] [            19,120,546] ('adjective', 'noun'                       ) for prefix: '01234 ' [SEQ]
+
+01234      adjective    3,398
+01234      noun         5,627
+Total                   19,120,546
+Years at 1/s            0.61
+Years at 1/ms           0.001
+
+Sample words:
+- brattier pusher (bratt-pushe)
+- heinous wrestler (heino-wrest)
+- sicklier esthete (sickl-esthe)
+- stealthy aardvark (steal-aardv)
+- itchier behalf (itchi-behal)
+- titanic palace (titan-palac)
+- kinky showboat (kinky-showb)
+- wacky doing (wacky-doing)
+- jubilant stamina (jubil-stami)
+- crucial kazoo (cruci-kazoo)
+- agreed piety (agree-piety)
+- truncate rugby (trunc-rugby)
+- literal fiesta (liter-fiest)
+- scarcer pastiche (scarc-pasti)
+- rustic fowling (rusti-fowli)
+- pokey zenith (pokey-zenit)
+- meatier chancel (meati-chanc)
+- unlucky operand (unluc-opera)
+- unfunny mailbox (unfun-mailb)
+- clinical deuce (clini-deuce)
+- raucous burner (rauco-burne)
+- pallid pixel (palli-pixel)
+- grubbier terror (grubb-terro)
+- uncanny webbing (uncan-webbi)
+- sanguine waxiness (sangu-waxin)
+- laughing tuner (laugh-tuner)
+- smuttier bequest (smutt-beque)
+- peppier platform (peppi-platf)
+- inherent rowdyism (inher-rowdy)
+- galactic misnomer (galac-misno)
+- loonier liqueur (looni-lique)
+- monetary gamete (monet-gamet)
+- laden calico (laden-calic)
+- sottish cutter (sotti-cutte)
+- bumpy woodland (bumpy-woodl)
+- hotshot heading (hotsh-headi)
+- saline carnival (salin-carni)
+- latest acreage (lates-acrea)
+- candied synergy (candi-syner)
+- carsick overkill (carsi-overk)
+- falser colliery (false-colli)
+- cyclamen shucks (cycla-shuck)
+- soapier whisker (soapi-whisk)
+- surplus azalea (surpl-azale)
+- corking galena (corki-galen)
+- triter couching (trite-couch)
+- hokey hobbyist (hokey-hobby)
+- scaled traitor (scale-trait)
+- hither giantess (hithe-giant)
+- express sawhorse (expre-sawho)

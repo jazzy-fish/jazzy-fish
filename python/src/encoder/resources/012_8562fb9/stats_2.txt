@@ -1,0 +1,61 @@
+Result: [           0 years at 1/s ] [             2,178,560] ('adjective', 'noun'                       ) for prefix: '012   ' [SEQ]
+
+Result: [           0 years at 1/ms] [             2,178,560] ('adjective', 'noun'                       ) for prefix: '012   ' [SEQ]
+
+012        adjective    1,280
+012        noun         1,702
+Total                   2,178,560
+Years at 1/s            0.07
+Years at 1/ms           0.000
+
+Sample words:
+- pliable unease (pli-une)
+- irksome abuser (irk-abu)
+- oddball toreador (odd-tor)
+- lordlier unrest (lor-unr)
+- animal mukluk (ani-muk)
+- hateful quorum (hat-quo)
+- ocher upheaval (och-uph)
+- glibber funeral (gli-fun)
+- hulking biscuit (hul-bis)
+- pokey diocese (pok-dio)
+- dated friar (dat-fri)
+- duplex mower (dup-mow)
+- pricey eyrie (pri-eyr)
+- touched variance (tou-var)
+- huskier silage (hus-sil)
+- backed kidder (bac-kid)
+- related fabric (rel-fab)
+- economic vehicle (eco-veh)
+- female cayenne (fem-cay)
+- zigzag bracelet (zig-bra)
+- vixenish rubbing (vix-rub)
+- lexical janitor (lex-jan)
+- womanish cider (wom-cid)
+- duodenal geology (duo-geo)
+- emphatic fugue (emp-fug)
+- reborn thong (reb-tho)
+- tutorial pupil (tut-pup)
+- tameable porch (tam-por)
+- escapism tympanum (esc-tym)
+- next foxglove (nex-fox)
+- memorial snuffbox (mem-snu)
+- hysteric opener (hys-ope)
+- niftier engine (nif-eng)
+- dynastic coed (dyn-coe)
+- polished washbowl (pol-was)
+- narcotic richness (nar-ric)
+- fogbound rudder (fog-rud)
+- syllabic inkblot (syl-ink)
+- otiose funeral (oti-fun)
+- sweatier area (swe-are)
+- detached thug (det-thu)
+- phonemic dugout (pho-dug)
+- mutable yeshiva (mut-yes)
+- ungodly sprat (ung-spr)
+- duskier ocelot (dus-oce)
+- seventh embalmer (sev-emb)
+- degraded argon (deg-arg)
+- fallen gaoler (fal-gao)
+- igneous spumone (ign-spu)
+- denser vineyard (den-vin)

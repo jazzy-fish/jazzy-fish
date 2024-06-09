@@ -1,0 +1,62 @@
+Result: [       1,947 years at 1/s ] [        61,415,193,752] ('verb', 'adjective', 'noun'               ) for prefix: '01234 ' [SEQ]
+
+Result: [           2 years at 1/ms] [        61,415,193,752] ('verb', 'adjective', 'noun'               ) for prefix: '01234 ' [SEQ]
+
+01234      verb         3,212
+01234      adjective    3,398
+01234      noun         5,627
+Total                   61,415,193,752
+Years at 1/s            1,947.46
+Years at 1/ms           1.947
+
+Sample words:
+- jeered seedy amulet (jeere-seedy-amule)
+- wadded liberal penlight (wadde-liber-penli)
+- snarled teensy creed (snarl-teens-creed)
+- hobbled doddered landing (hobbl-dodde-landi)
+- mooted versed philtre (moote-verse-philt)
+- allured sanitary vastness (allur-sanit-vastn)
+- timed operable skeleton (timed-opera-skele)
+- slurred windward cannery (slurr-windw-canne)
+- epoxyed atomic cuticle (epoxy-atomi-cutic)
+- spurted pelagic verve (spurt-pelag-verve)
+- winked azure raillery (winke-azure-raill)
+- voted snippier ounce (voted-snipp-ounce)
+- beeped untapped facade (beepe-untap-facad)
+- pestled odorless sonny (pestl-odorl-sonny)
+- molded simplex footman (molde-simpl-footm)
+- parsed valorous parsnip (parse-valor-parsn)
+- ploughed rangier therapy (ploug-rangi-thera)
+- stifled uppity entreaty (stifl-uppit-entre)
+- bested devoted gloaming (beste-devot-gloam)
+- hayed nether ponytail (hayed-nethe-ponyt)
+- greased married hoodie (greas-marri-hoodi)
+- shirted funny parallax (shirt-funny-paral)
+- yanked oldest layman (yanke-oldes-layma)
+- dolled crested ladyship (dolle-crest-ladys)
+- horded finished blurb (horde-finis-blurb)
+- joshed acrid creamery (joshe-acrid-cream)
+- damasked tasty earful (damas-tasty-earfu)
+- gargled swimming censer (gargl-swimm-cense)
+- guzzled wasteful twister (guzzl-waste-twist)
+- railed unusual banality (raile-unusu-banal)
+- paired racier llama (paire-racie-llama)
+- ciphered castoff palomino (ciphe-casto-palom)
+- primed wheaten doubles (prime-wheat-doubl)
+- burgled prosaic hostage (burgl-prosa-hosta)
+- featured gleeful cowboy (featu-gleef-cowbo)
+- trashed flitting murderer (trash-flitt-murde)
+- orbited seedy carrot (orbit-seedy-carro)
+- flaked pitiful breather (flake-pitif-breat)
+- spoored yuletide artery (spoor-yulet-arter)
+- galled dressier anemia (galle-dress-anemi)
+- parlayed gummier notary (parla-gummi-notar)
+- adapted gnomish snout (adapt-gnomi-snout)
+- bluffed psychic anaconda (bluff-psych-anaco)
+- attacked gelid earldom (attac-gelid-earld)
+- spammed hellish writing (spamm-helli-writi)
+- padded tarot nebula (padde-tarot-nebul)
+- seasoned gossipy aquavit (seaso-gossi-aquav)
+- combated hoofed podiatry (comba-hoofe-podia)
+- pureed undulant penology (puree-undul-penol)
+- doped accepted finch (doped-accep-finch)

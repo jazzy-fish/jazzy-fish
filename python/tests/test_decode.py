@@ -6,7 +6,7 @@ sys.path.insert(
     0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
 )
 
-from encoder.encoder import WordEncoder, EncoderException
+from encoder.encoder import WordEncoder, EncoderException, Wordlist
 
 
 class TestDecode(unittest.TestCase):
@@ -16,10 +16,11 @@ class TestDecode(unittest.TestCase):
         verbs = ["abandoned", "bearded", "checked"]
         adjectives = ["able", "blond", "chubby"]
         nouns = ["apple", "bird", "cat", "dog"]
-        self.words = [adverbs, verbs, adjectives, nouns]
+        words = [adverbs, verbs, adjectives, nouns]
+        self.wordlist = Wordlist("0_NOVERIFY", words, verify_checksum=False)
 
     def test_should_fail(self):
-        encoder = WordEncoder(self.words, 1)
+        encoder = WordEncoder(self.wordlist, min_phrase_size=1)
         with self.assertRaises(EncoderException):
             more_than_available = encoder.get_max() + 1
             encoder.encode(more_than_available)
@@ -34,12 +35,24 @@ class TestDecode(unittest.TestCase):
         ]
 
         for expected, min_seq, words in test_cases:
-            got = WordEncoder(self.words, min_seq).decode(words.split(" "))
+            encoder = WordEncoder(self.wordlist, min_phrase_size=min_seq)
+
+            # words can be decoded to their corresponding value
+            got = encoder.decode(words.split(" "))
             msg = f"Error {words:30} (min_words={min_seq:1}); expected: '{expected:3}', got: '{got:3}'"
             self.assertEqual(got, expected, msg=msg)
 
+            # short ID sequences can be decoded to their corresponding value
+            encoded = encoder.encode(expected)
+            got2 = encoder.decode_id(encoded.abbr)
+            msg2 = f"Error {encoded.abbr:30} (min_words={min_seq:1}); expected: '{expected:3}', got: '{got2:3}'"
+            self.assertEqual(got2, expected, msg2)
+
     def test_can_encode_and_decode_all_values(self):
-        solution_space = range(0, WordEncoder(self.words, 1).get_max())
+        solution_space = range(
+            0,
+            WordEncoder(self.wordlist, min_phrase_size=1).get_max(),
+        )
         test_cases = (
             [(i, 1) for i in solution_space]
             + [(i, 2) for i in solution_space]
@@ -48,15 +61,18 @@ class TestDecode(unittest.TestCase):
         )
 
         for expected, min_words in test_cases:
-            encoder = WordEncoder(self.words, min_words)
+            encoder = WordEncoder(self.wordlist, min_phrase_size=min_words)
             encoded = encoder.encode(expected)
-            encoded_str = " ".join(encoded)
+            encoded_str = " ".join(encoded.key_phrase)
             self.assertIsNotNone(encoded)
 
-            got = encoder.decode(encoded)
-
+            got = encoder.decode(encoded.key_phrase)
             msg = f"Encoded '{expected:3}' (min_words={min_words:1}), got: '{encoded_str:30}', then decoded back to '{got:3}'"
             self.assertEqual(got, expected, msg)
+
+            got2 = encoder.decode_id(encoded.abbr)
+            msg2 = f"Encoded '{expected:3}' (min_words={min_words:1}), got: '{encoded.abbr:30}', then decoded back to '{got2:3}'"
+            self.assertEqual(got2, expected, msg2)
 
 
 if __name__ == "__main__":

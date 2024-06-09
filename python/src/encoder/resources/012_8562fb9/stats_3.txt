@@ -1,0 +1,62 @@
+Result: [          87 years at 1/s ] [         2,740,628,480] ('verb', 'adjective', 'noun'               ) for prefix: '012   ' [SEQ]
+
+Result: [           0 years at 1/ms] [         2,740,628,480] ('verb', 'adjective', 'noun'               ) for prefix: '012   ' [SEQ]
+
+012        verb         1,258
+012        adjective    1,280
+012        noun         1,702
+Total                   2,740,628,480
+Years at 1/s            86.90
+Years at 1/ms           0.087
+
+Sample words:
+- pottered madcap liaison (pot-mad-lia)
+- nursed tardier niece (nur-tar-nie)
+- gulled pleasant okra (gul-ple-okr)
+- disabled topical ecstasy (dis-top-ecs)
+- palled alleged ceramics (pal-all-cer)
+- faulted ovoid kohlrabi (fau-ovo-koh)
+- japanned nebulous tidbit (jap-neb-tid)
+- borrowed owlish inequity (bor-owl-ine)
+- muscled abysmal adjuster (mus-aby-adj)
+- faulted diocesan kohlrabi (fau-dio-koh)
+- obscured tardier dame (obs-tar-dam)
+- crackled uncalled keyhole (cra-unc-key)
+- toiled ampler heckler (toi-amp-hec)
+- penciled besotted toxaemia (pen-bes-tox)
+- based usurious utensil (bas-usu-ute)
+- aimed fulsome sepal (aim-ful-sep)
+- cordoned bunted skycap (cor-bun-sky)
+- thudded mystical sevens (thu-mys-sev)
+- sledded waggish shyness (sle-wag-shy)
+- feuded fanatic oxygen (feu-fan-oxy)
+- capered muscular davit (cap-mus-dav)
+- cottoned eggshell aviary (cot-egg-avi)
+- audited sodden dharma (aud-sod-dha)
+- ghosted lunar adman (gho-lun-adm)
+- maddened diocesan percale (mad-dio-per)
+- sauced cozier scraper (sau-coz-scr)
+- mugged colicky voucher (mug-col-vou)
+- gelded semantic fatalism (gel-sem-fat)
+- hedged sighted awning (hed-sig-awn)
+- mired groggier roach (mir-gro-roa)
+- laid unnamed kindling (lai-unn-kin)
+- zeroed obscene wives (zer-obs-wiv)
+- evaded dactylic tufting (eva-dac-tuf)
+- cozened furious buyer (coz-fur-buy)
+- couched alarmist ruffian (cou-ala-ruf)
+- kited logical python (kit-log-pyt)
+- fished wired nipper (fis-wir-nip)
+- cozened sidelong anvil (coz-sid-anv)
+- earned myriad unction (ear-myr-unc)
+- freaked tipsier wizardry (fre-tip-wiz)
+- probated dactylic executor (pro-dac-exe)
+- tatted pivotal jowl (tat-piv-jow)
+- nuzzled infamous glucose (nuz-inf-glu)
+- welched piebald lipid (wel-pie-lip)
+- ogled gated suicide (ogl-gat-sui)
+- flicked wetter ointment (fli-wet-oin)
+- hewed potable baobab (hew-pot-bao)
+- invaded reusable hydrant (inv-reu-hyd)
+- leeched droopier lobbyist (lee-dro-lob)
+- segued smokier honesty (seg-smo-hon)

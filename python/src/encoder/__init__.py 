@@ -35,7 +35,7 @@ Usage:
     )
 
     # Load the default word list included in the jazzy-fish library
-    words = load_wordlist("resources/012_a4b591d", package_name="encoder.encoder")
+    words = load_wordlist("resources/012_8562fb9", package_name="encoder.encoder")
     # and initialize an encoder
     encoder = WordEncoder(words, 4)
 

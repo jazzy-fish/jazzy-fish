@@ -1,0 +1,63 @@
+Result: [      38,238 years at 1/s ] [     1,205,876,531,200] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '012   ' [SEQ]
+
+Result: [          38 years at 1/ms] [     1,205,876,531,200] ('adverb', 'verb', 'adjective', 'noun'     ) for prefix: '012   ' [SEQ]
+
+012        noun         1,702
+012        adjective    1,280
+012        verb         1,258
+012        adverb       440
+Total                   1,205,876,531,200
+Years at 1/s            38,238.09
+Years at 1/ms           38.238
+
+Sample words:
+- covertly dyed luscious foxglove (cov-dye-lus-fox)
+- groggily pivoted ripping foci (gro-piv-rip-foc)
+- narrowly jested inmost veal (nar-jes-inm-vea)
+- busily urged brunette agar (bus-urg-bru-aga)
+- vastly sagged gamer heraldry (vas-sag-gam-her)
+- biweekly betided emergent thyme (biw-bet-eme-thy)
+- prettily ennobled negative imagery (pre-enn-neg-ima)
+- jointly dared ambient breadth (joi-dar-amb-bre)
+- legally tucked fearful nebula (leg-tuc-fea-neb)
+- unmanly towed beholden wiper (unm-tow-beh-wip)
+- inanely wimpled renal rhubarb (ina-wim-ren-rhu)
+- adroitly buoyed sapient badinage (adr-buo-sap-bad)
+- vitally hitched fickle polarity (vit-hit-fic-pol)
+- likely knocked sooty coxcomb (lik-kno-soo-cox)
+- fiscally audited mundane tsarina (fis-aud-mun-tsa)
+- lawfully wigged clammy yodeler (law-wig-cla-yod)
+- largely chocked bailout ruse (lar-cho-bai-rus)
+- turgidly axed secluded rind (tur-axe-sec-rin)
+- lineally whacked aerial nadir (lin-wha-aer-nad)
+- airily wriggled unhappy beta (air-wri-unh-bet)
+- alertly cabbed junior sanctity (ale-cab-jun-san)
+- venally edified huskier doubles (ven-edi-hus-dou)
+- loosely opposed idled gunboat (loo-opp-idl-gun)
+- orderly jerked adopted feminist (ord-jer-ado-fem)
+- robustly focused omnibus equality (rob-foc-omn-equ)
+- jerkily dosed ripping sawdust (jer-dos-rip-saw)
+- bitingly sashayed uvular wadding (bit-sas-uvu-wad)
+- sullenly gored fewer habitat (sul-gor-few-hab)
+- hardily riled pouched hydrant (har-ril-pou-hyd)
+- adeptly scoffed piddling birdbath (ade-sco-pid-bir)
+- loyally kowtowed vaporous wiper (loy-kow-vap-wip)
+- drily agonised washable exacter (dri-ago-was-exa)
+- ineptly furled senile apathy (ine-fur-sen-apa)
+- feebly fiddled rolling toolbox (fee-fid-rol-too)
+- amiably tucked toothed axes (ami-tuc-too-axe)
+- fixedly limbered huffier pompom (fix-lim-huf-pom)
+- vilely lavished alive giraffe (vil-lav-ali-gir)
+- westerly fallowed addicted axes (wes-fal-add-axe)
+- prettily traced escapism molasses (pre-tra-esc-mol)
+- poorly laddered upset mugger (poo-lad-ups-mug)
+- sinfully bandaged goutier lording (sin-ban-gou-lor)
+- woefully goggled dynastic jukebox (woe-gog-dyn-juk)
+- ignobly dodged rheumy urology (ign-dod-rhe-uro)
+- patently pecked zippered highball (pat-pec-zip-hig)
+- awfully sopped babyish jotting (awf-sop-bab-jot)
+- numbly objected sapient veiling (num-obj-sap-vei)
+- vocally uplifted sordid yardage (voc-upl-sor-yar)
+- cattily placated boldface giggler (cat-pla-bol-gig)
+- annually rapped esthetic abyss (ann-rap-est-aby)
+- genially jumbled noxious skater (gen-jum-nox-ska)
