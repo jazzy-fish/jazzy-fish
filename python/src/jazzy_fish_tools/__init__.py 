@@ -10,6 +10,6 @@ Modules:
                        and inappropriate words (as defined by the `ignored.txt` list).
     generate_words - Generates combinations of word parts of varied prefix lengths to help the user choose the best configuration
                      for their use-case.
-    helpers - Various helper functions and preprocessor settings, which can be tuned (if needed).
+    helpers - Various helper functions and jazzy_fish_tools settings, which can be tuned (if needed).
 
 """

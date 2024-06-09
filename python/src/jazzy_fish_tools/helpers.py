@@ -2,7 +2,7 @@
 Helpers
 =======
 
-Various helper functions and preprocessor configurations.
+Various helper functions and jazzy_fish_tools configurations.
 """
 
 import itertools

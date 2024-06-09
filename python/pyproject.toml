@@ -48,7 +48,7 @@ exclude = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/encoder", "src/preprocessor"]
+packages = ["src/jazzy_fish", "src/jazzy_fish_tools"]
 
 [tool.hatch.metadata.hooks.requirements_txt]
 files = ["requirements.txt"]
