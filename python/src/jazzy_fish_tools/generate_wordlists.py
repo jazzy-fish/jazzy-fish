@@ -11,9 +11,10 @@ import argparse
 from functools import reduce
 from pathlib import Path
 import random
-from jazzy_fish.encoder import WordEncoder, Wordlist, aggregate_checksums
+from jazzy_fish import encoder
 import time
 from typing import List, Set, Tuple
+import jazzy_fish_tools  # noqa: F401
 from jazzy_fish_tools.helpers import (
     DATABASE,
     MAX_LENGTH,
@@ -242,14 +243,14 @@ def main() -> None:
                 # Compute checksum by reading each wordfile
                 with open(f, "r") as wfile:
                     words_in_file = [ln.strip() for ln in wfile]
-                checksum = Wordlist.checksum(words_in_file)
+                checksum = encoder.Wordlist.checksum(words_in_file)
 
                 # Store checksums
                 checksums.append(checksum)
                 checksum_file.append(f"{checksum}  {Path(f).name}")
 
             # Compute the aggregated checksum that accounts for the abbrevation position
-            agg_checksum = aggregate_checksums([position_in_word] + checksums)
+            agg_checksum = encoder.aggregate_checksums([position_in_word] + checksums)
 
             # Generate the checksum file
             outfile = f"{wordlist_out_dir}/checksums.sha1"
@@ -362,8 +363,10 @@ def _generate_sample_words(
 
     # Initialize the encoder with the designated template
     ordered = [words[part] for part in template.split(" ")]
-    wordlist = Wordlist(f"{position_in_word}_NOVERIFY", ordered, verify_checksum=False)
-    encoder = WordEncoder(wordlist=wordlist, min_phrase_size=min_phrase_size)
+    wordlist = encoder.Wordlist(
+        f"{position_in_word}_NOVERIFY", ordered, verify_checksum=False
+    )
+    e = encoder.WordEncoder(wordlist=wordlist, min_phrase_size=min_phrase_size)
 
     # Generate words
     word_size = f"[{MIN_LENGTH}, {MAX_LENGTH}]"
@@ -382,8 +385,8 @@ def _generate_sample_words(
     results: List[str] = list()
     for _ in range(0, how_many):
         val = random.randint(min_for_desired_word_size, max_for_desired_word_size)
-        encoded = encoder.encode(val)
-        key_phrase = " ".join(encoder.encode(val).key_phrase)
+        encoded = e.encode(val)
+        key_phrase = " ".join(e.encode(val).key_phrase)
         word = f"{key_phrase} ({encoded.abbr})"
         results.append(f"- {word}\n")
 

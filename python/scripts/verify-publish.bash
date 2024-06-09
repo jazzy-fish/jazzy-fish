@@ -4,6 +4,30 @@ set -ueo pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 readonly DIR
 
+retry() {
+    MAX_ATTEMPTS=4
+    count=0
+    base=5
+    local command="$*"
+    while [ "$count" -lt "$MAX_ATTEMPTS" ]; do
+        count=$((count + 1))
+        # shellcheck disable=SC2086
+        eval $command && break
+
+        if [ "$count" -eq "$MAX_ATTEMPTS" ]; then
+            echo
+            echo "Failed after $MAX_ATTEMPTS attempts"
+            exit 1
+        fi
+
+        echo
+        echo "Retring ($count/$((MAX_ATTEMPTS - 1)))..."
+        delay=$((base * count))
+        echo "Sleeping for $delay seconds before retrying..."
+        sleep "$delay"
+    done
+}
+
 if [[ "$#" -eq 0 ]]; then
     echo "You must specify --test or --prod as arguments"
     echo
@@ -25,10 +49,10 @@ echo "Attempting to install version ($VERSION) in virtualenv ($VENV)..."
 while [[ "$#" -gt 0 ]]; do
     case $1 in
     --test)
-        pip install --index-url https://test.pypi.org/simple/ "jazzy_fish==$VERSION"
+        retry pip install --index-url https://test.pypi.org/simple/ "jazzy_fish==$VERSION"
         ;;
     --prod)
-        pip install "jazzy_fish==$VERSION"
+        retry pip install "jazzy_fish==$VERSION"
         ;;
     --*= | -*)
         echo "Error: Unsupported flag $1" >&2
@@ -42,3 +66,5 @@ done
 pushd "$VENV" >/dev/null 2>&1
 python verify_install.py
 popd >/dev/null 2>&1
+
+echo "Virtualenv location: $VENV"

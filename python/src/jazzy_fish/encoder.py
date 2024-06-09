@@ -6,7 +6,7 @@ Contains the WordEncoder class that encodes integers to keyphrases and decodes k
 
 Classes:
     EncoderException - Raised when a WordEncoder is misconfigured.
-    Sequence - Represents an encoded keyphrase, along with its prefix short form, and original integer value.
+    KeyPhrase - Represents an encoded keyphrase, along with its prefix short form, and original integer value.
     WordEncoder - Encodes integer identifiers into key phrases and decodes key phrases and abbreviated phrases into integers.
     Wordlist - Represents a wordlist used by a WordEncoder to generate key phrases.
 """
@@ -252,10 +252,10 @@ class WordEncoder:
 
     def decode(self, words: List[str]) -> int:
         """
-        Decodes a [word sequence] to an integer.
+        Decodes a keyphrase to an integer.
 
         Parameters:
-            List[str]: The word sequence to decode.
+            words (List[str]): The word sequence to decode.
 
         Returns:
             int: The corresponding integer.
@@ -280,17 +280,27 @@ class WordEncoder:
 
         return result
 
-    def decode_id(self, id: str):
-        word_ids = id.split(self.sequence_separator)
-        if not len(word_ids):
+    def decode_abbr(self, abbr: str) -> int:
+        """
+        Decodes an abbreviation to an integer.
+
+        Parameters:
+            abbr (str): The keyphrase abbreviation to decode.
+
+        Returns:
+            int: The corresponding integer.
+        """
+
+        word_abbrs = abbr.split(self.sequence_separator)
+        if not len(word_abbrs):
             raise EncoderException(
-                f"The id ({id}) could not be split into words using the provided split character ({self.sequence_separator})"
+                f"The id ({abbr}) could not be split into words using the provided split character ({self.sequence_separator})"
             )
-        seq_length = len(word_ids)
+        seq_length = len(word_abbrs)
 
         # Calculate the indices of each specified word
         relevant_prefixes = self._wordlist._abbr_to_pos[-seq_length:]
-        indices = [relevant_prefixes[i][prefix] for i, prefix in enumerate(word_ids)]
+        indices = [relevant_prefixes[i][prefix] for i, prefix in enumerate(word_abbrs)]
 
         # Transform indexes into integers
         result = 0

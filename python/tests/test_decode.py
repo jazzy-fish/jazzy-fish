@@ -38,7 +38,7 @@ class TestDecode(unittest.TestCase):
 
             # short ID sequences can be decoded to their corresponding value
             encoded = encoder.encode(expected)
-            got2 = encoder.decode_id(encoded.abbr)
+            got2 = encoder.decode_abbr(encoded.abbr)
             msg2 = f"Error {encoded.abbr:30} (min_words={min_seq:1}); expected: '{expected:3}', got: '{got2:3}'"
             self.assertEqual(got2, expected, msg2)
 
@@ -64,7 +64,7 @@ class TestDecode(unittest.TestCase):
             msg = f"Encoded '{expected:3}' (min_words={min_words:1}), got: '{encoded_str:30}', then decoded back to '{got:3}'"
             self.assertEqual(got, expected, msg)
 
-            got2 = encoder.decode_id(encoded.abbr)
+            got2 = encoder.decode_abbr(encoded.abbr)
             msg2 = f"Encoded '{expected:3}' (min_words={min_words:1}), got: '{encoded.abbr:30}', then decoded back to '{got2:3}'"
             self.assertEqual(got2, expected, msg2)
 
