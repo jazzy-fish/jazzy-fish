@@ -64,4 +64,5 @@ jobs:
       - name: Verify package install from PyPI
         working-directory: python
         run: |
+          eval "$(make venv)"
           make publish-verify
