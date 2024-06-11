@@ -4,6 +4,13 @@ set -ueo pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 readonly DIR
 
+VERSION="$(cat "$DIR"/../VERSION)"
+readonly VERSION
+
+# Load project name from project manifest
+PROJECT_NAME="$(python -c "import toml; print(toml.load('$DIR/../pyproject.toml')['project']['name'])")"
+readonly PROJECT_NAME
+
 retry() {
     MAX_ATTEMPTS=4
     count=0
@@ -36,7 +43,6 @@ fi
 
 echo "Creating a virtual env..."
 VENV="$(mktemp -d)"
-VERSION="$(cat "$DIR"/../VERSION)"
 python -m venv "$VENV"
 
 echo "Copying verification script..."
@@ -51,10 +57,12 @@ while [[ "$#" -gt 0 ]]; do
     --test)
         echo "Installing requirements-cli from main index, since not all packages are available in test.pypi..."
         pip install -r "$DIR"/../requirements-cli.txt
-        retry pip install --index-url https://test.pypi.org/simple/ "jazzy_fish==$VERSION"
+        echo "Attempting install: ${PROJECT_NAME}==$VERSION"
+        retry pip install --index-url https://test.pypi.org/simple/ "${PROJECT_NAME}==$VERSION"
         ;;
     --prod)
-        retry pip install "jazzy_fish[cli]==$VERSION"
+        echo "Attempting install: ${PROJECT_NAME}==$VERSION"
+        retry pip install "${PROJECT_NAME}[cli]==$VERSION"
         ;;
     --*= | -*)
         echo "Error: Unsupported flag $1" >&2

@@ -3,7 +3,12 @@ set -ueo pipefail
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 readonly DIR
+
+# shellcheck disable=SC1091
+source "$DIR/functions.bash"
+
 VERSION_FILE="$DIR/../VERSION"
+readonly VERSION_FILE
 
 # Fetch the latest tags
 git fetch --tags

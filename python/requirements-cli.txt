@@ -1,1 +1,2 @@
-duckdb >= 1.0.0
+# CLI requirements
+duckdb == 1.0.0
