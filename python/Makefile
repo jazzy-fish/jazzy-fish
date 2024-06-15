@@ -57,7 +57,7 @@ PROJECT_NAME := $(shell python -c "import toml; print(toml.load('pyproject.toml'
 build-inspect:
 	@echo
 	@echo "Inspecting wheel..."
-	@echo wheel2json dist/$(PROJECT_NAME)-$(shell cat VERSION)-py3-none-any.whl
+	@wheel2json dist/$(PROJECT_NAME)-$(shell cat VERSION)-py3-none-any.whl
 
 	@echo
 	@echo "Inspecting archive..."
