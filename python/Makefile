@@ -22,11 +22,28 @@ create-venv:
 venv:
 	@echo "source venv/bin/activate"
 
+.PHONY: setup
+setup:
+	@echo "Setting up repo for development"
+	@pip install -e ".[dev]"
+	@pre-commit install
+	@touch .env
+
 .PHONY: install
 install:
 	@echo "Installing all dependencies and editable package..."
 	@scripts/uninstall-package.bash
 	@pip install -e .[cli,dev]
+
+.PHONY: lint
+lint:
+	@echo "Running pre-commit hooks..."
+	@pre-commit run --all-files
+
+.PHONY: test
+test:
+	@echo "Running tests..."
+	@pytest tests
 
 .PHONY: build
 build:
@@ -35,33 +52,28 @@ build:
 	@echo "Building..."
 	@python -m build
 
+PROJECT_NAME := $(shell python -c "import toml; print(toml.load('pyproject.toml')['project']['name'])")
 .PHONY: build-inspect
 build-inspect:
-	# Load project name from project manifest
-	@PROJECT_NAME := $(shell python -c "import toml; print(toml.load('pyproject.toml')['project']['name'])")
 	@echo
 	@echo "Inspecting wheel..."
-	@wheel2json dist/jazzy_fish-$(shell cat VERSION)-py3-none-any.whl
+	@echo wheel2json dist/$(PROJECT_NAME)-$(shell cat VERSION)-py3-none-any.whl
 
 	@echo
 	@echo "Inspecting archive..."
-	@tar -tf dist/jazzy_fish-$(shell cat VERSION).tar.gz
+	@tar -tf dist/$(PROJECT_NAME)-$(shell cat VERSION).tar.gz
 
 .PHONY: docker-image
-docker-image:
+docker:
 	@echo
 	@echo "Building Dockerfile..."
 	@scripts/build-docker-image.bash
 
-.PHONY: test
-test:
-	@echo "Running tests..."
-	@pytest tests
-
-.PHONY: pre-commit
-pre-commit:
-	@echo "Running pre-commit hooks..."
-	@pre-commit run --all-files
+.PHONY: docker-run
+docker-run:
+	@echo
+	@echo "Running Docker image..."
+	@scripts/run-docker-image.bash
 
 .PHONY: publish-test
 publish-test: build
