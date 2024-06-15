@@ -12,11 +12,11 @@ Classes:
 """
 
 import hashlib
+import importlib
 import io
 from pathlib import Path
 from typing import List, Optional, NamedTuple
 
-import pkg_resources
 
 # Specifies a default order for constructed sentences.
 DEFAULT_WORD_ORDER: List[str] = ["adverb", "verb", "adjective", "noun"]
@@ -351,7 +351,7 @@ def _read_words(from_path: str, package_name: Optional[str] = None) -> List[str]
     # Determine input file
     data_path = from_path
     if package_name is not None:
-        data_path = pkg_resources.resource_filename(package_name, from_path)
+        data_path = str(importlib.resources.files(package_name).joinpath(from_path))
 
     # Read all words from file
     with open(data_path, "r") as file:

@@ -5,12 +5,12 @@ Helpers
 Various helper functions and jazzy_fish_tools configurations.
 """
 
+import importlib
 import itertools
-import pkg_resources
 from pathlib import Path
 from queue import Queue
 import shutil
-from typing import Iterable, List, Tuple
+from typing import Iterable, List, Optional, Tuple
 
 
 MIN_LENGTH: int = 4
@@ -63,25 +63,10 @@ def generate_all_prefix_combinations(of_length: int) -> List[Tuple[int, ...]]:
     return list(c)
 
 
-def read_resource_lines(name: str) -> List[str]:
-    """Reads data from a resource file within a package, split by lines."""
-    data_path = pkg_resources.resource_filename(__name__, name)
-    with open(data_path, "r") as file:
-        data = file.readlines()
-    return data
-
-
-def read_resource(name: str) -> str:
-    """Reads data from a resource file within a package."""
-    data_path = pkg_resources.resource_filename(__name__, name)
-    with open(data_path, "r") as file:
-        data = file.read()
-    return str(data)
-
-
 def update_resource_lines(name: str, data: Iterable[str]) -> None:
     """Updates a resource file within a package."""
-    data_path = pkg_resources.resource_filename(__name__, name)
+    data_path = str(importlib.resources.files(__package__).joinpath(name))
+
     with open(data_path, "w") as file:
         file.writelines(data)
 
@@ -107,14 +92,14 @@ def load_ignored_words() -> List[str]:
 
     words = [
         w.strip()
-        for w in read_resource_lines(ignore_file)
+        for w in read_file(ignore_file, package_name=__package__)
         if not w.strip().startswith("#") and w.strip()
     ]
 
     # Ensure the ignore list is itself clean
     if len(set(words)) != len(words):
         words = sorted(list(set(words)))
-        notice = read_resource_lines(ignore_notice)
+        notice = read_file(ignore_notice, package_name=__package__)
         update_resource_lines(ignore_file, notice + [f"{w}\n" for w in words])
         print(f"Cleaned ignore list {ignore_file}, updated in place")
 
@@ -124,3 +109,21 @@ def load_ignored_words() -> List[str]:
 def is_letter(word):
     """Returns true if the word contains only a-zA-Z letters"""
     return all(char.isascii() and char.isalpha() for char in word.strip())
+
+
+def read_lines(file_path: str) -> List[str]:
+    """Read all lines from file"""
+
+    with open(file_path, "r") as file:
+        return file.readlines()
+
+
+def read_file(from_path: str, package_name: Optional[str] = None) -> List[str]:
+    """Reads words from a file that is either on disk or part of the specified package."""
+
+    # If a package, retrieve path first
+    data_path = from_path
+    if package_name is not None:
+        data_path = str(importlib.resources.files(package_name).joinpath(from_path))
+
+    return read_lines(data_path)

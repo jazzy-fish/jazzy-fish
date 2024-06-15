@@ -23,7 +23,7 @@ from jazzy_fish_tools.helpers import (
     generate_all_prefix_combinations,
     load_ignored_words,
     least_similar_words,
-    read_resource,
+    read_file,
     reset_location,
 )
 import duckdb
@@ -139,7 +139,8 @@ def main() -> None:
     conn = initialize_database()
 
     # Re/create the table structure for holding interim data
-    conn.execute(read_resource("resources/process/ct_words.sql"))
+    sql = "".join(read_file("resources/process/ct_words.sql", package_name=__package__))
+    conn.execute(sql)
 
     print("Processing word lists...")
     start_time = time.time()
@@ -167,7 +168,9 @@ def main() -> None:
 
     # Process the words table and extract words for each prefix
     print("Extracting unique words, grouped by prefix...")
-    sql = read_resource("resources/process/process_words.sql")
+    sql = "".join(
+        read_file("resources/process/process_words.sql", package_name=__package__)
+    )
     conn.execute(sql)
     print("Unique words extracted. (TABLE `words_by_prefix`)")
 
