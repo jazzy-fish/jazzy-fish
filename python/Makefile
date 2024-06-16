@@ -26,7 +26,7 @@ venv:
 setup:
 	@echo "Setting up repo for development"
 	@pip install -e ".[dev]"
-	@pre-commit install
+	@pre-commit install --install-hooks
 	@touch .env
 
 .PHONY: install
