@@ -5,7 +5,7 @@ Helpers
 Various helper functions and jazzy_fish_tools configurations.
 """
 
-import importlib
+from importlib import resources
 import itertools
 from pathlib import Path
 from queue import Queue
@@ -65,7 +65,7 @@ def generate_all_prefix_combinations(of_length: int) -> List[Tuple[int, ...]]:
 
 def update_resource_lines(name: str, data: Iterable[str]) -> None:
     """Updates a resource file within a package."""
-    data_path = str(importlib.resources.files(__package__).joinpath(name))
+    data_path = str(resources.files(__package__).joinpath(name))
 
     with open(data_path, "w") as file:
         file.writelines(data)
@@ -124,6 +124,6 @@ def read_file(from_path: str, package_name: Optional[str] = None) -> List[str]:
     # If a package, retrieve path first
     data_path = from_path
     if package_name is not None:
-        data_path = str(importlib.resources.files(package_name).joinpath(from_path))
+        data_path = str(resources.files(package_name).joinpath(from_path))
 
     return read_lines(data_path)
