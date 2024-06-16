@@ -20,7 +20,7 @@ class TestIntegrationGenerateSequence(unittest.TestCase):
         )
 
         # Configure the encoder
-        wordlist = Wordlist.load("resources/012_8562fb9", "jazzy_fish.encoder")
+        wordlist = Wordlist.load("resources/012_8562fb9", "jazzy_fish")
         encoder = WordEncoder(wordlist, min_phrase_size=4)
 
         # ACT
