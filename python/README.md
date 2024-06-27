@@ -1,5 +1,10 @@
 # Jazzy Fish - Sufficiently-large, unique, human-friendly identifiers
 
+![Build Status](https://github.com/jazzy-fish/jazzy-fish/actions/workflows/python-tests.yml/badge.svg)
+[![PyPI version](https://badge.fury.io/py/jazzy-fish.svg)](https://badge.fury.io/py/jazzy-fish)
+[![Python Versions](https://img.shields.io/pypi/pyversions/jazzy-fish.svg)](https://pypi.org/project/jazzy-fish/)
+[![License](https://img.shields.io/github/license/jazzy-fish/jazzy-fish.svg)](LICENSE)
+
 > ⚠️ **Warning:** This library is **in development** and not yet ready for production. Its API is not yet stable
 > and might (and probably _will_) still change. Follow repository [issues](https://github.com/jazzy-fish/jazzy-fish/issues) for more information.
 

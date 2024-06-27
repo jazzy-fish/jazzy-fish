@@ -12,7 +12,7 @@ Classes:
 """
 
 import hashlib
-import importlib
+from importlib import resources
 import io
 from pathlib import Path
 from typing import List, Optional, NamedTuple
@@ -351,7 +351,7 @@ def _read_words(from_path: str, package_name: Optional[str] = None) -> List[str]
     # Determine input file
     data_path = from_path
     if package_name is not None:
-        data_path = str(importlib.resources.files(package_name).joinpath(from_path))
+        data_path = str(resources.files(package_name).joinpath(from_path))
 
     # Read all words from file
     with open(data_path, "r") as file:
