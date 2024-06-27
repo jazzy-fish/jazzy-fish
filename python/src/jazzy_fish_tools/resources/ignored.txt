@@ -16,6 +16,7 @@
 # (including but not limited to damages for loss of goodwill, work stoppage, computer failure or malfunction, or any and all other commercial damages or losses),
 # even if such Contributor has been advised of the possibility of such damages.
 #
+# keep-sorted start
 ambisexual
 anal
 anally
@@ -47,12 +48,16 @@ boobyish
 clitoris
 clitorises
 cock
+coitus
+coituses
 coon
 coons
 crap
 crapauds
 crapulent
 crapulous
+cumming
+cummings
 desexualize
 desexualizes
 dick
@@ -69,6 +74,7 @@ dyke
 dyked
 dykes
 erection
+eugenics
 evaginate
 evaginated
 evaginates
@@ -231,7 +237,4 @@ whoremonger
 whoremongers
 whores
 willy
-cumming
-cummings
-coitus
-coituses
+# keep-sorted end
