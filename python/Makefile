@@ -25,8 +25,9 @@ create-venv:
 .PHONY: install
 install:
 	@echo "Installing packages in editable mode..."
+	@python -m pip install -e ".[dev]" # toml
 	@scripts/uninstall-package.bash
-	@pip install -e .[cli,dev]
+	@python -m pip install -e ".[cli,dev]"
 
 .PHONY: setup
 setup: install
