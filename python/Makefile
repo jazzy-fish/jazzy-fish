@@ -52,9 +52,8 @@ build:
 	@echo "Building..."
 	@python -m build
 
-PROJECT_NAME := $(shell python -c "import toml; print(toml.load('pyproject.toml')['project']['name'])")
 .PHONY: build-inspect
-build-inspect:
+build-inspect: PROJECT_NAME = $(shell python -c "import toml; print(toml.load('pyproject.toml')['project']['name'])")
 	@echo
 	@echo "Inspecting wheel..."
 	@wheel2json dist/$(PROJECT_NAME)-$(shell cat VERSION)-py3-none-any.whl

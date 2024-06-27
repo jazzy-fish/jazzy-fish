@@ -7,7 +7,42 @@ on:
       - "v0.*"
 
 jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        working-directory: python
+        run: |
+          make create-venv
+          eval "$(make venv)"
+          make install
+
+      - name: Run linters
+        working-directory: python
+        run: |
+          eval "$(make venv)"
+          make lint
+
+      - name: Run tests
+        working-directory: python
+        run: |
+          eval "$(make venv)"
+          pytest tests
+
   publish:
+    needs: lint-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -24,12 +59,6 @@ jobs:
           make create-venv
           eval "$(make venv)"
           make install
-
-      - name: Run tests
-        working-directory: python
-        run: |
-          eval "$(make venv)"
-          pytest tests
 
       - name: Set the correct (tag) version
         working-directory: python
