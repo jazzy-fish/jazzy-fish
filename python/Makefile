@@ -22,18 +22,17 @@ create-venv:
 	@echo "Creating virtualenv..."
 	@scripts/create-venv.bash
 
-.PHONY: setup
-setup:
-	@echo "Setting up repo for development"
-	@pip install -e ".[dev]"
-	@pre-commit install --install-hooks
-	@touch .env
-
 .PHONY: install
 install:
-	@echo "Installing all dependencies and editable package..."
+	@echo "Installing packages in editable mode..."
 	@scripts/uninstall-package.bash
 	@pip install -e .[cli,dev]
+
+.PHONY: setup
+setup: install
+	@echo "Setting up repo for local development..."
+	@pre-commit install --install-hooks
+	@touch .env
 
 .PHONY: lint
 lint:
