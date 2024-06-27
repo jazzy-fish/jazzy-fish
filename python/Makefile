@@ -1,5 +1,9 @@
 SHELL := /bin/bash
 
+.PHONY: venv
+venv:
+	@echo "source venv/bin/activate"
+
 .PHONY: clean
 clean: clean-venv
 	@echo Cleaning up builds and caches...
@@ -17,10 +21,6 @@ clean-venv:
 create-venv:
 	@echo "Creating virtualenv..."
 	@scripts/create-venv.bash
-
-.PHONY: venv
-venv:
-	@echo "source venv/bin/activate"
 
 .PHONY: setup
 setup:
@@ -53,7 +53,8 @@ build:
 	@python -m build
 
 .PHONY: build-inspect
-build-inspect: PROJECT_NAME = $(shell python -c "import toml; print(toml.load('pyproject.toml')['project']['name'])")
+PROJECT_NAME = $(shell python -c "import toml; print(toml.load('pyproject.toml')['project']['name'])")
+build-inspect:
 	@echo
 	@echo "Inspecting wheel..."
 	@wheel2json dist/$(PROJECT_NAME)-$(shell cat VERSION)-py3-none-any.whl
