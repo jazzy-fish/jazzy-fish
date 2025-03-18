@@ -1,6 +1,6 @@
 # DEV requirements
 build ==1.2.2.post1
-pre-commit ==4.1.0
+pre-commit ==4.2.0
 pytest ==8.3.4
 toml == 0.10.2
 twine ==6.1.0
