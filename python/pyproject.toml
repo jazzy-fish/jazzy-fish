@@ -75,7 +75,6 @@ exclude = [
     # keep-sorted start
     ".dockerignore",
     ".env",
-    ".pypirc",
     ".python-version",
     "Dockerfile",
     "Makefile",

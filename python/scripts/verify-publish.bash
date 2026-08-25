@@ -25,11 +25,13 @@ retry() {
     MAX_ATTEMPTS=6
     count=0
     base=15
-    local command="$*"
+    # Keep the argument vector intact rather than collapsing it to a string and
+    # re-parsing: PROJECT_NAME and VERSION come from pyproject.toml and were
+    # being spliced into something eval would interpret.
+    local -a command=("$@")
     while [ "$count" -lt "$MAX_ATTEMPTS" ]; do
         count=$((count + 1))
-        # shellcheck disable=SC2086
-        eval $command && break
+        "${command[@]}" && break
 
         if [ "$count" -eq "$MAX_ATTEMPTS" ]; then
             echo
