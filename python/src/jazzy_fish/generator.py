@@ -180,14 +180,21 @@ class ThreadSafeGenerator(Generator):
     Kept so existing code keeps working. Use Generator directly.
     """
 
-    def __init__(self, *args, **kwargs):  # type: ignore[no-untyped-def]
+    def __init__(
+        self,
+        epoch: float,
+        resolution: Resolution,
+        machine_ids: List[int],
+        machine_id_bits: int,
+        sequence_bits: int,
+    ):
         warnings.warn(
             "ThreadSafeGenerator is deprecated; Generator is now thread safe. "
             "Use Generator directly.",
             DeprecationWarning,
             stacklevel=2,
         )
-        super().__init__(*args, **kwargs)
+        super().__init__(epoch, resolution, machine_ids, machine_id_bits, sequence_bits)
 
 
 class GeneratorException(Exception):

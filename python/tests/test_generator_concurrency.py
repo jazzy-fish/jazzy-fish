@@ -67,9 +67,7 @@ class TestGeneratorConcurrency(unittest.TestCase):
                 machine_id_bits=0,
                 sequence_bits=10,
             )
-        self.assertTrue(
-            any(issubclass(w.category, DeprecationWarning) for w in caught)
-        )
+        self.assertTrue(any(issubclass(w.category, DeprecationWarning) for w in caught))
         self.assertIsInstance(generator.next_id(), int)
         self.assertIsInstance(generator, Generator)
 
