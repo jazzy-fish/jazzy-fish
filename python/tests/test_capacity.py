@@ -21,7 +21,7 @@ def _generator(**overrides: object) -> Generator:
         "sequence_bits": 0,
     }
     kwargs.update(overrides)
-    return Generator(**kwargs)  # type: ignore[arg-type]
+    return Generator(**kwargs)
 
 
 class TestCapacity(unittest.TestCase):
@@ -47,9 +47,7 @@ class TestCapacity(unittest.TestCase):
         check_capacity(_generator(epoch=0.0), _encoder("01234_f233650"))
 
     def test_a_coarser_resolution_rescues_the_same_configuration(self):
-        check_capacity(
-            _generator(epoch=0.0, resolution=Resolution.SECOND), _encoder()
-        )
+        check_capacity(_generator(epoch=0.0, resolution=Resolution.SECOND), _encoder())
 
     def test_exhausts_at_matches_the_arithmetic(self):
         generator = _generator(machine_id_bits=3, sequence_bits=1, machine_ids=[1])
