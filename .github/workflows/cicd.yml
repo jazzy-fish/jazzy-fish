@@ -107,7 +107,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           ref: ${{ needs.tag.outputs.tag }}
-          # check-tag-version.bash reads the tags at HEAD, which a checkout of
+          # git::assert_tag_version reads the tags at HEAD, which a checkout of
           # a ref does not fetch on its own
           fetch-tags: true
 
@@ -117,9 +117,12 @@ jobs:
           python-version: "3.14"
           enable-cache: true
 
+      - name: Install the release tools
+        uses: releasetools/cli@v0
+
       - name: Check the tag matches the project version
         working-directory: python
-        run: scripts/check-tag-version.bash
+        run: rt git::assert_tag_version "$(uv version --short)"
 
       - name: Build
         working-directory: python
@@ -136,9 +139,6 @@ jobs:
       - name: Publish package
         working-directory: python
         run: uv publish --trusted-publishing always
-
-      - name: Waiting 30 seconds for the PyPI indexes to be updated
-        run: sleep 30
 
       - name: Verify package install from PyPI
         working-directory: python

@@ -14,35 +14,20 @@ readonly VERSION
 PROJECT_NAME="$(get_project_name)"
 readonly PROJECT_NAME
 
-# Retries a command, backing off exponentially.
+# Waits for an index to serve the version, then installs it once.
 #
-# This exists for one reason: a freshly uploaded release takes time to appear
-# on the index it was just accepted by. The previous budget of three retries
-# 5s apart gave up after ~30s of waiting and failed a release that had in fact
-# published correctly, so the delays now grow to cover several minutes.
-retry() {
-    # One attempt plus five retries: 15s, 30s, 60s, 120s, 240s (~7.75 min).
-    MAX_ATTEMPTS=6
-    count=0
-    base=15
-    local command="$*"
-    while [ "$count" -lt "$MAX_ATTEMPTS" ]; do
-        count=$((count + 1))
-        # shellcheck disable=SC2086
-        eval $command && break
-
-        if [ "$count" -eq "$MAX_ATTEMPTS" ]; then
-            echo
-            echo "Failed after $MAX_ATTEMPTS attempts" >&2
-            exit 1
-        fi
-
-        echo
-        echo "Retrying ($count/$((MAX_ATTEMPTS - 1)))..."
-        delay=$((base * 2 ** (count - 1)))
-        echo "Sleeping for $delay seconds before retrying..."
-        sleep "$delay"
-    done
+# A freshly uploaded release takes time to appear on the index that just accepted it, so
+# something has to wait. 'rt net::await_url' backs off across about 7.75 minutes and
+# returns as soon as the version is there, instead of a fixed sleep that either wastes
+# time or fails a publish that worked.
+#
+# curl rather than a retried 'uv pip install', which is what this replaced: uv caches
+# index responses, negative answers included, so a retried install re-reads the cached
+# "no such version" in about 2ms and the whole ladder expires without asking the index
+# again. '--refresh-package' on the install below is the other half of that, and it was
+# missing here.
+await_index() {
+    rt net::await_url "$1/pypi/$PROJECT_NAME/$VERSION/json"
 }
 
 if [[ "$#" -eq 0 ]]; then
@@ -75,12 +60,14 @@ while [[ "$#" -gt 0 ]]; do
             # shellcheck disable=SC2086
             uv pip install $CLI_DEPS
         fi
+        await_index "https://test.pypi.org"
         echo "Attempting install: ${PROJECT_NAME}==$VERSION"
-        retry uv pip install --index-url https://test.pypi.org/simple/ "${PROJECT_NAME}==$VERSION"
+        uv pip install --refresh-package "$PROJECT_NAME" --index-url https://test.pypi.org/simple/ "${PROJECT_NAME}==$VERSION"
         ;;
     --prod)
+        await_index "https://pypi.org"
         echo "Attempting install: ${PROJECT_NAME}==$VERSION"
-        retry uv pip install "${PROJECT_NAME}[cli]==$VERSION"
+        uv pip install --refresh-package "$PROJECT_NAME" "${PROJECT_NAME}[cli]==$VERSION"
         ;;
     --*= | -*)
         echo "Error: Unsupported flag $1" >&2

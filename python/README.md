@@ -146,7 +146,7 @@ jobs:
 Merges that do not change the version find their tag already present, and `publish` is skipped. Pull
 requests run `lint-test` only.
 
-`publish` re-runs `scripts/check-tag-version.bash` before building and refuses to publish if the tag
+`publish` re-runs `rt git::assert_tag_version "$(uv version --short)"` before building and refuses to publish if the tag
 and `pyproject.toml` disagree.
 
 The three steps live in one workflow deliberately. Splitting them meant a workflow pushing a tag and

@@ -17,19 +17,17 @@ get_git_sha() {
     echo "${GIT_SHA}$(is_dirty)"
 }
 
-# Function to list every tag pointing at the current HEAD, 'v' prefix removed,
-# one per line. '--points-at' rather than '--contains': the latter lists every
-# tag whose history includes HEAD, so checking out an older release returned
-# that tag plus all later ones.
-get_tags_at_head() {
-    git tag --points-at HEAD | sed 's/^v//'
-}
-
 # Function to get a single tag at the current HEAD, for naming things.
-# A commit can carry several tags; take the first so callers always get one
-# line. Use get_tags_at_head when every tag matters.
+# A commit can carry several tags; take the first so callers always get one line.
+#
+# Restricted to 'v*', which the listing this replaced was not: a release commit
+# can carry tags that are not releases, and git orders them by refname, so an
+# unfiltered list hands back the wrong one first.
+#
+# 'rt git::tags_at_head' is the same list with the 'v' left on, when every tag
+# matters.
 get_tag_at_head() {
-    get_tags_at_head | head -n 1
+    git tag --list 'v*' --points-at HEAD | sed 's/^v//' | head -n 1
 }
 
 # Extracts the project name as configured in 'pyproject.toml'
